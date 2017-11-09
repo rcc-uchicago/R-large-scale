@@ -58,7 +58,9 @@
 	   and share conclusions on Etherpad.
    (e) Discuss results of third exercise.
 
-8. Speeding up repeated operations using Rcpp.
+9. Parallelizing computation using mclapply:
+   Compute minor allele frequencies
 
-9. Parallelizing computation using parallel.
+8. Speeding up repeated operations using Rcpp.
+   Compute minor allele frequencies
 

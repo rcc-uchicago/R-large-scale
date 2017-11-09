@@ -1,48 +1,58 @@
-# Script to compile the RegMap phenotype and genotype data.
+# Script to compile the RegMap data.
 #
-# Follow these steps to retrieve the RegMap data:
-#
-# 1. Download the genotype data from
-#    bergelson.uchicago.edu/wp-content/uploads/2015/04/call_method_75.tar.gz
-#
-#   2. tar -zxvf call_method_75.tar.gz
-#
-#   3. Remove all commas (,) and apostrophes (') from file
-#      call_method_75_info.tsv.
+# Before running this script, download the RegMap data from 
+# bergelson.uchicago.edu/wp-content/uploads/2015/04/call_method_75.tar.gz
+# and extract the file call_method_75_TAIR9.csv into the "data" directory.
 #
 library(data.table)
-library(rsvd)
 
-# Load the sample info.
+# LOAD SAMPLE INFO
+# ----------------
 cat("Reading sample info.\n")
-info <- read.table("call_method_75_info.tsv",sep = "\t",header = TRUE,
-                   stringsAsFactors = FALSE,quote = "")
-info <- info[c("array_id","ecotype_id","median_intensity","latitude",
-               "longitude","nativename","firstname","surname","site",
-               "region","country")]
-rownames(info) <- info$array_id
+regmap.info <- read.table("../data/call_method_75_info.tsv",sep = "\t",
+                      header = TRUE,as.is = c("nativename","region"),
+                      quote = "",encoding="UTF-8")
+ids         <- regmap.info$array_id
+regmap.info <- regmap.info[c("ecotype_id","median_intensity","latitude",
+                             "longitude","region","country")]
+rownames(regmap.info) <- ids
 
-# Load the genotype data.
+# If the region is the empty string, set it to missing. Then set this
+# column to a factor.
+rows                       <- which(regmap.info$region == "")
+regmap.info[rows,"region"] <- NA
+regmap.info                <- transform(regmap.info,region = factor(region))
+
+# LOAD GENOTYPE DATA
+# ------------------
+# Load the genotype data and information about the genetic markers.
 cat("Reading genotype data.\n")
-geno <- fread("call_method_75_TAIR9.csv",sep = ",",header = TRUE,
-              stringsAsFactors = FALSE,verbose = FALSE,
-              showProgress = FALSE)
-class(geno) <- "data.frame"
-geno <- geno[-1,-(1:2)]
-geno <- t(geno)
+out <- fread("../data/call_method_75_TAIR9.csv",sep = ",",header = TRUE,
+             stringsAsFactors = FALSE,verbose = FALSE,
+             showProgress = FALSE)
+class(out)     <- "data.frame"
+out            <- out[-1,]
+regmap.markers <- out[,1:2]
+names(regmap.markers) <- c("chr","pos")
+regmap.markers <- transform(regmap.markers,
+                            chr = factor(chr),
+                            pos = as.numeric(pos))
+out <- t(out[,-(1:2)])
 
 # Convert the genotype data to a binary matrix.
 cat("Converting genotype data to a binary matrix.\n")
-n   <- nrow(geno)
-p   <- ncol(geno)
-X   <- matrix(0,n,p)
-ids <- rownames(geno)
-rownames(X) <- ids
+n           <- nrow(out)
+p           <- ncol(out)
+regmap.geno <- matrix(0,n,p)
+ids         <- rownames(out)
+rownames(regmap.geno) <- ids
+temp <- system.time({
 for (i in 1:p) {
-  a     <- names(which.min(table(factor(geno[,i]))))
-  X[,i] <- geno[,i] == a
+  a               <- names(which.min(table(factor(out[,i]))))
+  regmap.geno[,i] <- out[,i] == a
 }
-rm(geno,i,a)
+})
+rm(out,i,a)
 
 # Compute principal components of genotype matrix using rsvd.
 cat("Computing top 20 PCs of genotype matrix.\n")
