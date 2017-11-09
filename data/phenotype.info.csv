@@ -1,0 +1,38 @@
+# Compiled from Excel Spreadsheet that was downloaded from Joy
+# Bergelson's Lab website on November 9, 2017.
+Variable,Field Code,Units
+Elevation,GTOPO_1KM,m
+Slope,SLOPE_1KM,degrees of slope
+Aspect,ASPECT_1KM,degrees from 0 to 360 (due north)
+Seasonal Mean sunshine or cloudines,(CLO_WINTER; CLO_SPRING; CLO_SUMMER; CLO_FALL),percentage
+Seasonal Actual evapotranspiration,(AET_WINTER; AET_SPRING; AET_SUMMER; AET_FALL),mm
+Seasonal Potential evapotranspiration,(PET_WINTER; PET_SPRING; PET_SUMMER; PET_FALL),mm
+Land Cover - FAO,FAO_LCOVER,Combined land cover classes
+Lenght of Growing Season Period,LGSP,Days
+Aridity Index,ARIDITY,mm/day
+Land Cover - Global Gis Dataset,GGD_LCOVER,Land cover classes
+Annual Mean Temperature,BIO1,C * 10
+Mean Diurnal Range (Mean of monthly (max temp - min temp)),BIO2,C * 10
+Isothermality (P2/P7) (* 100),BIO3,C * 11
+Temperature Seasonality,BIO4,standard deviation * 100
+Max Temperature of Warmest Month,BIO5,C * 10
+Min Temperature of Coldest Month,BIO6,C * 10
+Temperature Annual Range (P5-P6),BIO7,C * 10
+Mean Temperature of Wettest Quarter,BIO8,C * 10
+Mean Temperature of Driest Quarter,BIO9,C * 10
+Mean Temperature of Warmest Quarter,BIO10,C * 10
+Mean Temperature of Coldest Quarter,BIO11,C * 10
+Annual Precipitation,BIO12,mm
+Precipitation of Wettest Month,BIO13,mm
+Precipitation of Driest Month,BIO14,mm
+Precipitation Seasonality,BIO15,Coefficient of Variation
+Precipitation of Wettest Quarter,BIO16,mm
+Precipitation of Driest Quarter,BIO17,mm
+Precipitation of Warmest Quarter,BIO18,mm
+Precipitation of Coldest Quarter,BIO19,mm
+Seasonal Photosintetically Active Radiation,(PAR_WINTER; PAR_SPRING; PAR_SUMMER; PAR_FALL),W/m2
+number of consecutive days below 4 C,FROSTY,Days
+number of consecutive days abow 0 C,FROST_FREE,Days
+Seasonal Relative Humidity,(RH_WINTER; RH_SPRING; RH_SUMMER; RH_FALL),percentage
+Seasonal Day Light Length,(WINTER_DLL; DLL_SPRING; DLL_SUMMER; DLL_FALL),Hours of Light
+Residual soil,(AL2O3;CAO;CO;FE2O3;K2O;MGO;MNO;MO;NA2O;P2O5;ZN),(AL2O3;CAO;FE2O3;K2O;MGO;MNO;NA2O;P2O5)% - (CO;MO;ZN)mg/kg
