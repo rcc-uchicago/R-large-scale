@@ -14,6 +14,12 @@
 #
 #   sinteractive --partition=broadwl --time=2:00:00 --mem=14G
 #
+# For the multithreaded matrix computations:
+#
+#   sinteractive --partition=broadwl --time=2:00:00 \
+#     --cpus-per-task=8 --mem=14G
+#   export OPENBLAS_NUM_THREADS=8
+#
 
 # LOAD REGMAP DATA
 # ----------------
@@ -34,6 +40,20 @@ mode(regmap.geno)
 storage.mode(regmap.geno)
 format(object.size(regmap.geno),units = "GB")
 
+# TO DO: Explain here what this does.
+library(Matrix)
+cat("Number of threads:",Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
+rows <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
+X    <- regmap.geno[rows,]
+Y    <- as.matrix(regmap.pheno)
+timing <- system.time({
+  K    <- tcrossprod(X)
+  r    <- solve(K,Y)
+})
+cat("Computation took",timing["elapsed"],"seconds.\n")
+
+stop()
+
 # COMPUTE PCs
 # -----------
 # Compute top 2 principal components of genotype matrix using
@@ -43,6 +63,8 @@ format(object.size(regmap.geno),units = "GB")
 # - Use htop --user=<cnetid> to profile memory usage (see RES column).
 # - First run rpca without profiling compute time.
 # - Try with k=20 and k=100. Does it take more time/memory?
+# - Try with different numbers of threads. How does it change time/memory?
+# - For multithreading, add NLWP column to htop.
 # 
 cat("Computing PCs.\n")
 set.seed(1)
@@ -66,7 +88,7 @@ suppressMessages(library(cowplot))
 pdat <- as.data.frame(out.rpca$x)
 p    <- ggplot(data = pdat,mapping = aes(x = PC1,y = PC2)) +
           geom_point(shape = 20,size = 3,color = "black")
-ggsave("regmap.pdf",p)
+ggsave("regmap.pdf",p,width = 7,height = 7)
 
 # Add country information to the plot.
 pdat2  <- cbind(pdat,data.frame(country = regmap.info$country))
@@ -80,3 +102,4 @@ p2     <- ggplot(data = pdat2,
            scale_color_manual(values = colors) +
            scale_shape_manual(values = shapes)
 ggsave("regmap.pdf",p2,width = 7,height = 5.5)
+
