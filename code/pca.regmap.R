@@ -14,6 +14,7 @@
 #
 #   sinteractive --partition=broadwl --time=2:00:00 --mem=14G
 #
+source("functions.R")
 
 # LOAD REGMAP DATA
 # ----------------
@@ -63,20 +64,11 @@ print(with(out.rpca,eigvals/var))
 suppressMessages(library(ggplot2))
 suppressMessages(library(cowplot))
 pdat <- as.data.frame(out.rpca$x)
-p    <- ggplot(data = pdat,mapping = aes(x = PC1,y = PC2)) +
-          geom_point(shape = 20,size = 3,color = "black")
+p    <- generate.scatterplot(pdat,"PC1","PC2")
 ggsave("regmap.pdf",p,width = 7,height = 7)
 
 # Add country information to the plot.
-pdat2  <- cbind(pdat,data.frame(country = regmap.info$country))
-colors <- rep(c("#E69F00","#56B4E9","#009E73","#F0E442","#0072B2",
-                "#D55E00","#CC79A7"),times = 5)
-shapes <- rep(c(19,17,8,1,3),each = 7)
-p2     <- ggplot(data = pdat2,
-                 mapping = aes(x = PC1,y = PC2,color = country,
-                               shape = country)) +
-           geom_point(size = 3) +
-           scale_color_manual(values = colors) +
-           scale_shape_manual(values = shapes)
+pdat2 <- cbind(pdat,data.frame(country = regmap.info$country))
+p2    <- scatterplot.vary.shapeandcolor(pdat2,"PC1","PC2","country")
 ggsave("regmap.pdf",p2,width = 7,height = 5.5)
 
