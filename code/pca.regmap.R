@@ -26,13 +26,13 @@ load("../data/regmap.RData")
 # INSPECT GENOTYPE DATA
 # ---------------------
 cat("Inspect the genotype data.\n")
-print(ls())
-print(class(regmap.geno))
-print(dim(regmap.geno))
-print(regmap.geno[1:10,1:10])
-print(mode(regmap.geno))
-print(storage.mode(regmap.geno))
-print(object.size(regmap.geno),units = "GB")
+ls()
+class(regmap.geno)
+dim(regmap.geno)
+regmap.geno[1:10,1:10]
+mode(regmap.geno)
+storage.mode(regmap.geno)
+format(object.size(regmap.geno),units = "GB")
 
 # COMPUTE PCs
 # -----------
@@ -43,6 +43,7 @@ print(object.size(regmap.geno),units = "GB")
 # - Use htop --user=<cnetid> to profile memory usage (see RES column).
 # - First run rpca without profiling compute time.
 # - Try with k=20 and k=100. Does it take more time/memory?
+# 
 cat("Computing PCs.\n")
 set.seed(1)
 library(rsvd)
@@ -60,8 +61,8 @@ print(with(out.rpca,eigvals/var))
 
 # Plot the projection of the samples onto the first two PCs. We will
 # use ggplot2 to do this.
-library(ggplot2)
-library(cowplot)
+suppressMessages(library(ggplot2))
+suppressMessages(library(cowplot))
 pdat <- as.data.frame(out.rpca$x)
 p    <- ggplot(data = pdat,mapping = aes(x = PC1,y = PC2)) +
           geom_point(shape = 20,size = 3,color = "black")
