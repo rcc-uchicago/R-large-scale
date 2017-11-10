@@ -15,6 +15,10 @@
 #
 source("functions.R")
 
+# SCRIPT PARAMETERS
+# -----------------
+# TO DO.
+
 # LOAD REGMAP DATA
 # ----------------
 # NOTES:
@@ -30,19 +34,13 @@ cat("Processing data.\n")
 rows        <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
 regmap.geno <- regmap.geno[rows,]
 
-y <- regmap.pheno["bio4_temp_season"]
+# Choose a phenotype.
+phenotype <- "bio4_temp_season"
+y         <- regmap.pheno[[phenotype]]
 
-# Center the phenotypes and the columns of the genotype matrix.
-center.cols(regmap.geno)
-
-n <- nrow(X)
-p <- ncol(X)
-X <- X - rep.row(colMeans(regmap.geno),nrow(regmap.geno))
-y <- y - mean(y)
-```
-
-
-
+# Center the phenotype data and the columns of the genotype matrix.
+y           <- y - mean(y)
+regmap.geno <- center.cols(regmap.geno)
 
 # COMPUTE PVE
 # -----------
@@ -50,31 +48,39 @@ y <- y - mean(y)
 # - For multithreading, add NLWP column to htop.
 #
 # Candidate values for the PVE parameter.
-h <- seq(0.01,0.99,0.01)
+h <- seq(0.001,0.999,0.001)
 
 # For each PVE setting h, get the prior variance of the regression
 # coefficients assuming a fully "polygenic" model.
-cat("Compute prior variance settings.\n")
+cat("Computing prior variance settings.\n")
 sa <- get.prior.variances(regmap.geno,h)
 
 # Compute the n x n kinship matrix. This computation may take a minute
 # or two.
 cat("Computing kinship matrix.\n")
-K <- tcrossprod(regmap.geno)/ncol(regmap.geno)
+cat("Number of threads used:",Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
+timing.kinship <- system.time(K <- tcrossprod(regmap.geno)/ncol(regmap.geno))
+cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 
 # Now we reach the numerically intensive part. Here we compute the
 # log-weight for each PVE parameter setting.
 cat("Computing weights for",length(h),"settings of PVE parameter.\n")
-timing <- system.time(logw <- compute.log.weights(K,y,sa))
-cat("Computation took",timing["elapsed"],"seconds.\n")
+timing.weights <- system.time(logw <- compute.log.weights(K,y,sa))
+cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
-stop()
+# SUMMARIZE RESULTS
+# -----------------
+# Now that we have done the hard work of computing the importance
+# weights, we can quickly compute a numerical estimate of the
+# posterior mean PVE, as well as an estimate of the credible interval
+# (more informally, the "confidence interval").
+w <- normalizelogweights(logw)
+cat("Proportion of variance in",phenotype,"explained by available\n")
+cat("genotypes (mean and 95% conf. int.):\n")
+h.mean    <- sum(w*h)
+h.confint <- cred(h,h.mean,w,0.95)
+  cat(sprintf("%0.3f (%0.3f,%0.3f)\n",sum(w*h),h.confint$a,h.confint$b))
 
-# TO DO: Explain here what this does.
-library(Matrix)
-cat("Number of threads:",Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
-timing <- system.time({
-  K    <- tcrossprod(X)
-  r    <- solve(K,Y)
-})
-
+# SAVE RESULTS
+# ------------
+# TO DO.

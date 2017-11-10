@@ -64,7 +64,7 @@ print(summary(out.rpca))
 cat("Prop. variance explained by PCs 1 and 2:\n")
 print(with(out.rpca,eigvals/var))
 
-# Plot the projection of the samples onto the first two PCs. We will
+# Plot the projection of the samples onto the first 2 PCs. We will
 # use ggplot2 to do this.
 suppressMessages(library(ggplot2))
 suppressMessages(library(cowplot))
