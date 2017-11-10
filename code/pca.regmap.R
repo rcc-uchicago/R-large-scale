@@ -16,6 +16,10 @@
 #
 source("functions.R")
 
+# For running this code with Rscript, I always load the methods
+# package just to be safe.
+library(methods)
+
 # LOAD REGMAP DATA
 # ----------------
 # NOTES:
@@ -41,9 +45,10 @@ format(object.size(regmap.geno),units = "GB")
 # randomized PCA.
 #
 # NOTES:
+# - If you don't request enough memory, the process will be killed
+#   after running this command.
 # - Use htop --user=<cnetid> to profile memory usage (see RES column).
 # - First run rpca without profiling compute time.
-# - Try with k=20 and k=100. Does it take more time/memory?
 cat("Computing PCs.\n")
 set.seed(1)
 library(rsvd)
@@ -65,10 +70,14 @@ suppressMessages(library(ggplot2))
 suppressMessages(library(cowplot))
 pdat <- as.data.frame(out.rpca$x)
 p    <- generate.scatterplot(pdat,"PC1","PC2")
-ggsave("regmap.pdf",p,width = 7,height = 7)
+ggsave("../output/regmap.pdf",p,width = 7,height = 7)
 
 # Add country information to the plot.
 pdat2 <- cbind(pdat,data.frame(country = regmap.info$country))
 p2    <- scatterplot.vary.shapeandcolor(pdat2,"PC1","PC2","country")
-ggsave("regmap.pdf",p2,width = 7,height = 5.5)
+ggsave("../output/regmap.pdf",p2,width = 7,height = 5.5)
 
+# SAVE RESULTS
+# ------------
+save(list = c("out.rpca","timing.rpca"),
+     file = "../output/pca.regmap.RData")
