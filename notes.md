@@ -10,3 +10,4 @@
 + Use Etherpad!
 * See here about reasons to use Rscript:
   https://tinyurl.com/y73cnf38
+* Demonstrate how to use screen.

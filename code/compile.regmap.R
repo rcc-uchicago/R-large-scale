@@ -8,10 +8,14 @@ library(data.table)
 
 # LOAD SAMPLE INFO
 # ----------------
+# Retrieve the following sample info: array id, ecotype id, genotyping
+# intensity, geographic co-ordinates (latitude and longitude), region
+# label, and country label. This should produce a data frame with
+# 1,307 rows (samples) and 6 columns.
 cat("Reading sample info.\n")
 regmap.info <- read.table("../data/call_method_75_info.tsv",sep = "\t",
                       header = TRUE,as.is = c("nativename","region"),
-                      quote = "",encoding="UTF-8")
+                      quote = "",comment = "#")
 ids         <- regmap.info$array_id
 regmap.info <- regmap.info[c("ecotype_id","median_intensity","latitude",
                              "longitude","region","country")]
@@ -22,6 +26,16 @@ rownames(regmap.info) <- ids
 rows                       <- which(regmap.info$region == "")
 regmap.info[rows,"region"] <- NA
 regmap.info                <- transform(regmap.info,region = factor(region))
+
+# LOAD PHENOTYPE DATA
+# -------------------
+# This should produce a data frame, "regmap.pheno" , with 948 rows
+# (samples) and 48 columns (phenotypes).
+out <- read.table("../data/allvars948_notnormd_011311.txt",sep = "\t",
+                  header = TRUE,comment = "#",quote = "",
+                  stringsAsFactors = FALSE,check.names = FALSE)
+regmap.pheno        <- as.data.frame(t(out[-1]))
+names(regmap.pheno) <- out$phenotype
 
 # LOAD GENOTYPE DATA
 # ------------------
@@ -46,21 +60,12 @@ p           <- ncol(out)
 regmap.geno <- matrix(0,n,p)
 ids         <- rownames(out)
 rownames(regmap.geno) <- ids
-temp <- system.time({
 for (i in 1:p) {
   a               <- names(which.min(table(factor(out[,i]))))
   regmap.geno[,i] <- out[,i] == a
 }
-})
 rm(out,i,a)
 
-# Compute principal components of genotype matrix using rsvd.
-cat("Computing top 20 PCs of genotype matrix.\n")
-set.seed(1)
-print(system.time(out <- rpca(X,k = 20,center = TRUE,
-                              scale = FALSE,retx = TRUE)))
-
-# Save the sample info and PCs to file.
-cat("Writing RegMap data to file.\n")
-write.csv(cbind(info[ids,],round(out$x,digits = 4)),"regmap.csv",
-          quote = FALSE,row.names = FALSE)
+# SAVE DATA TO FILE
+# -----------------
+# TO DO.
