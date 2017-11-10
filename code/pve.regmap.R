@@ -13,11 +13,24 @@
 #     --cpus-per-task=8 --mem=8G
 #   export OPENBLAS_NUM_THREADS=8
 #
+# NOTES:
+# - For multithreading, add NLWP column to htop.
+#
+# EXERCISE #1: Try different numbers of threads for matrix
+# computations. How does it change computation time and memory used?
+#
+# EXERCISE #2: Try different numbers of threads for mclapply. How does
+# it change computation time and memory used?
+#
 source("functions.R")
 
 # SCRIPT PARAMETERS
 # -----------------
-# TO DO.
+# Phenotype to analyze.
+phenotype <- "bio4_temp_season"
+
+# Candidate values for the PVE parameter.
+h <- seq(0.001,0.999,0.001)
 
 # LOAD REGMAP DATA
 # ----------------
@@ -34,9 +47,8 @@ cat("Processing data.\n")
 rows        <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
 regmap.geno <- regmap.geno[rows,]
 
-# Choose a phenotype.
-phenotype <- "bio4_temp_season"
-y         <- regmap.pheno[[phenotype]]
+# Get the phenotype data.
+y <- regmap.pheno[[phenotype]]
 
 # Center the phenotype data and the columns of the genotype matrix.
 y           <- y - mean(y)
@@ -44,12 +56,6 @@ regmap.geno <- center.cols(regmap.geno)
 
 # COMPUTE PVE
 # -----------
-# - Try with different numbers of threads. How does it change time/memory?
-# - For multithreading, add NLWP column to htop.
-#
-# Candidate values for the PVE parameter.
-h <- seq(0.001,0.999,0.001)
-
 # For each PVE setting h, get the prior variance of the regression
 # coefficients assuming a fully "polygenic" model.
 cat("Computing prior variance settings.\n")
@@ -58,14 +64,17 @@ sa <- get.prior.variances(regmap.geno,h)
 # Compute the n x n kinship matrix. This computation may take a minute
 # or two.
 cat("Computing kinship matrix.\n")
-cat("Number of threads used:",Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
+cat("Number of threads used for BLAS operations:",
+    Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
 timing.kinship <- system.time(K <- tcrossprod(regmap.geno)/ncol(regmap.geno))
 cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 
 # Now we reach the numerically intensive part. Here we compute the
 # log-weight for each PVE parameter setting.
+library(parallel)
 cat("Computing weights for",length(h),"settings of PVE parameter.\n")
-timing.weights <- system.time(logw <- compute.log.weights(K,y,sa))
+timing.weights <-
+  system.time(logw <- compute.log.weights.multicore(K,y,sa,nc = 4))
 cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
 # SUMMARIZE RESULTS
@@ -83,4 +92,9 @@ h.confint <- cred(h,h.mean,w,0.95)
 
 # SAVE RESULTS
 # ------------
-# TO DO.
+# Save the results of the PVE analysis to an .RData file.
+cat("Saving results to file.\n")
+save(list = c("phenotype","h","h.mean","h.confint","timing.kinship",
+              "timing.weights","logw"),
+     file = paste("../output/pve.regmap",phenotype,"RData",sep="."))
+

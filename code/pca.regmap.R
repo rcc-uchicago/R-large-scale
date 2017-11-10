@@ -79,7 +79,7 @@ ggsave("../output/regmap.pdf",p2,width = 7,height = 5.5)
 
 # SAVE RESULTS
 # ------------
-# Save the results of the PCA analysis using rpca.
+# Save the results of the PCA analysis to an .RData file.
 cat("Saving PCA results to file.\n")
 save(list = c("out.rpca","timing.rpca"),
      file = "../output/pca.regmap.RData")

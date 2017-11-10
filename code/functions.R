@@ -23,6 +23,11 @@ scatterplot.vary.shapeandcolor <- function (dat, x, y, z) {
            scale_shape_manual(values = shapes))
 }
 
+# This function distributes the elements of `x` evenly (or as evenly
+# as possible) into `k` list elements.
+distribute <- function (x, k)
+  split(x,rep(1:k,length.out = length(x)))
+
 # This function replicates vector x to create an n x m matrix, where m
 # = length(x).
 rep.row <- function (x, n)
@@ -43,35 +48,6 @@ normalizelogweights <- function (logw) {
   w <- exp(logw - c)
   return(w/sum(w))
 }
-
-# For each PVE setting h, get the prior variance of the regression
-# coefficients assuming a fully "polygenic" model.
-get.prior.variances <- function (X, h) {
-  sx <- sum(apply(X,2,sd)^2)
-  return(ncol(X)*h/(1-h)/sx)
-}
-
-# This function computes the marginal log-likelihood the regression
-# model of Y given X assuming that the prior variance of the
-# regression coefficients is sa. Here K is the "kinship" matrix, K =
-# tcrossprod(X)/ncol(X). Also, note that H is the covariance matrix of
-# Y divided by residual variance.
-compute.log.weight <- function (K, y, sa, use.backsolve = TRUE) {
-  n <- length(y)
-  H <- diag(n) + sa*K
-  R <- tryCatch(chol(H),error = function(e) FALSE)
-  if (is.matrix(R)) {
-    x    <- backsolve(R,forwardsolve(t(R),y))
-    logw <- (-determinant(sum(y*x)*H,logarithm = TRUE)$modulus/2)
-  } else
-    logw <- 0
-  return(logw)
-}
-
-# This function computes the marginal log-likelihood for multiple
-# settings of the prior variance parameter.
-compute.log.weights <- function (K, y, sa)
-  sapply(as.list(sa),function (x) compute.log.weight(K,y,x))
 
 # Returns a c% credible interval [a,b], in which c is a number between
 # 0 and 1. Precisely, we define the credible interval [a,b] to be the
@@ -127,3 +103,46 @@ cred <- function  (x, x0, w = NULL, cred.int = 0.95) {
   return(list(a = x[a[i]],b = x[b[i]]))
 }
 
+# For each PVE setting h, get the prior variance of the regression
+# coefficients assuming a fully "polygenic" model.
+get.prior.variances <- function (X, h) {
+  sx <- sum(apply(X,2,sd)^2)
+  return(ncol(X)*h/(1-h)/sx)
+}
+
+# This function computes the marginal log-likelihood the regression
+# model of Y given X assuming that the prior variance of the
+# regression coefficients is sa. Here K is the "kinship" matrix, K =
+# tcrossprod(X)/ncol(X). Also, note that H is the covariance matrix of
+# Y divided by residual variance.
+compute.log.weight <- function (K, y, sa, use.backsolve = TRUE) {
+  n <- length(y)
+  H <- diag(n) + sa*K
+  R <- tryCatch(chol(H),error = function(e) FALSE)
+  if (is.matrix(R)) {
+    x    <- backsolve(R,forwardsolve(t(R),y))
+    logw <- (-determinant(sum(y*x)*H,logarithm = TRUE)$modulus/2)
+  } else
+    logw <- 0
+  return(logw)
+}
+
+# This function computes the marginal log-likelihood for multiple
+# settings of the prior variance parameter.
+compute.log.weights <- function (K, y, sa)
+  sapply(as.list(sa),function (x) compute.log.weight(K,y,x))
+
+# This is a multicore variant of the above function implemented using
+# the "mclapply" function. Input argument `nc` specifies the number of
+# cores (CPUs) to use for the computation. Note that the mclapply
+# relies on forking and therefore will not work on a computer running
+# Windows.
+compute.log.weights.multicore <- function (K, y, sa, nc = 1) {
+  samples <- distribute(1:length(sa),nc)
+  logw    <- mclapply(samples,
+               function (i) compute.log.weights(K,y,sa[i]),
+               mc.cores = nc)
+  logw <- do.call(c,logw)
+  logw[unlist(samples)] <- logw
+  return(logw)
+}
