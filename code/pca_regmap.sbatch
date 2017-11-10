@@ -24,7 +24,7 @@ module load R/3.4.1
 echo "Running pca.regmap.R" 1>&2
 time Rscript pca.regmap.R
 
-# Once the job has completed, here are some things you can do:
+# EXERCISE: Once the job has completed, here are some things you can do:
 #
 #   cd ../output
 #   less pca_regmap.err
@@ -33,5 +33,8 @@ time Rscript pca.regmap.R
 #   sacct --user=<cnetid> --units=G \
 #     --format=jobid,jobname%10,maxrss,reqmem,start,elapsed,node%12 | less -S
 #
-# Based on the output from sacct, 10 GB is most likely enough memory.
-# So we can reduce from 14 GB to 10 GB.
+# Based on the output from sacct (and from htop), how much memory do
+# you think you need to run the R script? Verify your choice.
+#
+# ANSWER: 10 GB is most likely enough memory. So we can reduce the
+# requested memory from 14 GB to 10 GB, saving about 30% SUs.
