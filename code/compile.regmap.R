@@ -40,6 +40,7 @@ names(regmap.pheno) <- out$phenotype
 # LOAD GENOTYPE DATA
 # ------------------
 # Load the genotype data and information about the genetic markers.
+
 cat("Reading genotype data.\n")
 out <- fread("../data/call_method_75_TAIR9.csv",sep = ",",header = TRUE,
              stringsAsFactors = FALSE,verbose = FALSE,
@@ -64,8 +65,20 @@ for (i in 1:p) {
   a               <- names(which.min(table(factor(out[,i]))))
   regmap.geno[,i] <- out[,i] == a
 }
-rm(out,i,a)
+
+# Reorder the rows of regmap.info so that they match up with the rows
+# of regmap.geno.
+rows        <- match(rownames(regmap.geno),rownames(regmap.info))
+regmap.info <- regmap.info[rows,]
+
+# SUMMARIZE DATA
+# --------------
+cat("regmap.info:",paste(dim(regmap.info),collapse = " x "),"\n")
+cat("regmap.pheno:",paste(dim(regmap.pheno),collapse = " x "),"\n")
+cat("regmap.markers:",paste(dim(regmap.markers),collapse = " x "),"\n")
+cat("regmap.geno:",paste(dim(regmap.geno),collapse = " x "),"\n")
 
 # SAVE DATA TO FILE
 # -----------------
-# TO DO.
+save(list = c("regmap.info","regmap.pheno","regmap.markers","regmap.geno"),
+     file = "regmap.RData")
