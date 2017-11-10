@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=rscript_pca_regmap
+#SBATCH --job-name=pca-regmap
 #SBATCH --partition=broadwl
 #SBATCH --output=../output/pca_regmap.out
 #SBATCH --error=../output/pca_regmap.err
@@ -29,5 +29,9 @@ time Rscript pca.regmap.R
 #   cd ../output
 #   less pca_regmap.err
 #   less pca_regmap.out
-#   sacct ...
+#   sacct --user=<cnetid> --long | less -S
+#   sacct --user=<cnetid> --units=G \
+#     --format=jobid,jobname%10,maxrss,reqmem,start,elapsed,node%12 | less -S
 #
+# Based on the output from sacct, 10 GB is most likely enough memory.
+# So we can reduce from 14 GB to 10 GB.
