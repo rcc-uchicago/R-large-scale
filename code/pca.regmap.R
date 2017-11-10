@@ -31,13 +31,13 @@ load("../data/regmap.RData")
 # INSPECT GENOTYPE DATA
 # ---------------------
 cat("Inspect the genotype data.\n")
-ls()
-class(regmap.geno)
-dim(regmap.geno)
-regmap.geno[1:10,1:10]
-mode(regmap.geno)
-storage.mode(regmap.geno)
-format(object.size(regmap.geno),units = "GB")
+# ls()
+# class(regmap.geno)
+# dim(regmap.geno)
+# regmap.geno[1:10,1:10]
+# mode(regmap.geno)
+# storage.mode(regmap.geno)
+# format(object.size(regmap.geno),units = "GB")
 
 # COMPUTE PCs
 # -----------
@@ -80,5 +80,6 @@ ggsave("../output/regmap.pdf",p2,width = 7,height = 5.5)
 # SAVE RESULTS
 # ------------
 # Save the results of the PCA analysis using rpca.
+cat("Saving PCA results to file.\n")
 save(list = c("out.rpca","timing.rpca"),
      file = "../output/pca.regmap.RData")
