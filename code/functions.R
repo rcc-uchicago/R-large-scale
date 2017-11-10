@@ -12,11 +12,11 @@ scatterplot.vary.shapeandcolor <- function (dat, x, y, z) {
   colors <- c("#E69F00","#56B4E9","#009E73","#F0E442","#0072B2",
               "#D55E00","#CC79A7")
   shapes <- c(19,17,8,1,3)
-  n      <- levels(dat[[z]])
+  n      <- nlevels(dat[[z]])
   colors <- rep(colors,length.out = n)
-  shapes <- rep(shapes,length.ouy = n)
+  shapes <- rep(shapes,length.out = n)
   return(ggplot(data = dat,
-                 mapping = aes_string(x = PC1,y = PC2,color = z,shape = z),
+                 mapping = aes_string(x = x,y = y,color = z,shape = z),
                  environment = environment()) +
            geom_point(size = 3) +
            scale_color_manual(values = colors) +
