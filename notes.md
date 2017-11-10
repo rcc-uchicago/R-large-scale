@@ -14,5 +14,5 @@
 * Slides:
     - Title (with github repo URL)
     - Aims
-	- Outline ("Mini-lessons")
+	- Outline (divided into 4 parts)
 	- Prerequisities (my expectations)
