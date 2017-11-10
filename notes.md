@@ -11,3 +11,8 @@
 * See here about reasons to use Rscript:
   https://tinyurl.com/y73cnf38
 * Demonstrate how to use screen.
+* Slides:
+    - Title (with github repo URL)
+    - Aims
+	- Outline ("Mini-lessons")
+	- Prerequisities (my expectations)
