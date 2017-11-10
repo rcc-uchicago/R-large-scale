@@ -1,3 +1,7 @@
+# Downloaded from Joy Bergelson's Lab website on January 12, 2017.
+# All commas (,) and apostrophes (') were removed to prevent
+# any problems in reading the data into R using read.table.
+#
 call_method_id	array_id	median_intensity	ecotype_id	latitude	longitude	nativename	stockparent	firstname	surname	site	region	country
 75	895	217.0	9490	55.9218	-3.17108	02B6		Andrew	Hudson	02 University of Edinburgh / Kings Buildings Campus / N. of Swann Blg	Scotland	UK
 75	896	227.0	9496	55.9212	-3.17857	09A3		Andrew	Hudson	09 University of Edinburgh / Kings Buildings Campus / W. of SAC	Scotland	UK
