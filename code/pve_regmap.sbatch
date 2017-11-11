@@ -1,11 +1,25 @@
 #!/bin/bash
 
-#SBATCH --job-name=pve-regmap
+# This bash script illustrates how to use the sbatch command in SLURM
+# to submit a job to the broadwl partition, in which some of the
+# script parameters are specified in the command line.
+#
+# Here is an example of running this script using SLURM from the
+# shell:
+#
+#   sbatch --job-name=pve-rm --output=pve_regmap.out \
+#     --error=pve_regmap.err pve_regmap.sbatch aridity_fao 4
+#
+
 #SBATCH --partition=broadwl
-#SBATCH --output=../output/pve_regmap.out
-#SBATCH --error=../output/pve_regmap.err
 #SBATCH --mem=24G
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=9
 #SBATCH --time=00:10:00
+
+# Get the script parameters specified as command-line arguments.
+PHENOTYPE=${1}
+NC=${2}
 
 # For reproducibility, add version number to "module load" call.
 module load R/3.4.1
@@ -15,4 +29,4 @@ export OPENBLAS_NUM_THREADS=2
 
 # Run the R script, saving the results to an .RData file.
 echo "Running pve.regmap.R"
-Rscript pve.regmap.R aridity_fao 4
+Rscript pve.regmap.R ${PHENOTYPE} ${NC}

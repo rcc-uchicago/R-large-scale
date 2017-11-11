@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=pca-regmap
+#SBATCH --job-name=pca-rm
 #SBATCH --partition=broadwl
 #SBATCH --output=../output/pca_regmap.out
 #SBATCH --error=../output/pca_regmap.err
