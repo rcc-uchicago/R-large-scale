@@ -1,4 +1,5 @@
-# This script runs the PVE analysis for all phenotypes.
+# This script runs the PVE analysis for all phenotypes in the RegMap
+# data set.
 
 # LOAD REGMAP DATA
 # ----------------
