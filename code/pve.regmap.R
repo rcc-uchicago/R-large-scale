@@ -10,11 +10,14 @@
 # For the multithreaded matrix computations:
 #
 #   sinteractive --partition=broadwl --time=2:00:00 \
-#     --cpus-per-task=8 --mem=8G
-#   export OPENBLAS_NUM_THREADS=8
+#     --cpus-per-task=9 --mem=36G
+#   export OPENBLAS_NUM_THREADS=1
 #
 # NOTES:
 # - For multithreading, add NLWP column to htop.
+# - In htop, sort rows by RES column by typing "<" then selecting
+#   M_RESIDENT.
+# - The multicore variant may fail if you don't request enough memory.
 #
 # EXERCISE #1: Try different numbers of threads for matrix
 # computations. How does it change computation time and memory used?
@@ -26,6 +29,10 @@ source("functions.R")
 
 # SCRIPT PARAMETERS
 # -----------------
+# The computation of the sample weights is divided among this many
+# threads.
+nc <- 8
+
 # Phenotype to analyze.
 phenotype <- "bio4_temp_season"
 
@@ -74,7 +81,7 @@ cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 library(parallel)
 cat("Computing weights for",length(h),"settings of PVE parameter.\n")
 timing.weights <-
-  system.time(logw <- compute.log.weights.multicore(K,y,sa,nc = 4))
+  system.time(logw <- compute.log.weights.multicore(K,y,sa,nc = nc))
 cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
 # SUMMARIZE RESULTS
@@ -97,4 +104,3 @@ cat("Saving results to file.\n")
 save(list = c("phenotype","h","h.mean","h.confint","timing.kinship",
               "timing.weights","logw"),
      file = paste("../output/pve.regmap",phenotype,"RData",sep="."))
-
