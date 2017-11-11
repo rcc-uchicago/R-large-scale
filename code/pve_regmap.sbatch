@@ -8,13 +8,13 @@
 # shell:
 #
 #   sbatch --job-name=pve-rm --output=pve_regmap.out \
-#     --error=pve_regmap.err pve_regmap.sbatch aridity_fao 4
+#     --error=pve_regmap.err pve_regmap.sbatch aridity_fao 1
 #
 
 #SBATCH --partition=broadwl
-#SBATCH --mem=24G
+#SBATCH --mem=6G
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=9
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:10:00
 
 # Get the script parameters specified as command-line arguments.
