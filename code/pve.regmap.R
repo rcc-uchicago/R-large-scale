@@ -25,6 +25,11 @@
 # EXERCISE #2: Try different numbers of threads for mclapply. How does
 # it change computation time and memory used?
 #
+
+# SET UP ENVIRONMENT
+# ------------------
+# These are some functions that we will use here and in other parts of
+# the workshop.
 source("functions.R")
 
 # For running this code with Rscript, I always load the methods
@@ -71,6 +76,9 @@ load("../data/regmap.RData")
 
 # DATA PROCESSING STEPS
 # ---------------------
+# NOTES:
+#  - Take a few moments to inspect the phenotype data.
+#
 # Align the phenotype and genotype data.
 cat("Processing data.\n")
 rows        <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
@@ -104,8 +112,8 @@ cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 rm(regmap.geno)
 gc(verbose = FALSE)
 
-# Now we reach the numerically intensive part. Here we compute the
-# log-weight for each PVE parameter setting.
+# Now we reach the most numerically intensive part. Here we compute
+# the log-weight for each PVE parameter setting.
 library(parallel)
 cat("Computing weights for",length(h),"settings of PVE parameter.\n")
 cat("Weights are being computed separately in",nc,"threads.\n")

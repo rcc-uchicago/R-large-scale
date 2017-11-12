@@ -98,6 +98,55 @@ earlier estimate.
 
 ## Part 2: (Title goes here.)
 
+Develop `pve.regmap.R` code from scratch, while trying out code
+interactively in R.
+
+Introduce and inspect the RegMap "phenotype" data, and explain why we
+are using this data set (e.g., as opposed to a human data set). Then
+explain the task: estimate proportion of variance in each explained by
+genetics (genotype). Higher PVE should, roughly, indicate
+variables/phenotypes that are more prominent in adaptation. *Caveat:*
+I'm applying my reasoning from human & mouse genetics to research on
+climate adaptation in plants.
+
+*Mini-exercise:* Interactively explore multithreading of matrix
+operations (OpenBLAS) for computing the kinship matrix. What impact
+does the number of threads have on compute time and memory? Try first
+without requesting multiple CPUs. What happens? Why does the
+computation get slower? Use `htop` to examine memory usage and
+multithreading (look at CPU% and NLWP columns). How does setting
+`export OPENBLAS_NUM_THREADS=2` improve speed of computing the kinship
+matrix?
+
+*Exercise 1:* Interactively explore multithreading for computing the
+weights. How does increasing the number of threads ("workers") affect
+compute time and memory? It is possible that you will have to start a
+new sinteractive session with more memory and/or CPUs to experiment
+with this fully.
+
+Make some refinements to the script so that we get a nice summary at
+the end, and so that it is ready to run non-interactively. Then test
+the script with:
+
+```R
+rm(list = ls())
+source("pve.regmap.R")
+```
+
+Alternatively, test the script with `Rscript pve.regmap.R`.
+
+Next, make some additional improvements to the script `pve.regmap.R`
+so that the script paramters `phenotype` and `nc` can be specified
+from the command line, e.g.:
+
+```bash
+Rscript pve.regmap.R aridity_fao 2
+```
+
+We now have a non-interactive version of our analysis. Let's use this
+to automate the PVE analysis for all 48 phenotypes. Here, we will
+develop a new script `pve_regmap.sbatch` from scratch.
+
 ## Other notes
 
 + See here about reasons to use Rscript:

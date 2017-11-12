@@ -15,7 +15,7 @@ source("functions.R")
 library(methods)
 
 # Set the sequence of pseudorandom numbers (useful for making sure
-# that results are reproducible).
+# that the randomized PCA results are reproducible).
 set.seed(1)
 
 # LOAD REGMAP DATA
