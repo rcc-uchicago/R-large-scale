@@ -6,4 +6,6 @@
 * Send email to Tuesday workshop participants.
 * Create workshop "packet", and create sharable link, e.g., on Dropbox.
 + Create slides.
+    - Feedback & uggestions for additional advanced topics.
 + Print out notes and code.
++ Develop Rcpp example which can be presented, time permitting.

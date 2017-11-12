@@ -30,8 +30,9 @@
 + WiFi.
 + Etherpad.
 + Connecting to midway2.
++ "history" command.
 
-## Part 1: (Title goes here)
+## Part 1: Analysis of genetic data---interactive and non-interactive
 
 Create two sessions on midway2: one for loading up an R environment,
 and a second for developing code (e.g., in emacs).
@@ -52,10 +53,50 @@ Develop `pca.regmap.R` code from scratch, while trying out code
 interactively in R. In doing so, explore resource usage (CPU time,
 memory).
 
-Make some refinements to the script so that it it is ready to run
-non-interactively.
+Make some refinements to the script so that it is ready to run
+non-interactively. Then test the script with
 
-## Part 2: 
+```R
+rm(list = ls())
+source("pca.regmap.R")
+```
+
+Next, develop `pca_regmap.sbatch` from scratch.
+
+Submit a SLURM job using our sbatch script. While it is running, here
+are a few of the things we can do to monitor progress of the script:
+
+```bash
+squeue --long --user=<cnetid>
+ssh midway2-xxxx
+htop --user=<cnetid>
+cd ../output
+less pca_regmap.err
+less pca_regmap.out
+```
+
+Add timing information to the sbatch script using the `time` command,
+then re-run the sbatch script.
+
+Once the job has completed, here are some things we can do to assess
+resource usage:
+
+```bash
+cd ../output
+less pca_regmap.err
+less pca_regmap.out
+sacct --user=<cnetid> --long | less -S
+export SACCT_FORMAT=jobid,jobname%12,maxrss,reqmem,start,elapsed,node%12
+sacct --user=<cnetid> --units=G | less -S
+```
+
+*Exercise:* Based on the output from sacct (and from htop), how much
+memory do you think you need to run the R script? Compare against your
+earlier estimate.
+
+*Answer:* 10 GB is most likely enough memory.
+
+## Part 2: (Title goes here.)
 
 ## Other notes
 
