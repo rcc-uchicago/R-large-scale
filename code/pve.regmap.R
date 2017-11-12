@@ -27,6 +27,10 @@
 #
 source("functions.R")
 
+# For running this code with Rscript, I always load the methods
+# package just to be safe.
+library(methods)
+
 # SCRIPT PARAMETERS
 # -----------------
 # To run this script using Rscript (or "batch mode"), type the

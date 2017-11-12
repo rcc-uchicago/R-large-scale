@@ -1,5 +1,6 @@
 # This script summarizes the PVE analyses of all the phenotypes in the
 # RegMap data set.
+library(methods)
 
 # LOAD REGMAP DATA
 # ----------------

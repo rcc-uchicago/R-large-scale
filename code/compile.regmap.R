@@ -4,6 +4,7 @@
 # bergelson.uchicago.edu/wp-content/uploads/2015/04/call_method_75.tar.gz
 # and extract the file call_method_75_TAIR9.csv into the "data" directory.
 #
+library(methods)
 library(data.table)
 
 # LOAD SAMPLE INFO
