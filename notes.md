@@ -48,8 +48,12 @@ module load R/3.4.1
 R
 ```
 
-Develop script `pca.regmap.R` from scratch, while trying out code
-interactively in R.
+Develop `pca.regmap.R` code from scratch, while trying out code
+interactively in R. In doing so, explore resource usage (CPU time,
+memory).
+
+Make some refinements to the script so that it it is ready to run
+non-interactively.
 
 ## Part 2: 
 

@@ -20,8 +20,14 @@ set.seed(1)
 
 # LOAD REGMAP DATA
 # ----------------
-# If you don't request enough memory, the process will be killed after
-# running the load command.
+# NOTES:
+#
+#  - Introduce RegMap A. thaliana data set. (Good opportunity for
+#    interaction.)
+#
+#  - If you don't request enough memory, the process will be killed
+#    after running the load command.
+#
 cat("Loading RegMap data.\n")
 load("../data/regmap.RData")
 
@@ -52,8 +58,11 @@ load("../data/regmap.RData")
 #   system.time call.
 #
 # - While rpca is running, use htop --user=<cnetid> to profile memory
-#   usage (see RES column, and sort by this column by typing "<" then
-#   selecting M_RESIDENT).
+#   usage (see RES column, and sort by this column by typing
+#   "M". Another useful keystroke in htop: "p".
+#
+# EXERCISE: Determine amount of memory needed to compute PCs. Use
+# Etherpad to share results.
 #
 cat("Computing PCs.\n")
 library(rsvd)
@@ -64,6 +73,15 @@ cat("Computation took",timing.rpca["elapsed"],"seconds.\n")
 
 # EXAMINE PCA RESULTS
 # -------------------
+# NOTES:
+#
+#  - Explain (very briefly) why we use ggplot2.
+#
+#  - Interpret and discuss results.
+#
+#  - Demonstrate transfering files to view PDFs locally (alternative,
+#    of course, is to use ThinLinc).
+#
 cat("PCA results summary:\n")
 print(summary(out.rpca))
 cat("Prop. variance explained by PCs 1 and 2:\n")
