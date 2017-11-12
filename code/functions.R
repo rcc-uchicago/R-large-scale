@@ -29,11 +29,11 @@ read.regmap.pheno <- function (filename) {
 
 # Read the RegMap genotype data and marker information from a CSV file.
 read.regmap.geno <- function (filename) {
-  out <- fread(filename,sep = ",",header = TRUE,stringsAsFactors = FALSE,
-               verbose = FALSE,showProgress = FALSE)
-  class(out)     <- "data.frame"
-  out            <- out[-1,]
-  markers        <- out[,1:2]
+  geno <- fread(filename,sep = ",",header = TRUE,stringsAsFactors = FALSE,
+                verbose = FALSE,showProgress = FALSE)
+  class(geno)    <- "data.frame"
+  geno           <- geno[-1,]
+  markers        <- geno[,1:2]
   names(markers) <- c("chr","pos")
   markers        <- transform(markers,
                               chr = factor(chr),
