@@ -8,18 +8,21 @@
 # shell:
 #
 #   sbatch --job-name=pve-rm --output=pve_regmap.out \
-#     --error=pve_regmap.err pve_regmap.sbatch aridity_fao 1
+#     --error=pve_regmap.err pve_regmap.sbatch aridity_fao
 #
 
 #SBATCH --partition=broadwl
-#SBATCH --mem=6G
+#SBATCH --mem=13G
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=2
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
 #SBATCH --time=00:10:00
 
-# Get the script parameters specified as command-line arguments.
+# Get the phenotype specified as a command-line argument.
 PHENOTYPE=${1}
-NC=${2}
+
+# Specify the number of threads to use for the mclapply call.
+NC=4
 
 # For reproducibility, add version number to "module load" call.
 module load R/3.4.1

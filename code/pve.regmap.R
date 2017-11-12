@@ -98,6 +98,12 @@ cat("Number of threads used for BLAS operations:",
 timing.kinship <- system.time(K <- tcrossprod(regmap.geno)/ncol(regmap.geno))
 cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 
+# Now that we have computed the kinship matrix and prior variance
+# settings, we no longer need the genotype matrix, so we can remove it
+# to free up some memory.
+rm(regmap.geno)
+gc(verbose = FALSE)
+
 # Now we reach the numerically intensive part. Here we compute the
 # log-weight for each PVE parameter setting.
 library(parallel)
