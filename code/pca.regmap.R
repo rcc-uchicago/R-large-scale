@@ -1,43 +1,42 @@
-# TO DO: Add description and notes here.
-#
-# Start by requesting an interactive session for 2 hours on midway2
-# ("Broadwell"). It is useful to create a screen session in case you
-# lose your connection at any point.
-#
-#   screen -S rcc_workshop
-#   sinteractive --partition=broadwl --time=2:00:00
-#   module load R/3.4.1
-#   R
-#
 # You will find that you need more than 2 GB of memory (this is the
 # default). Try requesting 14 GB instead:
 #
 #   sinteractive --partition=broadwl --time=2:00:00 --mem=14G
 #
+
+# SET UP ENVIRONMENT
+# ------------------
+# These are some functions that we will use here and in other parts of
+# the workshop.
 source("functions.R")
 
 # For running this code with Rscript, I always load the methods
 # package just to be safe.
 library(methods)
 
+# Set the sequence of pseudorandom numbers (useful for making sure
+# that results are reproducible).
+set.seed(1)
+
 # LOAD REGMAP DATA
 # ----------------
-# NOTES:
-# - If you don't request enough memory, the process will be killed
-#   after running this command.
+# If you don't request enough memory, the process will be killed after
+# running the load command.
 cat("Loading RegMap data.\n")
 load("../data/regmap.RData")
 
 # INSPECT GENOTYPE DATA
 # ---------------------
-cat("Inspect the genotype data.\n")
-# ls()
-# class(regmap.geno)
-# dim(regmap.geno)
-# regmap.geno[1:10,1:10]
-# mode(regmap.geno)
-# storage.mode(regmap.geno)
-# format(object.size(regmap.geno),units = "GB")
+# A few useful commands for inspecting the data we just loaded:
+#
+#   ls()
+#   class(regmap.geno)
+#   dim(regmap.geno)
+#   regmap.geno[1:10,1:10]
+#   mode(regmap.geno)
+#   storage.mode(regmap.geno)
+#   format(object.size(regmap.geno),units = "GB")
+#
 
 # COMPUTE PCs
 # -----------
@@ -45,12 +44,18 @@ cat("Inspect the genotype data.\n")
 # randomized PCA.
 #
 # NOTES:
+#
 # - If you don't request enough memory, the process will be killed
 #   after running this command.
-# - Use htop --user=<cnetid> to profile memory usage (see RES column).
-# - First run rpca without profiling compute time.
+#
+# - First, run rpca without profiling compute time. Then add the
+#   system.time call.
+#
+# - While rpca is running, use htop --user=<cnetid> to profile memory
+#   usage (see RES column, and sort by this column by typing "<" then
+#   selecting M_RESIDENT).
+#
 cat("Computing PCs.\n")
-set.seed(1)
 library(rsvd)
 timing.rpca <-
   system.time(out.rpca <- rpca(regmap.geno,k = 2,center = TRUE,
@@ -66,6 +71,7 @@ print(with(out.rpca,eigvals/var))
 
 # Plot the projection of the samples onto the first 2 PCs. We will
 # use ggplot2 to do this.
+cat("Generating PCA plots.\n")
 suppressMessages(library(ggplot2))
 suppressMessages(library(cowplot))
 pdat <- as.data.frame(out.rpca$x)

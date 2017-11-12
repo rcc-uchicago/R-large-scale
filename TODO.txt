@@ -5,3 +5,5 @@
 * Send email to Monday workshop participants.
 * Send email to Tuesday workshop participants.
 * Create workshop "packet", and create sharable link, e.g., on Dropbox.
++ Create slides.
++ Print out notes and code.

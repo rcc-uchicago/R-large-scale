@@ -1,13 +1,13 @@
-# Create a scatterplot from the two selected columns (x, y) in the
-# data frame, "dat".
+# Create a scatterplot from two selected columns (x, y) in data
+# frame (dat).
 generate.scatterplot <- function (dat, x, y)
   ggplot(data = dat,mapping = aes_string(x = x,y = y),
          environment = environment()) +
     geom_point(shape = 20,size = 3,color = "black")
 
-# Create a scatterplot from the two selected columns (x, y) in the
-# data frame, "dat", and vary shape and color according to column
-# z. Column z should be a factor.
+# Create scatterplot from two selected columns (x, y) in data frame
+# (dat). Also, vary shape and color according to column z. Column z
+# should be a factor.
 scatterplot.vary.shapeandcolor <- function (dat, x, y, z) {
   colors <- c("#E69F00","#56B4E9","#009E73","#F0E442","#0072B2",
               "#D55E00","#CC79A7")
