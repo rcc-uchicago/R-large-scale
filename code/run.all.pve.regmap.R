@@ -16,6 +16,6 @@ for (phenotype in phenotypes) {
   system(sprintf(paste("sbatch --job-name=%s",
                        "--output=../output/pve_regmap_%s.out",
                        "--error=../output/pve_regmap_%s.err",
-                       "pve_regmap.sbatch %s 1"),
+                       "pve_regmap.sbatch %s"),
                  phenotype,phenotype,phenotype,phenotype))
 }

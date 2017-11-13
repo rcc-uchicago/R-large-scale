@@ -100,4 +100,20 @@ Please use the Etherpad to share your answers.
 
 ### Exercise 3
 
+In this exercise, we will automate the data analysis using the
+combination of R scripts and SLURM scripts.
+
++ First test script `run.all.pve.regmap.R` by running it on the first
+  three phenotypes: `bio1_meant`, `bio2_diur_rng` and `bio3_isotherm`.
+
++ Modify the script `run.all.pve.regmap.R` so that it submits SLURM
+  jobs for PVE analysis of all 48 phenotypes. Then run the script, and
+  monitor progress using `squeue --user=<cnetid>`.
+
++ What is the smallest mean PVE estimate for all 48 phenotypes? What
+  is the largest?
+
++ Suppose that you would like your labmate to reproduce your analysis
+  on the RCC cluster. What instructions would you give this person?
+
 Please use the Etherpad to share your answers.
