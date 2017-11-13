@@ -93,16 +93,29 @@ variables/phenotypes that are more prominent in adaptation. *Caveat:*
 I'm applying my reasoning from human & mouse genetics to research on
 climate adaptation in plants.
 
-*Mini-exercise:* Interactively explore multithreading of matrix
-operations (OpenBLAS) for computing the kinship matrix. What impact
-does the number of threads have on compute time and memory? Try first
-without requesting multiple CPUs. What happens? Why does the
-computation get slower? Use `htop` to examine memory usage and
-multithreading (look at CPU% and NLWP columns). How does setting
+*Exercise 1:* Interactively explore multithreading of matrix
+operations (OpenBLAS) for computing the kinship matrix. Here we will
+What impact does the number of threads have on compute time and
+memory? Try first without requesting multiple CPUs. What happens? Why
+does the computation get slower? Use `htop` to examine memory usage
+and multithreading (look at CPU% and NLWP columns). How does setting
 `export OPENBLAS_NUM_THREADS=2` improve speed of computing the kinship
-matrix?
+matrix? Here is a more convenient way to set the number of OpenBLAS
+threads, for example, to 2 threads:
 
-*Exercise 1:* Interactively explore multithreading for computing the
+```R
+dyn.load("setblas.so")
+set.blas.num.threads(2)
+```
+
+To use this function, you will first need to build the `setblas`
+shared object library in the `code` directory:
+
+```bash
+R CMD SHLIB setblas.c
+```
+
+*Exercise 2:* Interactively explore multithreading for computing the
 weights. How does increasing the number of threads ("workers") affect
 compute time and memory? It is possible that you will have to start a
 new sinteractive session with more memory and/or CPUs to experiment

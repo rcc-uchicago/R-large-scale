@@ -207,3 +207,9 @@ compute.log.weights.multicore <- function (K, y, sa, nc = 1) {
   logw[unlist(samples)] <- logw
   return(logw)
 }
+
+# This function sets the number of threads used by OpenBLAS.
+set.blas.num.threads <- function (n) {
+  .Call("set_blas_Call",n = as.integer(n))
+  return(n)
+}
