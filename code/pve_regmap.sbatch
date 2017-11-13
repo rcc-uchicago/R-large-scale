@@ -7,12 +7,13 @@
 # Here is an example of running this script using SLURM from the
 # shell:
 #
-#   sbatch --job-name=pve-rm --output=pve_regmap.out \
+#   sbatch --job-name=pve --output=pve_regmap.out \
 #     --error=pve_regmap.err pve_regmap.sbatch aridity_fao
 #
 
 #SBATCH --partition=broadwl
-#SBATCH --mem=13G
+#SBATCH --reservation=rworkshoptest
+#SBATCH --mem=12G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --job-name=pca-rm
+#SBATCH --job-name=pca
 #SBATCH --partition=broadwl
-#SBATCH --reservation=rworkshop
+#SBATCH --reservation=rworkshoptest
 #SBATCH --output=../output/pca_regmap.out
 #SBATCH --error=../output/pca_regmap.err
-#SBATCH --mem=14G
+#SBATCH --mem=10G
 #SBATCH --time=00:10:00
 
 # For reproducibility, add version number to "module load" call.
