@@ -3,3 +3,5 @@ output/*.RData
 output/*.pdf
 output/*.err
 output/*.out
+code/setblas.o
+code/setblas.so
