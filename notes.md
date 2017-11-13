@@ -10,11 +10,6 @@
 
 + Prerequisites.
 + Add your name & program to Etherpad.
-+ Make sure you can connect to midway2 (ssh or ThinLinc).
-+ Make sure you can transfer files (scp or SAMBA).
-+ Make sure you are comfortable using a text-based editor such as vim,
-  emacs or nano (recommended).
-+ We will use R---not RStudio.
 + Mention workshop packet (but do not distribute link).
 
 ## Instructor in-class setup
