@@ -1,12 +1,8 @@
-* Set up reservation for Monday workshop (Nov 13, 1:30-4:30p).
-* Set up reservation for Tuesday workshop (Nove 14, 1:30-4:30p).
-* Set up Etherpad for Monday workshop.
-* Set up Etherpad for Tuesday workshop.
-* Send email to Monday workshop participants.
-* Send email to Tuesday workshop participants.
-* Create workshop "packet", and create sharable link, e.g., on Dropbox.
++ Send email to Monday workshop participants.
++ Send email to Tuesday workshop participants.
++ Create workshop "packet", and create sharable link, e.g., on Dropbox.
 + Create slides.
-    - Feedback & uggestions for additional advanced topics.
+    - Feedback & suggestions for additional advanced topics.
 + Print out notes and code.
 + Develop Rcpp example which can be presented, time permitting.
-* Create handout.md, and convert to PDF.
++ Create handout.md, and convert to PDF.

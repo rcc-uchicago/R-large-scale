@@ -19,18 +19,23 @@
 
 ## Instructor in-class setup
 
++ Arrange chairs and tables.
 + Clean up Desktop.
 + Use Terminal, not iTerm.
 + Use a font that better distinguishes commas and periods.
 + Distribute Yubikeys.
++ Distrbute sticky notes.
 
 ## Initial in-class setup
 
 + Give instructions for Yubikeys (if necessary).
++ Power outlets.
 + WiFi.
 + Etherpad.
 + Connecting to midway2.
 + "history" command.
++ Helpers.
++ Questions, pace
 
 ## Part 1: Analysis of genetic data---interactive and non-interactive
 
@@ -44,9 +49,11 @@ node.*
 
 ```bash
 screen -S workshop
+cd R-large-scale/code
 sinteractive --partition=broadwl --time=2:00:00 --reservation=rworkshop
 module load R/3.4.1
 R
+getwd()
 ```
 
 Develop `pca.regmap.R` code from scratch, while trying out code
@@ -148,6 +155,12 @@ to automate the PVE analysis for all 48 phenotypes. Here, we will
 develop a new script `pve_regmap.sbatch` from scratch.
 
 ## Other notes
+
++ Reservations: rworkshop1, rworkshop2
+
++ Etherpads:
+  https://etherpad.wikimedia.org/p/rcc-13-nov-2017
+  https://etherpad.wikimedia.org/p/rcc-14-nov-2017
 
 + See here about reasons to use Rscript:
   https://tinyurl.com/y73cnf38
