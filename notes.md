@@ -14,7 +14,7 @@
 + Distribute Yubikeys.
 + Distrbute sticky notes.
 
-## Part 1: Analysis of genetic data---interactive and non-interactive
+## Part 1: Warm-up with principal components analysis of the RegMap data
 
 Create two sessions on midway2: one for loading up an R environment,
 and a second for developing code (e.g., in emacs).
@@ -74,13 +74,13 @@ export SACCT_FORMAT=jobid,jobname%12,maxrss,reqmem,start,elapsed,node%12
 sacct --user=<cnetid> --units=G | less -S
 ```
 
-*Exercise:* Based on the output from sacct (and from htop), how much
+*Exercise:* Based on htop and the output from sacct, how much
 memory do you think you need to run the R script? Compare against your
 earlier estimate.
 
 *Answer:* 10 GB is most likely enough memory.
 
-## Part 2: (Title goes here.)
+## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
 Develop `pve.regmap.R` code from scratch, while trying out code
 interactively in R.

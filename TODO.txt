@@ -2,5 +2,4 @@
 + Create slides.
     - Feedback & suggestions for additional advanced topics.
 + Print out notes and code.
-+ Develop Rcpp example which can be presented, time permitting.
 + Create handout.md, and convert to PDF.
