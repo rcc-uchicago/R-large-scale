@@ -59,13 +59,6 @@ regmap.geno.as.binary <- function (dat) {
   return(out)
 }
 
-# Create a scatterplot from two selected columns (x, y) in data
-# frame (dat).
-generate.scatterplot <- function (dat, x, y)
-  ggplot(data = dat,mapping = aes_string(x = x,y = y),
-         environment = environment()) +
-    geom_point(shape = 20,size = 3,color = "black")
-
 # Create scatterplot from two selected columns (x, y) in data frame
 # (dat). Also, vary shape and color according to column z. Column z
 # should be a factor.

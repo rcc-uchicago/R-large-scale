@@ -2,6 +2,7 @@
 
 ## Instructor in-class setup
 
++ Test reservation.
 + Arrange chairs and tables.
 + Clean up Desktop.
 + Use Terminal, not iTerm.
@@ -33,6 +34,18 @@ Develop `pca.regmap.R` code from scratch, while trying out code
 interactively in R. In doing so, explore resource usage (CPU time,
 memory).
 
+A few useful commands for inspecting the RegMap data:
+
+```R
+ls()
+class(regmap.geno)
+dim(regmap.geno)
+regmap.geno[1:10,1:10]
+mode(regmap.geno)
+storage.mode(regmap.geno)
+format(object.size(regmap.geno),units = "GB")
+```
+
 Make some refinements to the script so that it is ready to run
 non-interactively. Then test the script with
 
@@ -40,6 +53,10 @@ non-interactively. Then test the script with
 rm(list = ls())
 source("pca.regmap.R")
 ```
+
+While rpca is running, use htop --user=<cnetid> to profile memory
+usage (see RES column, and sort by this column by typing
+"M". Another useful keystroke in htop: "p".
 
 Next, develop `pca_regmap.sbatch` from scratch.
 
