@@ -30,8 +30,8 @@ R
 getwd()
 ```
 
-Develop `pca.R` code from scratch, while trying out code interactively
-in R. In doing so, explore resource usage (CPU time, memory).
+Develop `pca.R` while trying out code interactively in R. In doing so,
+explore resource usage (CPU time, memory).
 
 A few useful commands for inspecting the RegMap data:
 
@@ -53,49 +53,35 @@ rm(list = ls())
 source("pca.R")
 ```
 
-While rpca is running, use htop --user=<cnetid> to profile memory
-usage (see RES column, and sort by this column by typing
-"M". Another useful keystroke in htop: "p".
+While rpca is running, use `htop --user=<cnetid>` to profile memory
+usage (see RES column, and sort by this column by typing "M".
+Another useful keystroke in htop: "p".
 
-Next, develop `pca_regmap.sbatch` from scratch.
+Next, develop `pca.sbatch`.
 
 Submit a SLURM job using our sbatch script. While it is running, here
 are a few of the things we can do to monitor progress of the script:
 
 ```bash
-squeue --long --user=<cnetid>
+squeue --user=<cnetid> | less -S
 ssh midway2-xxxx
 htop --user=<cnetid>
-cd ../output
-less pca_regmap.err
-less pca_regmap.out
+less ../output/pca_err.txt
+less ../output/pca_out.txt
 ```
-
-Add timing information to the sbatch script using the `time` command,
-then re-run the sbatch script.
 
 Once the job has completed, here are some things we can do to assess
 resource usage:
 
 ```bash
-cd ../output
-less pca_regmap.err
-less pca_regmap.out
-sacct --user=<cnetid> --long | less -S
-export SACCT_FORMAT=jobid,jobname%12,maxrss,reqmem,start,elapsed,node%12
+less ../output/pca_err.txt
+less ../output/pca_out.txt
 sacct --user=<cnetid> --units=G | less -S
 ```
 
-*Exercise:* Based on htop and the output from sacct, how much
-memory do you think you need to run the R script? Compare against your
-earlier estimate.
-
-*Answer:* 10 GB is most likely enough memory.
-
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
-Develop `pve.regmap.R` code from scratch, while trying out code
-interactively in R.
+Develop `pve.regmap.R` code, while trying out code interactively in R.
 
 Introduce and inspect the RegMap "phenotype" data, and explain why we
 are using this data set (e.g., as opposed to a human data set). Then
@@ -154,7 +140,7 @@ Rscript pve.regmap.R aridity_fao 2
 
 We now have a non-interactive version of our analysis. Let's use this
 to automate the PVE analysis for all 48 phenotypes. Here, we will
-develop a new script `pve_regmap.sbatch` from scratch.
+develop script `pve_regmap.sbatch`.
 
 ## Other notes
 
