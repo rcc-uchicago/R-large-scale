@@ -30,9 +30,8 @@ R
 getwd()
 ```
 
-Develop `pca.regmap.R` code from scratch, while trying out code
-interactively in R. In doing so, explore resource usage (CPU time,
-memory).
+Develop `pca.R` code from scratch, while trying out code interactively
+in R. In doing so, explore resource usage (CPU time, memory).
 
 A few useful commands for inspecting the RegMap data:
 
@@ -51,7 +50,7 @@ non-interactively. Then test the script with
 
 ```R
 rm(list = ls())
-source("pca.regmap.R")
+source("pca.R")
 ```
 
 While rpca is running, use htop --user=<cnetid> to profile memory

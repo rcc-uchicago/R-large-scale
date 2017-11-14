@@ -1,7 +1,4 @@
 data/call_method_75_TAIR9.csv
-output/*.RData
-output/*.pdf
-output/*.err
-output/*.out
+output/*
 code/setblas.o
 code/setblas.so

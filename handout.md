@@ -1,13 +1,7 @@
 # Large-scale data analysis in R
 
-**Research Computing Center Workshop**
-
-November 13 & 14, 2017
-
-Peter Carbonetto / 
-Research Computing Center / 
-University of Chicago / 
-`pcarbo@uchicago.edu`
+November 13 & 14, 2017 / Peter Carbonetto / Research Computing Center / 
+University of Chicago / `pcarbo@uchicago.edu`
 
 The main aim of this workshop is give you a solid footing for
 transitioning from *interactive* (exploratory) data analysis in R to
@@ -21,7 +15,7 @@ cluster (managing memory, using multiple CPUs simultaneously);
 2. using R in combination with the SLURM job engine to run
 hundreds of data analyses simultaneously.
 
-During this workshop, we will work with the **RegMap data set**---this
+During this workshop, we will work with the *RegMap* data set---this
 data set contains genetic and climate variable data on *Arabidopsis
 thaliana* collected by Joy Bergelson's lab at the University of
 Chicago.
@@ -37,8 +31,15 @@ command-line tools to assess resource needs (time and memory).
 **Exercise:** Based on the `htop` results, and the output from
 `sacct`, what is the minimum amount of memory needed to run the PCA
 analysis of the RegMap data? Please test your estimate by modifying
-the requested memory in the SLURM script, and re-running it. Please
-use the Etherpad to share your answers.
+the requested memory in the SLURM script, and re-running it.
+
+Some useful shell commands:
+
+```bash
+htop --user=<cnetid>
+squeue --user=<cneitd> | less -S
+sacct --user=<cnetid> --units=G | less -S
+```
 
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
@@ -78,8 +79,6 @@ Some tips:
   shared objects into R, `dyn.load("setblas.so")`. For example, to
   tell OpenBLAS to use 2 threads, type `set.blas.num.threads(2)` in R.
 
-Please use the Etherpad to share your answers.
-
 **Exercise 2:** In this exercise, we will interactively explore
 parallel computation of the weights.
 
@@ -92,8 +91,6 @@ parallel computation of the weights.
 + Based on your findings, how would you suggest setting the number of
   OpenBLAS and mclapply threads to make most effective use of
   computing resources?
-
-Please use the Etherpad to share your answers.
 
 **Exercise 3:** In this exercise, we will automate the data analysis
 using a combination of R scripts and SLURM scripts.
@@ -111,5 +108,3 @@ using a combination of R scripts and SLURM scripts.
 + Suppose that you would like a member of your project team to
   reproduce your analysis on the RCC cluster. What instructions would
   you give this person?
-
-Please use the Etherpad to share your answers.
