@@ -1,10 +1,9 @@
-# In this script, we will compute a numerical estimate of the
-# proportion of variance in the quantitative trait explained by the
-# available genotypes (abbreviated as "PVE"). This is a numerically
-# intensive operation because it involves factorizing a large,
-# symmetric matrix separately for each candidate value of the PVE. We
-# will explore how increasing the number of threads available for the
-# matrix computations (BLAS) and for the other numerical computations
+# In this script, we will estimate the genetic variance of a selected
+# climate variable. This is a numerically intensive operation because
+# it involves factorizing a large, symmetric matrix separately for
+# each candidate value of the genetic variance. We will explore how
+# increasing the number of threads available for the matrix
+# computations (BLAS) and for the other numerical computations
 # improves the computation time.
 #
 # For the multithreaded matrix computations:
@@ -63,7 +62,7 @@ if (length(args) < 2) {
   nc <- as.integer(args[2])
 }
 
-# Candidate values for the PVE parameter.
+# Candidate values for the genetic variance parameter.
 h <- seq(0.001,0.999,0.001)
 
 # LOAD REGMAP DATA
@@ -76,9 +75,6 @@ load("../data/regmap.RData")
 
 # DATA PROCESSING STEPS
 # ---------------------
-# NOTES:
-#  - Take a few moments to inspect the phenotype data.
-#
 # Align the phenotype and genotype data.
 cat("Processing data.\n")
 rows        <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
@@ -91,10 +87,10 @@ y <- regmap.pheno[[phenotype]]
 y           <- y - mean(y)
 regmap.geno <- center.cols(regmap.geno)
 
-# COMPUTE PVE
-# -----------
-# For each PVE setting h, get the prior variance of the regression
-# coefficients assuming a fully "polygenic" model.
+# ESTIMATE GENETIC VARIANCE
+# ------------------------
+# For each setting h, get the model parameter---the variance of the
+# regression coefficients.
 cat("Computing prior variance settings.\n")
 sa <- get.prior.variances(regmap.geno,h)
 
@@ -113,9 +109,9 @@ rm(regmap.geno)
 gc(verbose = FALSE)
 
 # Now we reach the most numerically intensive part. Here we compute
-# the log-weight for each PVE parameter setting.
+# the log-weight for each genetic variance setting.
 library(parallel)
-cat("Computing weights for",length(h),"settings of PVE parameter.\n")
+cat("Computing weights for",length(h),"settings of genetic variance.\n")
 cat("Weights are being computed separately in",nc,"threads.\n")
 cat("Number of threads used for BLAS operations:",
     Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
@@ -127,7 +123,7 @@ cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 # -----------------
 # Now that we have done the hard work of computing the importance
 # weights, we can quickly compute a numerical estimate of the
-# posterior mean PVE, as well as an estimate of the credible interval
+# posterior mean h, as well as an estimate of the credible interval
 # (more informally, the "confidence interval").
 w <- normalizelogweights(logw)
 cat("Proportion of variance in",phenotype,"explained by available\n")
@@ -138,8 +134,8 @@ h.confint <- cred(h,h.mean,w,0.95)
 
 # SAVE RESULTS
 # ------------
-# Save the results of the PVE analysis to an .RData file.
+# Save the results of the genetic variance analysis to an .RData file.
 cat("Saving results to file.\n")
 save(list = c("phenotype","h","h.mean","h.confint","timing.kinship",
               "timing.weights","logw"),
-     file = paste("../output/pve.regmap",phenotype,"RData",sep="."))
+     file = paste("../output/climate",phenotype,"RData",sep="."))
