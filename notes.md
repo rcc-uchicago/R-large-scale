@@ -1,18 +1,14 @@
 # Instructor notes
 
-* Slides:
-    - Title (with github repo URL)
-	- Outline
-    - Aims
-
 ## Instructor in-class setup
 
 + Arrange chairs and tables.
 + Clean up Desktop.
 + Use Terminal, not iTerm.
-+ Use a font that better distinguishes commas and periods.
++ Use Consolata font.
++ Use these Terminal themes: Basic, Novel & Ocean.
++ Fix midway prompt.
 + Distribute Yubikeys.
-+ Distrbute sticky notes.
 
 ## Part 1: Warm-up with principal components analysis of the RegMap data
 
