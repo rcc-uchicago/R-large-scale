@@ -169,7 +169,7 @@ get.prior.variances <- function (X, h) {
 # regression coefficients is sa. Here K is the "kinship" matrix, K =
 # tcrossprod(X)/ncol(X). Also, note that H is the covariance matrix of
 # Y divided by residual variance.
-compute.log.weight <- function (K, y, sa, use.backsolve = TRUE) {
+compute.log.weight <- function (K, y, sa) {
   n <- length(y)
   H <- diag(n) + sa*K
   R <- tryCatch(chol(H),error = function(e) FALSE)
