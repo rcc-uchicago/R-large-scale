@@ -39,12 +39,10 @@ memory).
 
 **Instructions**: Create two sessions on midway2: one for loading up
 an R environment, and a second for developing code (e.g., using
-emacs).
-
-Create an interactive session for 2 hours on midway2. It is useful to
-create a screen session in case you lose your connection at any
-point. *Also, motivate use of sinteractive by running htop on login
-node.*
+emacs). In one of these sessions, create a SLURM interactive session
+for 2 hours on midway2. It is useful to create a screen session in
+case you lose your connection at any point. (Motivate use of
+sinteractive by running htop on login node.)
 
 ```bash
 screen -S workshop
@@ -56,7 +54,7 @@ getwd()
 ```
 
 *Note:* You may need to add flag `--mem` to the `sinteractive` command
- to request sufficient memory for the PCA analysis. Try `--mem=12G.`
+to request sufficient memory for the PCA analysis. Try `--mem=12G.`
 
 Interactively step through the code in `pca.R`. A few useful commands
 for inspecting the RegMap data:
@@ -71,7 +69,7 @@ storage.mode(regmap.geno)
 format(object.size(regmap.geno),units = "GB")
 ```
 
-Next, restart R, and test the script with
+Next, in the same session, restart R, and test the script with
 
 ```R
 source("pca.R")
@@ -81,8 +79,9 @@ While rpca is running, use `htop --user=<cnetid>` in a separate
 console to profile memory usage (see RES column, and sort by this
 column by typing "M". Another useful keystroke in htop: "p".
 
-Submit a SLURM job using our sbatch script. While it is running, here
-are a few of the things we can do to monitor progress of the script:
+Now, let's try non-interactive computing in R. Submit a SLURM job
+using our sbatch script. While it is running, here are a few of the
+things we can do to monitor progress of the script:
 
 ```bash
 squeue --user=<cnetid> | less -S
@@ -103,8 +102,9 @@ sacct --user=<cnetid> --units=G | less -S
 
 **Exercise:** Based on the `htop` results, and the output from
 `sacct`, what is the minimum amount of memory needed to run the PCA
-analysis of the RegMap data? Please test your estimate by modifying
-the requested memory in the SLURM script, and re-running it.
+analysis of the RegMap data? Do `htop` and `sacct` agree? If not,
+which estimates more memory usage? Please test your estimate by
+modifying the requested memory in the SLURM script, and re-running it.
 
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
