@@ -1,8 +1,8 @@
 # Script to compute and visualize the top principal components (PCs)
 # in the RegMap data. 
 
-# SET UP ENVIRONMENT
-# ------------------
+# 1. SET UP ENVIRONMENT
+# ---------------------
 # These are some functions that we will use here and in other parts of
 # the workshop.
 source("functions.R")
@@ -15,20 +15,19 @@ library(methods)
 # that the randomized PCA results are reproducible).
 set.seed(1)
 
-# LOAD REGMAP DATA
-# ----------------
+# 2. LOAD REGMAP DATA
+# -------------------
 cat("Loading RegMap data.\n")
 load("../data/regmap.RData")
 cat("Number of samples:",ncol(regmap.geno),"\n")
 cat("Number of genetic markers:",nrow(regmap.geno),"\n")
 
-# COMPUTE PCs
-# -----------
-# Compute top 2 principal components of genotype matrix using
-# randomized PCA (rpca).
-#
-# PACKET: Remove system.time call.
-#
+# 3. COMPUTE PCs
+# --------------
+# This is where most of the computation happens: here we compute the
+# top 2 principal components of genotype matrix using randomized PCA
+# ("rpca"). I've added a system.time call to record the PCA
+# computation time.
 cat("Computing PCs.\n")
 library(rsvd)
 timing.rpca <-
@@ -36,8 +35,8 @@ timing.rpca <-
                                scale = FALSE,retx = TRUE))
 cat("Computation took",timing.rpca["elapsed"],"seconds.\n")
 
-# EXAMINE PCA RESULTS
-# -------------------
+# 4. EXAMINE PCA RESULTS
+# ----------------------
 cat("PCA results summary:\n")
 print(summary(out.rpca))
 
@@ -50,8 +49,8 @@ pdat <- cbind(out.rpca$x,data.frame(country = regmap.info$country))
 p    <- scatterplot.vary.shapeandcolor(pdat,"PC1","PC2","country")
 ggsave("../output/regmap.pdf",p,width = 7,height = 5.5)
 
-# SAVE RESULTS
-# ------------
+# 5. SAVE RESULTS
+# ---------------
 # Save the results of the PCA analysis to an .RData file.
 cat("Saving PCA results to file.\n")
 save(list = c("out.rpca","timing.rpca"),
