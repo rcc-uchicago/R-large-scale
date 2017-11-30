@@ -8,16 +8,17 @@ See the [handout](handout.md) for the main lesson materials.
 For additional details and instructions for working through the
 lessons, see the [notes](notes.md).
 
-## Getting started
+Before working through the lesson materials, please follow the
+"Getting Started" steps below.
 
-Before working through the lesson materials, follow these steps:
+## Getting started
 
 1. Download or clone this repository on the RCC cluster.
 
 2. Optionally, add the bash commands found [here](add_to_bashrc) to
    your `~/.bashrc` file (see
    [here](https://unix.stackexchange.com/questions/129143/what-is-the-purpose-of-bashrc-and-how-does-it-work)
-   for an explanation of the `.bashc` file and what it is for. These
+   for an explanation of the `.bashrc` file and what it is for. These
    commands will give you more informative output from running
    `squeue` and `sacct`.
 
@@ -36,7 +37,7 @@ Before working through the lesson materials, follow these steps:
    R
    ```
 
-   and make sure that your R working directory is the code
+5. Make sure that your R working directory is the code
    subdirectory in this repository:
 
    ```R
