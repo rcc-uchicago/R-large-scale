@@ -4,18 +4,11 @@
 # to submit a job to the broadwl partition, in which some of the
 # script parameters are specified in the command line.
 #
-# Here is an example of running this script using SLURM from the
-# shell:
-#
-#   sbatch --job-name=climate --output=climate_out.txt \
-#     --error=climate_err.txt climate.sbatch aridity_fao
-#
 # IMPORTANT NOTE: You will need to adjust the amount of memory, the
 # number of CPUs, the requested compute time, and the number of
 # threads for the mclapply call.
-# 
+ 
 #SBATCH --partition=broadwl
-#SBATCH --reservation=rworkshop2
 #SBATCH --mem=2G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

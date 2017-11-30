@@ -1,5 +1,3 @@
-+ Create workshop "packet", and create sharable link, e.g., on Dropbox.
-+ Create slides.
-    - Feedback & suggestions for additional advanced topics.
-+ Print out notes and code.
-+ Create handout.md, and convert to PDF.
+* Generate PDF from handout.md
+
+* Add PDF of slides to repo.

@@ -81,38 +81,6 @@ sacct --user=<cnetid> --units=G | less -S
 
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
-Develop `pve.regmap.R` code, while trying out code interactively in R.
-
-Introduce and inspect the RegMap "phenotype" data, and explain why we
-are using this data set (e.g., as opposed to a human data set). Then
-explain the task: estimate proportion of variance in each explained by
-genetics (genotype). Higher PVE should, roughly, indicate
-variables/phenotypes that are more prominent in adaptation. *Caveat:*
-I'm applying my reasoning from human & mouse genetics to research on
-climate adaptation in plants.
-
-*Exercise 1:* Interactively explore multithreading of matrix
-operations (OpenBLAS) for computing the kinship matrix. Here we will
-What impact does the number of threads have on compute time and
-memory? Try first without requesting multiple CPUs. What happens? Why
-does the computation get slower? Use `htop` to examine memory usage
-and multithreading (look at CPU% and NLWP columns). How does setting
-`export OPENBLAS_NUM_THREADS=2` improve speed of computing the kinship
-matrix? Here is a more convenient way to set the number of OpenBLAS
-threads, for example, to 2 threads:
-
-```R
-dyn.load("setblas.so")
-set.blas.num.threads(2)
-```
-
-To use this function, you will first need to build the `setblas`
-shared object library in the `code` directory:
-
-```bash
-R CMD SHLIB setblas.c
-```
-
 *Exercise 2:* Interactively explore multithreading for computing the
 weights. How does increasing the number of threads ("workers") affect
 compute time and memory? It is possible that you will have to start a
@@ -144,11 +112,7 @@ develop script `pve_regmap.sbatch`.
 
 ## Other notes
 
-+ Reservations: rworkshop1, rworkshop2
-
-+ Etherpads:
-  https://etherpad.wikimedia.org/p/rcc-13-nov-2017
-  https://etherpad.wikimedia.org/p/rcc-14-nov-2017
++ Reservations used in class: rworkshop1, rworkshop2
 
 + See here about reasons to use Rscript:
   https://tinyurl.com/y73cnf38

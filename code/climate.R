@@ -5,28 +5,9 @@
 # increasing the number of threads available for the matrix
 # computations (BLAS) and for the other numerical computations
 # improves the computation time.
-#
-# For the multithreaded matrix computations:
-#
-#   sinteractive --partition=broadwl --time=2:00:00 \
-#     --cpus-per-task=9 --mem=36G
-#   export OPENBLAS_NUM_THREADS=1
-#
-# NOTES:
-# - For multithreading, add NLWP column to htop.
-# - In htop, sort rows by RES column by typing "<" then selecting
-#   M_RESIDENT.
-# - The multicore variant may fail if you don't request enough memory.
-#
-# EXERCISE #1: Try different numbers of threads for matrix
-# computations. How does it change computation time and memory used?
-#
-# EXERCISE #2: Try different numbers of threads for mclapply. How does
-# it change computation time and memory used?
-#
 
-# SET UP ENVIRONMENT
-# ------------------
+# 1. SET UP ENVIRONMENT
+# ---------------------
 # These are some functions that we will use here and in other parts of
 # the workshop.
 source("functions.R")
@@ -35,8 +16,8 @@ source("functions.R")
 # package just to be safe.
 library(methods)
 
-# SCRIPT PARAMETERS
-# -----------------
+# 2. SCRIPT PARAMETERS
+# --------------------
 # To run this script using Rscript (or "batch mode"), type the
 # following in the command line:
 #
@@ -65,16 +46,13 @@ if (length(args) < 2) {
 # Candidate values for the genetic variance parameter.
 h <- seq(0.001,0.999,0.001)
 
-# LOAD REGMAP DATA
-# ----------------
-# NOTES:
-# - If you don't request enough memory, the process will be killed
-#   after running this command.
+# 3. LOAD REGMAP DATA
+# -------------------
 cat("Loading RegMap data.\n")
 load("../data/regmap.RData")
 
-# DATA PROCESSING STEPS
-# ---------------------
+# 4. DATA PROCESSING STEPS
+# ------------------------
 # Align the phenotype and genotype data.
 cat("Processing data.\n")
 rows        <- match(rownames(regmap.pheno),regmap.info$ecotype_id)
@@ -87,8 +65,8 @@ y <- regmap.pheno[[phenotype]]
 y           <- y - mean(y)
 regmap.geno <- center.cols(regmap.geno)
 
-# ESTIMATE GENETIC VARIANCE
-# ------------------------
+# 5. ESTIMATE GENETIC VARIANCE
+# ----------------------------
 # For each setting h, get the model parameter---the variance of the
 # regression coefficients.
 cat("Computing prior variance settings.\n")
@@ -104,7 +82,9 @@ cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 
 # Now that we have computed the kinship matrix and prior variance
 # settings, we no longer need the genotype matrix, so we can remove it
-# to free up some memory.
+# to free up some memory. The additional garbage collection step
+# ("gc") helps ensure that memory is freed up before the multithreaded
+# computation, which may reduce memory requirements.
 rm(regmap.geno)
 gc(verbose = FALSE)
 
@@ -126,8 +106,7 @@ cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 # posterior mean h, as well as an estimate of the credible interval
 # (more informally, the "confidence interval").
 w <- normalizelogweights(logw)
-cat("Proportion of variance in",phenotype,"explained by available\n")
-cat("genotypes (mean and 95% conf. int.):\n")
+cat("Estimated genetic variance in",phenotype,"(mean and 95% conf. int.):\n")
 h.mean    <- sum(w*h)
 h.confint <- cred(h,h.mean,w,0.95)
   cat(sprintf("%0.3f (%0.3f,%0.3f)\n",sum(w*h),h.confint$a,h.confint$b))

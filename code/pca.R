@@ -26,8 +26,8 @@ cat("Number of genetic markers:",nrow(regmap.geno),"\n")
 # --------------
 # This is where most of the computation happens: here we compute the
 # top 2 principal components of genotype matrix using randomized PCA
-# ("rpca"). I've added a system.time call to record the PCA
-# computation time.
+# ("rpca"). I've added a system.time call to record the PCA compute
+# time.
 cat("Computing PCs.\n")
 library(rsvd)
 timing.rpca <-

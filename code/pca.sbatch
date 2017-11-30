@@ -5,7 +5,6 @@
 
 #SBATCH --job-name=pca
 #SBATCH --partition=broadwl
-#SBATCH --reservation=rworkshop2
 #SBATCH --output=../output/pca_out.txt
 #SBATCH --error=../output/pca_err.txt
 #SBATCH --mem=2G
@@ -15,4 +14,5 @@
 module load R/3.4.1
 
 # Run the R script.
+echo "Running pca.R"
 Rscript pca.R
