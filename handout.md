@@ -37,18 +37,71 @@ memory).
 + [pca.sbatch](code/pca.sbatch): Script for submitting PCA analysis
   script to SLURM job engine.
 
+**Instructions**: Create two sessions on midway2: one for loading up
+an R environment, and a second for developing code (e.g., using
+emacs).
+
+Create an interactive session for 2 hours on midway2. It is useful to
+create a screen session in case you lose your connection at any
+point. *Also, motivate use of sinteractive by running htop on login
+node.*
+
+```bash
+screen -S workshop
+cd R-large-scale/code
+sinteractive --partition=broadwl --time=2:00:00 --reservation=rworkshop
+module load R/3.4.1
+R
+getwd()
+```
+
+Interactively step through the code in `pca.R`. A few useful commands
+for inspecting the RegMap data:
+
+```R
+ls()
+class(regmap.geno)
+dim(regmap.geno)
+regmap.geno[1:10,1:10]
+mode(regmap.geno)
+storage.mode(regmap.geno)
+format(object.size(regmap.geno),units = "GB")
+```
+
+Next, restart R, and test the script with
+
+```R
+source("pca.R")
+```
+
+While rpca is running, use `htop --user=<cnetid>` in a separate
+console to profile memory usage (see RES column, and sort by this
+column by typing "M". Another useful keystroke in htop: "p".
+
+Submit a SLURM job using our sbatch script. While it is running, here
+are a few of the things we can do to monitor progress of the script:
+
+```bash
+squeue --user=<cnetid> | less -S
+ssh midway2-xxxx
+htop --user=<cnetid>
+less ../output/pca_err.txt
+less ../output/pca_out.txt
+```
+
+Once the job has completed, here are some things we can do to assess
+resource usage:
+
+```bash
+less ../output/pca_err.txt
+less ../output/pca_out.txt
+sacct --user=<cnetid> --units=G | less -S
+```
+
 **Exercise:** Based on the `htop` results, and the output from
 `sacct`, what is the minimum amount of memory needed to run the PCA
 analysis of the RegMap data? Please test your estimate by modifying
 the requested memory in the SLURM script, and re-running it.
-
-**Notes:** Some useful shell commands:
-
-```bash
-htop --user=<cnetid>
-squeue --user=<cneitd> | less -S
-sacct --user=<cnetid> --units=G | less -S
-```
 
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 

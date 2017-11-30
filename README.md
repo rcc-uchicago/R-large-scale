@@ -5,9 +5,6 @@ presented November 13 and 14, 2017.
 
 See the [handout](handout.md) for the main lesson materials.
 
-For additional details and instructions for working through the
-lessons, see the [notes](notes.md).
-
 Before working through the lesson materials, please follow the
 "Getting Started" steps below.
 
