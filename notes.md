@@ -14,11 +14,11 @@
 ## Part 1: Warm-up with principal components analysis of the RegMap data
 
 Create two sessions on midway2: one for loading up an R environment,
-and a second for developing code (e.g., in emacs).
+and a second for developing code (e.g., using emacs).
 
 Create an interactive session for 2 hours on midway2. It is useful to
 create a screen session in case you lose your connection at any
-point. *Also motivate use of sinteractive by running htop on login
+point. *Also, motivate use of sinteractive by running htop on login
 node.*
 
 ```bash
