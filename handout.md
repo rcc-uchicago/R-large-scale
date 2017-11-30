@@ -49,11 +49,14 @@ node.*
 ```bash
 screen -S workshop
 cd R-large-scale/code
-sinteractive --partition=broadwl --time=2:00:00 --reservation=rworkshop
+sinteractive --partition=broadwl --time=2:00:00
 module load R/3.4.1
 R
 getwd()
 ```
+
+*Note:* You may need to add flag `--mem` to the `sinteractive` command
+ to request sufficient memory for the PCA analysis. Try `--mem=12G.`
 
 Interactively step through the code in `pca.R`. A few useful commands
 for inspecting the RegMap data:
