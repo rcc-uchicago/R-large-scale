@@ -22,23 +22,27 @@ Chicago.
 
 ## Part 1: Warm-up with principal components analysis of the RegMap data
 
-In the first part, we will interactively compute and visualize the top
-principal components (PCs) in the RegMap data. During our
-explorations, we will develop R and SLURM scripts to automate the
-principal components analysis (PCA) of this data set. We will use
-SLURM and command-line tools to assess resource needs (time & memory).
+**Summary:** In the first part, we will interactively compute and
+visualize the top principal components (PCs) in the RegMap
+data. During our explorations, we will develop R and SLURM scripts to
+automate the principal components analysis (PCA) of this data set. We
+will use SLURM and command-line tools to assess resource needs (time &
+memory).
 
 **Materials:**
 
 + [pca.R](code/pca.R): Script to compute and visualize the top
   principal components (PCs) in the RegMap data.
 
++ [pca.sbatch](code/pca.sbatch): Script for submitting PCA analysis
+  script to SLURM job engine.
+
 **Exercise:** Based on the `htop` results, and the output from
 `sacct`, what is the minimum amount of memory needed to run the PCA
 analysis of the RegMap data? Please test your estimate by modifying
 the requested memory in the SLURM script, and re-running it.
 
-Some useful shell commands:
+**Notes:** Some useful shell commands:
 
 ```bash
 htop --user=<cnetid>

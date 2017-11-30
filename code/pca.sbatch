@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # IMPORTANT NOTE: The amount of requested time and memory needs to be
-# adjusted for the R script to be completed successfully.
+# adjusted for the R script to be complete successfully.
 
 #SBATCH --job-name=pca
 #SBATCH --partition=broadwl
@@ -14,7 +14,5 @@
 # For reproducibility, add version number to "module load" call.
 module load R/3.4.1
 
-# Run the R script, and time the total execution of the R
-# script.
-echo "Running pca.R" 1>&2
-time Rscript pca.R
+# Run the R script.
+Rscript pca.R
