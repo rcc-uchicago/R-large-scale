@@ -1,3 +1,6 @@
+# Script to compute and visualize the top principal components (PCs)
+# in the RegMap data. 
+
 # SET UP ENVIRONMENT
 # ------------------
 # These are some functions that we will use here and in other parts of
