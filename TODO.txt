@@ -1,3 +1,0 @@
-* Generate PDF from handout.md
-
-* Add PDF of slides to repo.

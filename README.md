@@ -41,3 +41,11 @@ Before working through the lesson materials, please follow the
    getwd()
    # [1] "/home/pcarbo/git/R-large-scale/code"
    ```
+
+## Notes
+
+I used pandoc to generate a PDF of the handout from the Markdown file:
+
+```bash
+pandoc --from=markdown --to=latex --output=handout.pdf handout.md
+```
