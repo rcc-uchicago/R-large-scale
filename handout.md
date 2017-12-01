@@ -1,7 +1,7 @@
 # Large-scale data analysis in R
 
 November 13 & 14, 2017 / Peter Carbonetto / Research Computing Center / 
-University of Chicago / pcarbo@uchicago.edu
+University of Chicago
 
 The main aim of this workshop is give you a solid footing for
 transitioning from *interactive* (exploratory) data analysis in R to
