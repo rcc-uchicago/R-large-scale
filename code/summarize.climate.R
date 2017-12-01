@@ -1,5 +1,5 @@
 # This script summarizes the genetic variance analyses of all the
-# climate variables recorded in the RegMap data set.
+# RegMap climate variables.
 library(methods)
 
 # LOAD REGMAP DATA
