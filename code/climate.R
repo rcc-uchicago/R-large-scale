@@ -86,7 +86,7 @@ cat("Computation took",timing.kinship["elapsed"],"seconds.\n")
 # ("gc") helps ensure that memory is freed up before the multithreaded
 # computation, which may reduce memory requirements.
 rm(regmap.geno)
-gc(verbose = FALSE)
+out.gc <- gc(verbose = FALSE)
 
 # Now we reach the most numerically intensive part. Here we compute
 # the log-weight for each genetic variance setting.
@@ -104,12 +104,14 @@ cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 # Now that we have done the hard work of computing the importance
 # weights, we can quickly compute a numerical estimate of the
 # posterior mean h, as well as an estimate of the credible interval
-# (more informally, the "confidence interval").
+# (more informally, the "confidence interval"). Note that the genetic
+# variance estimates are expressed as *proportions*, as in the
+# proportion of total variance.
 w <- normalizelogweights(logw)
 cat("Estimated genetic variance in",phenotype,"(mean and 95% conf. int.):\n")
 h.mean    <- sum(w*h)
 h.confint <- cred(h,h.mean,w,0.95)
-  cat(sprintf("%0.3f (%0.3f,%0.3f)\n",sum(w*h),h.confint$a,h.confint$b))
+cat(sprintf("%0.3f (%0.3f,%0.3f)\n",sum(w*h),h.confint$a,h.confint$b))
 
 # SAVE RESULTS
 # ------------

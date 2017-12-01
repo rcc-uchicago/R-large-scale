@@ -120,18 +120,18 @@ matrix operations (implemented in OpenBLAS) for computing the kinship
 matrix and the weights:
 
 + Quit R, enter command `export OPENBLAS_NUM_THREADS=2` in the shell,
-  then re-open R. What happens? Why does the computation get slower?
+  then re-open R. Then run the analysis script: `source("climate.R")`.
+  What happens? Why does the computation get slower?
 
-+ Next, start up a new `sinteractive` session, requesting 8 CPUs with
-  the additional flag `--cpus-per-task`: `sinteractive
++ Next, quite R, and start up a new `sinteractive` session, requesting
+  9 CPUs with the additional flag `--cpus-per-task`: `sinteractive
   --partition=broadwl --time=2:00:00 --cpus-per-task=9 --mem=36G`. The
   multicore variant may also require more memory, so we request 36 GB
   to be safe. Then set `export OPENBLAS_NUM_THREADS=1`.
 
-. How does the number of threads used in OpenBLAS affect compute time
-  of the kinship matrix and the weights?
-
-+ What effect does OpenBLAS multithreading have on memory usage?
++ How does the number of threads used in OpenBLAS affect compute time
+  of the kinship matrix and the weights? What effect does OpenBLAS
+  multithreading have on memory usage?
 
 Some tips:
 
@@ -139,7 +139,7 @@ Some tips:
   multithreading (look at the `CPU%` and `NLWP` columns). The `NLWP`
   is not included by default, and may need to be added.
 
-# In htop, sort rows by `RES` column by typing "<" then selecting
++ In htop, sort rows by `RES` column by typing "<" then selecting
   `M_RESIDENT`.
 
 + For a more convenient way to set the number of OpenBLAS threads
@@ -153,18 +153,20 @@ Some tips:
 **Exercise 2:** In this exercise, we will interactively explore
 parallel computation of the weights.
 
-+ First set the number of OpenBLAS threads to 1. Try different values
-  for the `nc` argument in function `compute.log.weights.multicore`.
-  How does how does increasing the number of threads ("workers")
-  affect compute time and memory? Use `htop` to assess this. What
-  computational (memory and time) trade-off do you observe?
++ First set the number of OpenBLAS threads to 1 using the same command
+  as above. Try different values for the `nc` argument in the
+  `compute.log.weights.multicore` call in `climate.R`. How does how
+  does increasing the number of threads ("workers") affect compute
+  time and memory? Use `htop` to assess this. What computational
+  (memory and time) trade-off do you observe?
 
 + Based on your findings, how would you suggest setting the number of
   OpenBLAS and mclapply threads to make most effective use of
   computing resources?
 
 **Exercise 3:** In this exercise, we will automate the data analysis
-using a combination of R scripts and SLURM scripts.
+for all 48 climate variables using a combination of R scripts and
+SLURM scripts.
 
 Here is an example of running this script using SLURM from the
 shell:
@@ -174,16 +176,18 @@ sbatch --job-name=climate --output=climate_out.txt \
   --error=climate_err.txt climate.sbatch aridity_fao
 ```
 
-+ First test script `run.all.pve.regmap.R` by running it on the first
-  three phenotypes: `bio1_meant`, `bio2_diur_rng` and `bio3_isotherm`.
++ First, run script `run.all.climate.vars.R`, which generated results
+  for 3 climate variables: `bio1_meant`, `bio2_diur_rng` and
+  `bio3_isotherm`.
 
-+ Modify the script `run.all.pve.regmap.R` so that it submits SLURM
-  jobs to analyze all 48 phenotypes. Run this R script, and monitor
-  its progress using `squeue --user=<cnetid>`.
++ Next, modify the script `run.all.climate.vars.R` so that it submits
+  SLURM jobs to analyze all 48 climate variables. Run this R script, and
+  monitor its progress using `squeue --user=<cnetid>`.
 
-+ What is the smallest mean PVE estimate for all 48 phenotypes? What
-  is the largest?
++ What is the smallest (mean) genetic variance estimate for all 48
+  climate variables? What is the largest? You may use script
+  `summarize.climate.R` to generate a summary of the results.
 
 + Suppose that you would like a member of your project team to
   reproduce your analysis on the RCC cluster. What instructions would
-  you give this person?
+  you give to this person?

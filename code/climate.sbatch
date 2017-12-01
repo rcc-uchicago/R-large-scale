@@ -1,13 +1,17 @@
 #!/bin/bash
 
 # This bash script illustrates how to use the sbatch command in SLURM
-# to submit a job to the broadwl partition, in which some of the
-# script parameters are specified in the command line.
+# to submit a job to the broadwl partition, in which one of the
+# script parameters is specified in the command line. Here is an
+# example of running this script using SLURM from the shell:
+# 
+#   sbatch --job-name=climate --output=climate_out.txt \
+#     --error=climate_err.txt climate.sbatch aridity_fao
 #
-# IMPORTANT NOTE: You will need to adjust the amount of memory, the
-# number of CPUs, the requested compute time, and the number of
-# threads for the mclapply call.
- 
+# IMPORTANT NOTE: You will need to adjust the amount of memory and the
+# requested compute time. You may also try different values for the
+# number of CPUs, and the number of threads used in the mclapply call.
+
 #SBATCH --partition=broadwl
 #SBATCH --mem=2G
 #SBATCH --nodes=1

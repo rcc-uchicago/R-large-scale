@@ -23,4 +23,4 @@ for (phenotype in phenotypes) {
 # SUMMARIZE RESULTS
 # -----------------
 cat("Summary of genetic variance estimates:\n")
-print(summary(h.est))
+print(h.est)
