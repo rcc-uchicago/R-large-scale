@@ -166,7 +166,9 @@ parallel computation of the weights.
 
 **Exercise 3:** In this exercise, we will automate the data analysis
 for all 48 climate variables using a combination of R scripts and
-SLURM scripts.
+SLURM scripts. This can be used as a prototype for automating R data
+analyses using the SLURM, which is the job engine used by the RCC
+cluster.
 
 Here is an example of running this script using SLURM from the
 shell:
