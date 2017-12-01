@@ -21,10 +21,11 @@ library(methods)
 # To run this script using Rscript (or "batch mode"), type the
 # following in the command line:
 #
-#   Rscript eval.geno.impute.R <phenotype> <nc>
+#   Rscript eval.geno.impute.R <phenotype> <nc> <method>
 #
-# where <phenotype> is the phenotype to analyze, and <nc> is the
-# number of threads to use for computing the weights.
+# where <phenotype> is the phenotype to analyze, <nc> is the number of
+# threads to use for computing the weights, and <method> is either
+# "mclapply" or "parlapply".
 args <- commandArgs(trailingOnly = TRUE)
 
 # Phenotype to analyze. The default is to analyze the Temperature
@@ -41,6 +42,13 @@ if (length(args) < 2) {
   nc <- 1
 } else {
   nc <- as.integer(args[2])
+}
+
+# The method used to compute the sample weights. 
+if (length(args) < 3) {
+  method <- "mclapply"
+} else {
+  method <- args[3]
 }
 
 # Candidate values for the genetic variance parameter.
@@ -95,8 +103,12 @@ cat("Computing weights for",length(h),"settings of genetic variance.\n")
 cat("Weights are being computed separately in",nc,"threads.\n")
 cat("Number of threads used for BLAS operations:",
     Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
-timing.weights <-
-  system.time(logw <- compute.log.weights.multicore(K,y,sa,nc = nc))
+if (method == "mclapply") {
+  timing.weights <-
+    system.time(logw <- compute.log.weights.parlapply(K,y,sa,nc = nc))
+} else if (method == "parlapply") {
+  stop("parlapply not yet implemented")
+}
 cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
 # SUMMARIZE RESULTS

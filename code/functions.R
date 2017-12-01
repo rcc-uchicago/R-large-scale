@@ -191,7 +191,18 @@ compute.log.weights <- function (K, y, sa)
 # cores (CPUs) to use for the computation. Note that the mclapply
 # relies on forking and therefore will not work on a computer running
 # Windows.
-compute.log.weights.multicore <- function (K, y, sa, nc = 1) {
+compute.log.weights.mclapply <- function (K, y, sa, nc = 1) {
+  samples <- distribute(1:length(sa),nc)
+  logw    <- mclapply(samples,
+               function (i) compute.log.weights(K,y,sa[i]),
+               mc.cores = nc)
+  logw <- do.call(c,logw)
+  logw[unlist(samples)] <- logw
+  return(logw)
+}
+
+# TO DO: Explain here what this function does, and how to use it.
+compute.log.weights.parlapply <- function (K, y, sa, nc = 1) {
   samples <- distribute(1:length(sa),nc)
   logw    <- mclapply(samples,
                function (i) compute.log.weights(K,y,sa[i]),
