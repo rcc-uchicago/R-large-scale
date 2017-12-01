@@ -3,7 +3,9 @@
 Materials for the RCC workshop, *Large-scale data analysis in R*,
 presented November 13 and 14, 2017.
 
-See the [handout](handout.md) for the main lesson materials.
+See the [handout](handout.md) (also available as a [PDF](handout.pdf))
+for the main lesson materials. See also	the [slides](slides.pdf)
+presented in the workshop.
 
 Before working through the lesson materials, please follow the
 "Getting Started" steps below.
