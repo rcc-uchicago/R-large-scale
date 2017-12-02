@@ -77,11 +77,6 @@ scatterplot.vary.shapeandcolor <- function (dat, x, y, z) {
            scale_shape_manual(values = shapes))
 }
 
-# This function distributes the elements of `x` evenly (or as evenly
-# as possible) into `k` list elements.
-distribute <- function (x, k)
-  split(x,rep(1:k,length.out = length(x)))
-
 # This function replicates vector x to create an n x m matrix, where m
 # = length(x).
 rep.row <- function (x, n)
@@ -192,23 +187,26 @@ compute.log.weights <- function (K, y, sa)
 # relies on forking and therefore will not work on a computer running
 # Windows.
 compute.log.weights.mclapply <- function (K, y, sa, nc = 1) {
-  samples <- distribute(1:length(sa),nc)
+  samples <- splitIndices(length(sa),nc)
   logw    <- mclapply(samples,
-               function (i) compute.log.weights(K,y,sa[i]),
-               mc.cores = nc)
-  logw <- do.call(c,logw)
+                      function (i) compute.log.weights(K,y,sa[i]),
+                      mc.cores = nc)
+  logw    <- do.call(c,logw)
   logw[unlist(samples)] <- logw
   return(logw)
 }
 
 # TO DO: Explain here what this function does, and how to use it.
 compute.log.weights.parlapply <- function (K, y, sa, nc = 1) {
-  samples <- distribute(1:length(sa),nc)
-  logw    <- mclapply(samples,
-               function (i) compute.log.weights(K,y,sa[i]),
-               mc.cores = nc)
-  logw <- do.call(c,logw)
+  cl      <- makeCluster(nc)
+  clusterExport(cl,c("compute.log.weight","compute.log.weights"))
+  samples <- clusterSplit(cl,1:length(sa))
+  logw    <- parLapply(cl,samples,
+                       function (i, K, y, sa) compute.log.weights(K,y,sa[i]),
+                       K,y,sa)
+  logw    <- do.call(c,logw)
   logw[unlist(samples)] <- logw
+  stopCluster(cl)
   return(logw)
 }
 

@@ -51,6 +51,9 @@ if (length(args) < 3) {
   method <- args[3]
 }
 
+# TEMPORARY.
+nc <- 8
+
 # Candidate values for the genetic variance parameter.
 h <- seq(0.001,0.999,0.001)
 
@@ -105,9 +108,10 @@ cat("Number of threads used for BLAS operations:",
     Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
 if (method == "mclapply") {
   timing.weights <-
-    system.time(logw <- compute.log.weights.parlapply(K,y,sa,nc = nc))
+    system.time(logw <- compute.log.weights.mclapply(K,y,sa,nc))
 } else if (method == "parlapply") {
-  stop("parlapply not yet implemented")
+  timing.weights <-
+    system.time(logw <- compute.log.weights.parlapply(K,y,sa,nc))
 }
 cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
