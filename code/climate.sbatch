@@ -34,4 +34,3 @@ export OPENBLAS_NUM_THREADS=8
 # Run the R script, saving the results to an .RData file.
 echo "Running climate.R"
 Rscript climate.R ${PHENOTYPE} ${NC} mclapply
-

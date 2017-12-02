@@ -6,11 +6,11 @@
 # example of running this script using SLURM from the shell:
 # 
 #   sbatch --job-name=climate --output=climate_out.txt \
-#     --error=climate_err.txt climate.sbatch aridity_fao
+#     --error=climate_err.txt climate_parlapply.sbatch aridity_fao
 #
 
 #SBATCH --partition=broadwl
-#SBATCH --mem=24G
+#SBATCH --mem=6G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8

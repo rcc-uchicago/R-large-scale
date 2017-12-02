@@ -6,7 +6,7 @@
 # example of running this script using SLURM from the shell:
 # 
 #   sbatch --job-name=climate --output=climate_out.txt \
-#     --error=climate_err.txt climate.sbatch aridity_fao
+#     --error=climate_err.txt climate_mclapply.sbatch bio3_isotherm
 #
 
 #SBATCH --partition=broadwl
