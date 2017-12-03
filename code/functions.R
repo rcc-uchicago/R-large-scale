@@ -191,13 +191,29 @@ compute.log.weights <- function (K, y, sa)
 # cores (CPUs) to use for the computation. Note that the mclapply
 # relies on forking and therefore will not work on a computer running
 # Windows.
-compute.log.weights.multicore <- function (K, y, sa, nc = 1) {
+compute.log.weights.mclapply <- function (K, y, sa, nc = 1) {
   samples <- distribute(1:length(sa),nc)
   logw    <- mclapply(samples,
                function (i) compute.log.weights(K,y,sa[i]),
                mc.cores = nc)
   logw <- do.call(c,logw)
   logw[unlist(samples)] <- logw
+  return(logw)
+}
+
+# This is the same as compute.log.weights.mclapply, but uses the
+# "parLapply" function from the parallel package instead of the
+# "mclapply" function.
+compute.log.weights.parlapply <- function (K, y, sa, nc = 1) {
+  cl      <- makeCluster(nc)
+  clusterExport(cl,c("compute.log.weight","compute.log.weights"))
+  samples <- clusterSplit(cl,1:length(sa))
+  logw    <- parLapply(cl,samples,
+                       function (i, K, y, sa) compute.log.weights(K,y,sa[i]),
+                       K,y,sa)
+  logw    <- do.call(c,logw)
+  logw[unlist(samples)] <- logw
+  stopCluster(cl)
   return(logw)
 }
 

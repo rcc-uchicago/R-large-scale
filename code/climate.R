@@ -96,7 +96,7 @@ cat("Weights are being computed separately in",nc,"threads.\n")
 cat("Number of threads used for BLAS operations:",
     Sys.getenv("OPENBLAS_NUM_THREADS"),"\n")
 timing.weights <-
-  system.time(logw <- compute.log.weights.multicore(K,y,sa,nc = nc))
+  system.time(logw <- compute.log.weights.mclapply(K,y,sa,nc = nc))
 cat("Computation took",timing.weights["elapsed"],"seconds.\n")
 
 # SUMMARIZE RESULTS

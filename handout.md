@@ -155,7 +155,7 @@ parallel computation of the weights.
 
 + First set the number of OpenBLAS threads to 1 using the same command
   as above. Try different values for the `nc` argument in the
-  `compute.log.weights.multicore` call in `climate.R`. How does how
+  `compute.log.weights.mclapply` call in `climate.R`. How does how
   does increasing the number of threads ("workers") affect compute
   time and memory? Use `htop` to assess this. What computational
   (memory and time) trade-off do you observe?
@@ -193,3 +193,5 @@ sbatch --job-name=climate --output=climate_out.txt \
 + Suppose that you would like a member of your project team to
   reproduce your analysis on the RCC cluster. What instructions would
   you give to this person?
+
+**Exercise 4 (time permitting):** 
