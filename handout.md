@@ -31,10 +31,10 @@ memory).
 
 **Materials:**
 
-+ [pca.R](code/pca.R): Script to compute and visualize the top
++ [`pca.R`](code/pca.R): Script to compute and visualize the top
   principal components (PCs) in the RegMap data.
 
-+ [pca.sbatch](code/pca.sbatch): Script for submitting PCA analysis
++ [`pca.sbatch`](code/pca.sbatch): Script for submitting PCA analysis
   script to SLURM job engine.
 
 **Instructions**: Create two sessions on midway2: one for loading up
@@ -114,6 +114,22 @@ the genetic variance of the climate variables ("phenotypes"). This
 can be loosely interpreted as an indicator of adaptation to climate;
 higher genetic variance estimates indicates greater genetic
 adaptation.
+
+**Materials:**
+
++ [`climate.R`](code/climate.R): R ccript that estimates the genetic
+variance of a selected climate variable.
+
++ [`climate.sbatch`](code/climate.sbatch): sbatch script that submits
+a SLURM job on the broadwl partition, in which one of the R script
+parameters is specified in the command line.
+
++ [`run.all.climate.vars.R`](code/run.all.climate.vars.R): This R script
+runs the genetic variance analysis (`climate.R`) for all climate
+variables in the RegMap data set.
+
++ [`summarize.climate.R`](code/summarize.climate.R): This R script
+summarizes the genetic variance analyses of all the climate variables.
 
 **Exercise 1:** Here we will interactively explore multithreading of
 matrix operations (implemented in OpenBLAS) for computing the kinship
