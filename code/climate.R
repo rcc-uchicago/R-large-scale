@@ -5,6 +5,14 @@
 # increasing the number of threads available for the matrix
 # computations (BLAS) and for the other numerical computations
 # improves the computation time.
+#
+# To run this script using Rscript (or "batch mode"), type the
+# following in the command line:
+#
+#   Rscript climate.R <phenotype> <nc>
+#
+# where <phenotype> is the phenotype to analyze, and <nc> is the
+# number of threads to use for computing the weights.
 
 # 1. SET UP ENVIRONMENT
 # ---------------------
@@ -18,17 +26,10 @@ library(methods)
 
 # 2. SCRIPT PARAMETERS
 # --------------------
-# To run this script using Rscript (or "batch mode"), type the
-# following in the command line:
-#
-#   Rscript eval.geno.impute.R <phenotype> <nc>
-#
-# where <phenotype> is the phenotype to analyze, and <nc> is the
-# number of threads to use for computing the weights.
 args <- commandArgs(trailingOnly = TRUE)
 
-# Phenotype to analyze. The default is to analyze the Temperature
-# Seasonality phenotype.
+# Phenotype to analyze. The default is to analyze the "Temperature
+# Seasonality" phenotype.
 if (length(args) < 1) {
   phenotype <- "bio4_temp_season"
 } else {
