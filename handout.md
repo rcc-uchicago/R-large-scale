@@ -106,7 +106,18 @@ analysis of the RegMap data? Do `htop` and `sacct` agree? If not,
 which estimates more memory usage? Please test your estimate by
 modifying the requested memory in the SLURM script, and re-running it.
 
-**Bonus exercise:** Use `monitor.py`.
+**Bonus exercise:** Instead of `htop`, use the `monitor_memory.py` to
+profile memory usage for the PCA analysis. For example, to record
+memory usage every 0.1 seconds, run the following commands:
+
+```bash
+export MEM_CHECK_INTERVAL=0.1
+module load python/3.5.2
+./monitor_memory.py Rscript pca.R
+```
+
+How does this memory estimate compare to your assessment based on
+using `htop`? It is larger or smaller, or roughly the same?
 
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
@@ -181,6 +192,10 @@ parallel computation of the weights.
 + Based on your findings, how would you suggest setting the number of
   OpenBLAS and mclapply threads to make most effective use of
   computing resources?
+
+**Bonus exercise:** Use the `monitor_memory.py` script to estimate
+peak memory usage. How does this estimate compare to your assessment
+using `htop`?
 
 **Exercise 3:** In this exercise, we will automate the data analysis
 for all 48 climate variables using a combination of R scripts and

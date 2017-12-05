@@ -51,3 +51,8 @@ I used pandoc to generate a PDF of the handout from the Markdown file:
 ```bash
 pandoc --from=markdown --to=latex --output=handout.pdf handout.md
 ```
+
+## Contributors
+
+Thanks to Gao Wang for sharing the Python script for profiling memory
+usage.
