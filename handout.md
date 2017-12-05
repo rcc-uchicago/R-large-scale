@@ -106,6 +106,8 @@ analysis of the RegMap data? Do `htop` and `sacct` agree? If not,
 which estimates more memory usage? Please test your estimate by
 modifying the requested memory in the SLURM script, and re-running it.
 
+**Bonus exercise:** Use `monitor.py`.
+
 ## Part 2: Implementing multithreaded computation in R for analysis of genetic adaptation to climate
 
 **Summary:** In the first part, we used PCA to study structure in the
@@ -210,15 +212,15 @@ sbatch --job-name=climate --output=climate_out.txt \
   reproduce your analysis on the RCC cluster. What instructions would
   you give to this person?
 
-**Exercise 4 (time permitting):** In Exercise 2, we found that
-computing the weights in parallel using `mclapply` requires a lot more
-memory. In the `parallel` package, there is an alternative way to
-parallelize computations using the `parLapply` function. Unlike
-`mclapply`, this function does not rely on forking, so it is also
-available on Windows. `parLapply` is more difficult to use because
-variables must be exported manually. But an important benefit of
-`parLapply` is that the memory usage can be much better controlled.
-In this exercise, modify the `climate.R` script to use function
+**Bonus Exercise:** In Exercise 2, we found that computing the weights
+in parallel using `mclapply` requires a lot more memory. In the
+`parallel` package, there is an alternative way to parallelize
+computations using the `parLapply` function. Unlike `mclapply`, this
+function does not rely on forking, so it is also available on
+Windows. `parLapply` is more difficult to use because variables must
+be exported manually. But an important benefit of `parLapply` is that
+the memory usage can be much better controlled.  In this exercise,
+modify the `climate.R` script to use function
 `compute.log.weights.parlapply` (defined in `functions.R`) instead of
 `compute.log.weights.mclapply`, then experiment with different numbers
 of threads and amounts of requested memory in `climate.sbatch`. How
