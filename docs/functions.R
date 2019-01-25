@@ -29,17 +29,10 @@ read.regmap.pheno <- function (filename) {
 
 # Read the RegMap genotype data and marker information from a CSV file.
 read.regmap.geno <- function (filename) {
-  geno <- fread(filename,sep = ",",header = TRUE,stringsAsFactors = FALSE,
-                verbose = FALSE,showProgress = FALSE)
-  class(geno)    <- "data.frame"
-  geno           <- geno[-1,]
-  markers        <- geno[,1:2]
-  names(markers) <- c("chr","pos")
-  markers        <- transform(markers,
-                              chr = factor(chr),
-                              pos = as.numeric(pos))
-  geno           <- t(geno[,-(1:2)])
-  return(list(markers = markers,geno = geno))
+  geno        <- read_ccsv(filename,skip = 1)
+  class(geno) <- "data.frame"
+  geno        <- geno[,-(1:2)]
+  return(t(geno))
 }
 
 # Convert the RegMap genotype data to a binary matrix.

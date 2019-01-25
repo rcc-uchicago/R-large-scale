@@ -24,3 +24,7 @@ to do
 + Fill out "Software we will use today" slide.
 
 + Determine how much memory is needed for interactive examples.
+
++ Run "make slides test".
+
++ Generate and print handout.

@@ -76,6 +76,8 @@ climates.
 
 + See [Hancock et al (2011) *Science* 334, 83--86][hancock-2011].
 
+> Instructor nodes: We will use the genetic data only.
+
 Outline of workshop
 ===================
 
@@ -176,5 +178,22 @@ getwd()
 
 Vignette #1: Importing large-scale data into R
 ==============================================
+
+*First view the CSV file.*
+
+```{r import-data-readcsv}
+geno <- read.csv("regmap.csv")
+```
+
+> Instructor notes: Before loading the data into R, take a quick look
+> at the CSV file.
+
+Import data using `readr`
+=========================
+
+```{r import-data-readr}
+geno <- read_csv("call_method_75_TAIR9.csv",skip = 1)
+class(geno) <- "data.frame"
+```
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
