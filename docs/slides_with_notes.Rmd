@@ -14,7 +14,39 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
                       message = FALSE,warning = FALSE)
 ```
 
-Aims of workshop
+Workshop aims
+=============
+
+1. Develop skills for large-scale data analyis in R, and apply these
+skills to a large-ish data set.
+
+2. Learn how to use R **non-interactively** within a high-performance
+computing (HPC) environment.
+
+3. Assess memory needs, and make effective use of it.
+
+4. Use simple parallelization techniques.
+
+5. Use C++ to speedup intensive computations in R.
+
+6. Learn through **live coding**---this includes learning from our
+mistakes!
+
+It's your choice
 ================
 
-*Add bullet points here.*
+You may choose to
+
+Outline of workshop
+===================
+
+*Add outline here.*
+
+About the RegMap data
+=====================
+
++ Genetic and climate variable data on *Arabidopsis thaliana.*
+
++ From Joy Bergelson's lab at the University of Chicago.
+
++ See Hancock et al, *Science*, 2011.
