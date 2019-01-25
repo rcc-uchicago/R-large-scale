@@ -1,0 +1,8 @@
+to do
+=====
+
++ Get list of people who registered for workshop.
+
++ Send email with instructions to prepare for workshop.
+
++ Create reservation for workshop.
