@@ -9,5 +9,5 @@ to do
 
 + Fill out "What's included" section in README.
 
-+ Update abstract in README.
++ Replace R CMD BATCH with Rscript.
 

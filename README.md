@@ -1,18 +1,31 @@
-# R-large-scale
+# Large-scale data analysis in R
 
-Materials for the RCC workshop, *Large-scale data analysis in R*,
-presented November 13 and 14, 2017.
+The [R computing environment][R] computing environment has become an
+important tool for quantitative research, from computational biology
+to financial modeling. In this hands-on workshop, we will explore
+commonly used strategies to efficiently analyze large-scale data sets
+in R. Participants will learn to automate their R analyses on a
+compute cluster, profile memory usage, call fast C++ routines in R,
+and implement simple parallelization strategies, including
+multithreaded and distributed computing. The aim is to learn these
+techniques through hands-on “live coding”; we will analyze several
+medium to large-scale data sets.
 
-See the [handout](handout.md) (also available as a [PDF](handout.pdf))
-for the main lesson materials. See also	the [slides](slides.pdf)
-presented in the workshop.
+## Prerequistes
 
-Before working through the lesson materials, please follow the
-"Getting Started" steps below.
+All participants are expected to bring a laptop with a Mac, Linux or
+Windows operating system. Further, participants should be comfortable
+interacting with the UNIX shell and programming in a non-graphical R
+environment (*i.e.*, not RStudio). An RCC user account is recommended,
+but not required.
 
 ## What's included
 
-*Fill out this section*
+This git repository (the "workshop packet") includes:
+
++ [README.md](README.md): This file.
+
++ *Add info about the most important files here.*
 
 ## Other information
 
@@ -30,6 +43,7 @@ These materials were developed by [Peter Carbonetto][peter] at the
 you to [Gao Wang][gao] for sharing the Python script for profiling memory
 usage.
 
+[R]: http://cran.r-project.org
 [uchicago]: https://www.uchicago.edu
 [gao]: https://github.com/gaow
 [peter]: http://pcarbo.github.io
