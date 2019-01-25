@@ -6,3 +6,8 @@ to do
 + Send email with instructions to prepare for workshop.
 
 + Create reservation for workshop.
+
++ Fill out "What's included" section in README.
+
++ Update abstract in README.
+

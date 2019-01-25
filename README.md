@@ -10,41 +10,11 @@ presented in the workshop.
 Before working through the lesson materials, please follow the
 "Getting Started" steps below.
 
-## Getting started
+## What's included
 
-1. Download or clone this repository on the RCC cluster.
+*Fill out this section*
 
-2. Optionally, add the bash commands found [here](add_to_bashrc) to
-   your `~/.bashrc` file (see
-   [here](https://unix.stackexchange.com/questions/129143/what-is-the-purpose-of-bashrc-and-how-does-it-work)
-   for an explanation of the `.bashrc` file and what it is for. These
-   commands will give you more informative output from running
-   `squeue` and `sacct`.
-
-3. Request a compute node on the RCC cluster.
-
-   ```bash
-   screen -S rcc_workshop
-   sinteractive --partition=broadwl --time=2:00:00
-   echo $HOSTNAME
-   ```
-
-4. Start up the R programming environment, 
-
-   ```bash
-   module load R/3.4.1
-   R
-   ```
-
-5. Make sure that your R working directory is the code
-   subdirectory in this repository:
-
-   ```R
-   getwd()
-   # [1] "/home/pcarbo/git/R-large-scale/code"
-   ```
-
-## Notes
+## Other information
 
 I used pandoc to generate a PDF of the handout from the Markdown file:
 
@@ -52,7 +22,15 @@ I used pandoc to generate a PDF of the handout from the Markdown file:
 pandoc --from=markdown --to=latex --output=handout.pdf handout.md
 ```
 
-## Contributors
+## Credits
 
-Thanks to Gao Wang for sharing the Python script for profiling memory
+These materials were developed by [Peter Carbonetto][peter] at the
+[University of Chicago][uchicago]. Thank you to
+[Matthew Stephens][matthew] for his support and guidance. Also thank
+you to [Gao Wang][gao] for sharing the Python script for profiling memory
 usage.
+
+[uchicago]: https://www.uchicago.edu
+[gao]: https://github.com/gaow
+[peter]: http://pcarbo.github.io
+[matthew]: http://stephenslab.uchicago.edu
