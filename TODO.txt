@@ -1,6 +1,9 @@
 to do
 =====
 
++ Print out materials (slides & handouts) I will build on to create
+  the materials for this workshop.
+
 + Get list of people who registered for workshop.
 
 + Send email with instructions to prepare for workshop.
@@ -16,3 +19,6 @@ to do
 + Fix up Makefile.
 
 + Add slides.pdf to repository.
+
++ Add title slide with alpine skier.
+
