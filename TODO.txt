@@ -11,3 +11,5 @@ to do
 
 + Replace R CMD BATCH with Rscript.
 
++ Fix up Makefile.
+
