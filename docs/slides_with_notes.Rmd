@@ -1,0 +1,20 @@
+---
+title: "Large-scale data analysis in R"
+author: Peter Carbonetto
+output:
+  beamer_presentation:
+    template: docs/beamer.tex
+    keep_tex: false
+    fig_caption: false
+    pandoc_args: "--highlight-style=pygments"
+---
+
+```{r knitr-options, echo=FALSE}
+knitr::opts_chunk$set(results = "hide",fig.show = "hide",
+                      message = FALSE,warning = FALSE)
+```
+
+Aims of workshop
+================
+
+*Add bullet points here.*

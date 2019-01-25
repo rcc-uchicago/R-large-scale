@@ -12,7 +12,7 @@
 #   the YAML header in slides.Rmd to
 # 
 #     ---
-#     title: "Introduction to R for data analysis"
+#     title: "Large-scale data analysis in R"
 #     author: Peter Carbonetto
 #     header-includes:
 #       - \usepackage{newcent}
@@ -60,7 +60,7 @@ rmarkdown::render("slides.Rmd",output_format = "pdf_document", \
 output_file = "handout.pdf")'
 
 clean:
-	rm -f slides.pdf slides_test.pdf handout.pdf divvyanalysis.RData
-	rm -f slides_with_notes.Rmd station_map.pdf station_map.png
-	rm -f slides_with_notes.pdf divvyanalysis.RData
+	rm -f slides.pdf slides_test.pdf handout.pdf
+	rm -f slides_with_notes.Rmd rm -f slides_with_notes.pdf
+
 

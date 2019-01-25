@@ -16,8 +16,7 @@
 + Download fresh copy of data files to Desktop.
 + Test reservation.
 + Use Terminal, not iTerm.
-+ Use Consolata font.
-+ Use these Terminal themes: Basic, Novel & Ocean.
++ Use Basic Terminal theme (with Consolas font).
 + Fix midway2 prompt.
 + Arrange PDF of slides and R on screen.
 + Distribute Yubikeys.

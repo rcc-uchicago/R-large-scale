@@ -1,4 +1,4 @@
-# Introduction to R for data analysis: Code of Conduct
+# Large-scale data analysis in R: Code of Conduct
 
 As contributors and maintainers of this project, we pledge to respect
 all people who contribute through reporting issues, posting feature
