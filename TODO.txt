@@ -20,3 +20,7 @@ to do
 + Add title slide with alpine skier.
 
 + Add outline slides.
+
++ Fill out "Software we will use today" slide.
+
++ Determine how much memory is needed for interactive examples.

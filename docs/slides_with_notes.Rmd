@@ -53,18 +53,128 @@ Please note:
  
 + Some of the examples will not work on your laptop.
 
-Outline of workshop
-===================
+Software we will use today
+==========================
 
-*Add outline here.*
+1. R
+
+2. Python 3.x (used to measure memory usage).
+
+3. Slurm (job scheduler on RCC cluster).
+
+4. R packages **readr**, ...
+
+*These programs and R packages are already installed on the cluster.*
 
 The RegMap data set
 ===================
 
-+ Genetic and climate data on *Arabidopsis thaliana.*
++ Genetic and ecological data on *Arabidopsis thaliana* in a range of
+climates.
 
-+ From Joy Bergelson's lab at the University of Chicago.
++ Collected by Joy Bergelson's lab at the University of Chicago.
 
 + See [Hancock et al (2011) *Science* 334, 83--86][hancock-2011].
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + *Add vignettes here.*
+
+Initial setup
+=============
+
++ WiFi.
+
++ Power outlets.
+
++ Workshop packet.
+
++ Reading what I type.
+
++ Pace & questions (e.g., keyboard shortcuts).
+
++ Help.
+
+Download workshop packet
+========================
+
+Once you have connected to a midway2 login node, download the workshop
+packet to your home directory on the cluster (**note:** no spaces in URL):
+
+```bash
+cd $HOME
+git clone https://github.com/rcc-uchicago/
+  R-large-scale.git
+```
+
+*Optionally,* you may also download the repository to your laptop.
+
+What's included in the workshop packet
+======================================
+
++ **slides.pdf:** These slides.
+
++ *Describe more of the files here.*
+
+Download the data
+=================
+
+Download and uncompress the data in the same place as the other
+workshop files:
+
+```bash
+cd R-large-scale
+wget https://bit.ly/2S6QfDb -O data.tar.gz
+mv call_method_75/* .
+```
+
+Connect to a midway2 compute node
+=================================
+
+Request access to a
+midway2 ("Broadwell") compute node with 8 CPUs and 16 GB of memory:
+
+```bash
+screen -S workshop
+sinteractive --partition=broadwl \
+  --reservation=workshop --cpus-per-task=8 \
+  --mem=15G --time=3:00:00 
+echo $HOSTNAME
+```
+
+Set up your shell environment
+=============================
+
+*Add instructions here.*
+
+Launch R
+========
+
+```bash
+module load R/3.5.1
+R
+```
+
+Check your R environment
+========================
+
+Check that your R environment is set up correctly:
+
+```{r check-environment}
+sessionInfo()
+ls()
+getwd()
+```
+
+> Instructor notes: If `ls()` does not return `character(0)`, clear
+> your environment by running `rm(list = ls())`.
+
+Vignette #1: Importing large-scale data into R
+==============================================
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
