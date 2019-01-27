@@ -9,6 +9,18 @@ read.regmap.pheno <- function (filename) {
   return(out)
 }
 
+# Read the RegMap genotype data and marker information from a CSV file.
+read.regmap.geno <- function (filename) {
+  geno <- read_csv(filename,skip = 1)
+  class(geno) <- "data.frame"
+  chr  <- geno$Chromosome
+  pos  <- geno$Positions
+  geno <- geno[,-(1:2)]
+  geno <- t(geno)
+  colnames(geno) <- paste(chr,pos,sep = "-")
+  return(geno)
+}
+
 # Read from a text file the following info on the RegMap samples:
 # array id, ecotype id, genotyping intensity, geographic co-ordinates
 # (latitude and longitude), region label, and country label. This
@@ -28,29 +40,14 @@ read.regmap.info <- function (filename) {
   return(transform(out,region = factor(region)))
 }
 
-# Read the RegMap genotype data and marker information from a CSV file.
-read.regmap.geno <- function (filename) {
-  geno <- fread(filename,sep = ",",header = TRUE,stringsAsFactors = FALSE,
-                verbose = FALSE,showProgress = FALSE)
-  class(geno)    <- "data.frame"
-  geno           <- geno[-1,]
-  markers        <- geno[,1:2]
-  names(markers) <- c("chr","pos")
-  markers        <- transform(markers,
-                              chr = factor(chr),
-                              pos = as.numeric(pos))
-  geno           <- t(geno[,-(1:2)])
-  return(list(markers = markers,geno = geno))
-}
-
 # Convert the RegMap genotype data to a binary matrix.
 regmap.geno.as.binary <- function (dat) {
   n   <- nrow(dat)
   p   <- ncol(dat)
   out <- matrix(0,n,p)
-  ids <- rownames(dat)
-  rownames(out) <- ids
-
+  rownames(out) <- rownames(dat)
+  colnames(out) <- colnames(dat)
+  
   # Repeat for each column (i.e., genetic variant).
   for (i in 1:p) {
     a       <- names(which.min(table(factor(dat[,i]))))
