@@ -2,7 +2,6 @@
 
 # SET UP ENVIRONMENT
 # ------------------
-source("functions.R")
 library(data.table)
 
 # IMPORT PHENOTYPE DATA
@@ -24,10 +23,28 @@ p    <- length(geno)
 
 # COMPUTE ASSOCIATIONS
 # --------------------
+# Define a function to...
+get.assoc.pvalue <- function (x, y)
+  summary(lm(y ~ x,data.frame(x = x,y = y)))$coefficients["x","Pr(>|t|)"]
+get.assoc.pvalues <- function (X, y)
+  sapply(X,function (x) get.assoc.pvalue(x,y))
+
+# TO DO: Explain here what this code chunk does.
 cat(sprintf("Computing association p-values for %d SNPs.\n",p))
-timing <- system.time(
-  pvalues <- sapply(geno,function (x) get.assoc.pvalue(x,pheno)))
+timing <- system.time(pvalues <- get.assoc.pvalues(geno,pheno))
 print(timing)
+
+library(parallel)
+nc <- 8
+cl <- makeCluster(nc)
+clusterExport(cl,c("get.assoc.pvalue","get.assoc.pvalues"))
+cols <- clusterSplit(cl,1:p)
+out <- parLapply(cl,cols,
+  function (i, geno, pheno) get.assoc.pvalues(geno[,i],pheno),
+  geno, pheno)
+pvalues <- rep(0,p)
+pvalues[unlist(cols)] <- unlist(out)
+stopCluster(cl)
 
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------
