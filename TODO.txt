@@ -5,8 +5,6 @@ to do
 
 + Send email with instructions to prepare for workshop.
 
-+ Create reservation for workshop.
-
 + Fill out "What's included" section in README.
 
 + Replace R CMD BATCH with Rscript.
