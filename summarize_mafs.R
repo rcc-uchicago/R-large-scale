@@ -1,5 +1,14 @@
 # Short script to compute and summarize the distribution of SNP minor
-# allele frequencies from the RegMap genotype data.
+# allele frequencies from genotype data stored in a CSV file.
+#
+# This script assumes the genotypes are encoded as allele accounts,
+# and the sample are haploid individuals, so that all genotypes are
+# binary numbers (0 or 1).
+
+# PROCESS COMMAND-LINE ARGUMENTS
+# ------------------------------
+args      <- commandArgs(trailingOnly = TRUE)
+geno.file <- args[1]
 
 # SET UP ENVIRONMENT
 # ------------------
@@ -7,8 +16,8 @@ library(data.table)
 
 # IMPORT GENOTYPE DATA
 # --------------------
-cat("Reading genotype data.\n")
-geno        <- fread("geno.csv",sep = ",",header = TRUE)
+cat(sprintf("Reading genotype data from %s.\n",geno.file))
+geno        <- fread(geno.file,sep = ",",header = TRUE)
 class(geno) <- "data.frame"
 n           <- nrow(geno)
 p           <- ncol(geno)
