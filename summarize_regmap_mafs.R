@@ -1,4 +1,5 @@
-# TO DO: Explain here briefly what this script does.
+# Short script to compute and summarize the distribution of SNP minor
+# allele frequencies from the RegMap genotype data.
 
 # SET UP ENVIRONMENT
 # ------------------
