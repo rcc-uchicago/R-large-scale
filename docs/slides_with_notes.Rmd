@@ -23,7 +23,7 @@ skills to a large-ish data set.
 2. Learn how to use R **non-interactively** within a high-performance
 computing (HPC) environment.
 
-3. Assess memory needs, and make good use of it.
+3. Assess memory needs, and make efficient use of memory.
 
 4. Speeding up your R analyses by...
 
@@ -322,14 +322,14 @@ Vignette #3: Speeding up large-scale matrix operations
 ```{r crossprod}
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
-R <- tcrossprod(geno)
+K <- tcrossprod(geno)
 ```
 
 Let's determine how long it takes to compute this matrix:
 
 ```{r crossprod-timing}
 timing <- system.time(
-  R <- tcrossprod(geno))
+  K <- tcrossprod(geno))
 ```
 
 > Instructor notes:
@@ -343,13 +343,15 @@ Re-run the computation of the kinship matrix.
 Rscript compute_regmap_kinship.R
 ```
 
-Next, run this command to tell OpenBLAS to use 8 threads, and run
+Next, run this command to tell OpenBLAS to use 2 CPUs, and run
 the computation again:
 
 ```bash
-export OPENBLAS_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
+
+Now try using 4 and 8 threads. *Do you obtain additional speedups?*
 
 > Instructor notes: You can also demonstrate how to use "htop" in
 > separate console to monitor CPU usage.
@@ -357,15 +359,11 @@ Rscript compute_regmap_kinship.R
 Vignette #4: Multithreaded computations with parLapply
 ======================================================
 
-*Implement this vignette.*
+*Implement this vignette, in which we use parLapply to parallize
+computation of the association statistics.*
 
-Vignette #5: Assessing memory usage
-===================================
-
-*Implement this vignette.*
-
-Vignette #6: Reducing time and memory using Rcpp
-================================================
+Vignette #5: Using Rcpp to reduce memory & effort
+=================================================
 
 *Implement this vignette.*
 
