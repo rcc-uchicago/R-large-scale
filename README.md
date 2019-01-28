@@ -29,11 +29,19 @@ This git repository (the "workshop packet") includes:
 
 ## Other information
 
-I used pandoc to generate a PDF of the handout from the Markdown file:
++ This workshop attempts to apply elements of the
+[Software Carpentry approach][swc]. See also
+[this article][swc-lessons-learned]. Please also take a look at the
+[Code of Conduct](conduct.md), and the
+[license information](LICENSE.md).
 
-```bash
-pandoc --from=markdown --to=latex --output=handout.pdf handout.md
-```
++ To generate PDFs of the slides from the R Markdown source, run `make
+slides` in the root directory of the git repository. For this to work,
+you will need to to install the [rmarkdown][rmarkdown] package in R,
+as well as the packages used in [slides.Rmd](slides.Rmd). For more
+details, see the [Makefile](Makefile).
+
++ See also the [instructor notes](docs/NOTES.md).
 
 ## Credits
 
@@ -48,3 +56,6 @@ usage.
 [gao]: https://github.com/gaow
 [peter]: http://pcarbo.github.io
 [matthew]: http://stephenslab.uchicago.edu
+[swc]: http://software-carpentry.org/lessons
+[swc-lessons-learned]: http://dx.doi.org/10.12688/f1000research.3-62.v2
+[rmarkdown]: https://cran.r-project.org/package=rmarkdown
