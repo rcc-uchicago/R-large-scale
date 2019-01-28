@@ -28,3 +28,5 @@ to do
 + Run "make slides test".
 
 + Generate and print handout.
+
++ Generate shared data set.

@@ -1,20 +1,3 @@
-# Convert the RegMap genotype data to a binary matrix.
-regmap.geno.as.binary <- function (dat) {
-  n   <- nrow(dat)
-  p   <- ncol(dat)
-  out <- matrix(0,n,p)
-  ids <- rownames(dat)
-  rownames(out) <- ids
-
-  # Repeat for each column (i.e., genetic variant).
-  for (i in 1:p) {
-    a       <- names(which.min(table(factor(dat[,i]))))
-    out[,i] <- dat[,i] == a
-  }
-  
-  return(out)
-}
-
 # Create scatterplot from two selected columns (x, y) in data frame
 # (dat). Also, vary shape and color according to column z. Column z
 # should be a factor.
