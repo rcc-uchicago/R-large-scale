@@ -251,16 +251,46 @@ Let's now summarize the minor allele frequencies:
 summary(maf)
 ```
 
-Running the full analysis using Rscript
-=======================================
+Automating the analysis using Rscript
+=====================================
 
-Now let's quit R, and re-run all the steps we took by running the
-`summarize_regmap_mafs.R` script:
+Now let's quit R, and re-run all the steps of the analysis:
 
 ```bash
 Rscript summarize_regmap_mafs.R
 ```
 
-> Instructor notes: before running the script, inspect the code.
+> Instructor notes: Before running the script, inspect the code.
+
+Automating environment setup and resource allocation
+====================================================
+
+Rscript automates all the steps of the analysis *in the R
+environment*, but it does not automate the steps prior to running the
+R code. In a separate midway2 connection, run this command to re-run
+the environment setup and analysis:
+
+```bash
+sbatch summarize_regmap_mafs.sbatch
+```
+
+Run these commands to check the status of your analysis:
+
+```bash
+source set_slurm_env.sh
+squeue --user=<cnetid>
+sacct --user=<cnetid>
+```
+
+> Instructor nodes: Before running the sbatch script, inspect the
+> code.
+>
+> The students should find that the sbatch script does not request
+> sufficient memory to run the analysis. (Somewhere between 2 and 4 GB
+> should be sufficient.) This provides motivation for the next
+> vignette.
+
+Vignette #3
+===========
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
