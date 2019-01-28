@@ -27,3 +27,5 @@ to do
 + Run "make slides test".
 
 + Generate and print handout.
+
++ Check the SBATCH parameters in the sbatch scripts.
