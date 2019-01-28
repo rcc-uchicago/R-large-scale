@@ -27,3 +27,5 @@ to do
 + Run "make slides test".
 
 + Generate and print handout.
+
++ Change "workshoptest" to "workshop" in sbatch scripts.

@@ -27,4 +27,5 @@ print(summary(maf))
 
 # SESSION INFO
 # ------------
+cat("Session info:\n")
 print(sessionInfo())
