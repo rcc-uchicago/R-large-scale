@@ -296,11 +296,14 @@ Automating the analysis for many data sets
 Suppose now you want to repeat your analysis for several other
 (similar) genetic data sets. To reduce effort, you could re-write your
 R script to make it more *generic* by accepting the name of the data
-file to use:
+file to use as a command-line argument:
 
 ```bash
 Rscript summarize_mafs.R geno.csv
 ```
+
+Likewise, we can also implement an sbatch script that will accept the
+data file name as a command-line argument:
 
 ```bash
 sbatch summarize_mafs.sbatch geno.csv
@@ -311,8 +314,60 @@ sbatch summarize_mafs.sbatch geno.csv
 > sizes (requiring different amounts of memory), and (2) saving the
 > results of the anlayses to different files?
 
-Vignette #3
-===========
+Vignette #3: Speeding up large-scale matrix operations
+======================================================
+
+*Add text here.*
+
+```{r crossprod}
+geno <- as.matrix(geno)
+storage.mode(geno) <- "double"
+R <- tcrossprod(geno)
+```
+
+Let's determine how long it takes to compute this matrix:
+
+```{r crossprod-timing}
+timing <- system.time(
+  R <- tcrossprod(geno))
+```
+
+> Instructor notes:
+
+Exploiting multithreaded OpenBLAS
+=================================
+
+Re-run the computation of the kinship matrix.
+
+```bash
+Rscript compute_regmap_kinship.R
+```
+
+Next, run this command to tell OpenBLAS to use 8 threads, and run
+the computation again:
+
+```bash
+export OPENBLAS_NUM_THREADS=8
+Rscript compute_regmap_kinship.R
+```
+
+> Instructor notes: You can also demonstrate how to use "htop" in
+> separate console to monitor CPU usage.
+
+Vignette #4: Multithreaded computations with parLapply
+======================================================
+
+*Implement this vignette.*
+
+Vignette #5: Assessing memory usage
+===================================
+
+*Implement this vignette.*
+
+Vignette #6: Reducing time and memory using Rcpp
+================================================
+
+*Implement this vignette.*
 
 Another very common step in analysis of genetic data is to center and
 scale ("normalize") the columns of the genotype matrix. (This is often
