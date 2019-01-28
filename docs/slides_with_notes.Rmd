@@ -282,15 +282,45 @@ squeue --user=<cnetid>
 sacct --user=<cnetid>
 ```
 
-> Instructor nodes: Before running the sbatch script, inspect the
+> Instructor notes: Before running the sbatch script, inspect the
 > code.
 >
 > The students should find that the sbatch script does not request
 > sufficient memory to run the analysis. (Somewhere between 2 and 4 GB
-> should be sufficient.) This provides motivation for the next
-> vignette.
+> should be sufficient.) This provides motivation for one of the
+> vignettes below.
+
+Automating the analysis for many data sets
+==========================================
+
+Suppose now you want to repeat your analysis for several other
+(similar) genetic data sets. To reduce effort, you could re-write your
+R script to make it more *generic* by accepting the name of the data
+file to use:
+
+```bash
+Rscript summarize_mafs.R geno.csv
+```
+
+```bash
+sbatch summarize_mafs.sbatch geno.csv
+```
+
+> Instructor notes: Ask the students how the sbatch script could be
+> improved. In particular, how to handle (1) data sets of different
+> sizes (requiring different amounts of memory), and (2) saving the
+> results of the anlayses to different files?
 
 Vignette #3
 ===========
+
+Another very common step in analysis of genetic data is to center and
+scale ("normalize") the columns of the genotype matrix. (This is often
+done before running PCA.) In R, the "scale" function accomplishes
+this.
+
+```R
+geno <- scale(geno)
+```
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
