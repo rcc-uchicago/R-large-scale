@@ -28,4 +28,4 @@ to do
 
 + Generate and print handout.
 
-+ Check the SBATCH parameters in the sbatch scripts.
++ Change "workshoptest" to "workshop" in sbatch scripts.

@@ -3,6 +3,7 @@
 #SBATCH --partition=broadwl
 #SBATCH --reservation=workshoptest
 #SBATCH --time=00:10:00
+#SBATCH --mem=1G
 
 # For reproducibility, add version numbers to the "module load" calls.
 module load R/3.5.1
