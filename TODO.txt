@@ -10,6 +10,7 @@ to do
 + Replace R CMD BATCH with Rscript.
 
 + Create bash script to set up environment on midway2.
+  (Make sure it is executable.)
 
 + Fix up Makefile.
 
@@ -26,5 +27,3 @@ to do
 + Run "make slides test".
 
 + Generate and print handout.
-
-+ Generate shared data set.

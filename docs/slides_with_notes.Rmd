@@ -184,32 +184,50 @@ Launch a second console to monitor computations
 Vignette #1: Importing a large data set
 =======================================
 
-*Add text here.*
+Our first aim is to import the RegMap genotype data into R. Let's
+attempt this using `read.csv`:
 
 ```{r import-data-readcsv}
-geno <- read.csv("geno.csv")
+geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
-> Instructor notes: Before importing the data into R, inspect the CSV
-> file.
+> Instructor notes: This is a very short vignette to demonstrate that
+> the base functions (e.g., read.csv) are not well-suited for large
+> data set.
+>
+> Before importing the data into R, inspect the CSV file, and run
+> simple shell commands (e.g., "wc -l") to understand the data. From
+> this initial inspection, we should see that it is a large binary
+> matrix.
 
-Import data using `readr`
-=========================
+Import genotype data using `readr`
+==================================
 
-*Add text here.*
+Let's try again using the **data.table** package:
 
-```{r import-data-readr}
-geno <- read_csv("geno.csv")
+```{r import-data-fread}
+# install.packages("data.table")
+library(data.table) 
+geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
 ```
+
+> Instructor notes: The "fread" function returns an object of class
+> "data.table". I prefer working with the (much more standard) data
+> frame, so I convert it.
 
 Timing the data import step
 ===========================
 
-*Add text here.*
+Let's document how long it took to import the data using "fread":
 
-```{r time-import-data-readr}
-timing <- system.time(geno <- read_csv("geno.csv"))
+```{r time-import-data-fread}
+timing <- system.time(
+  geno <- fread("geno.csv",sep = ",",
+                header = TRUE))
 ```
+
+Vignette #2
+===========
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
