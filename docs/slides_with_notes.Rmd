@@ -62,7 +62,7 @@ Software we will use today
 
 3. Slurm (job scheduler on RCC cluster).
 
-4. R packages **readr**, ...
+4. R packages **data.table**, ...
 
 *These programs and R packages are already installed on the cluster.*
 
@@ -200,8 +200,8 @@ geno <- read.csv("geno.csv",check.names = FALSE)
 > this initial inspection, we should see that it is a large binary
 > matrix.
 
-Import genotype data using `readr`
-==================================
+Import genotype data using `data.table`
+=======================================
 
 Let's try again using the **data.table** package:
 
@@ -225,9 +225,42 @@ Let's document how long it took to import the data using "fread":
 timing <- system.time(
   geno <- fread("geno.csv",sep = ",",
                 header = TRUE))
+class(geno) <- "data.frame"
 ```
 
-Vignette #2
-===========
+> Instructor notes: Before continuing to next vignette, ask
+> participants to determine how much memory is required to store the
+> genotype data in R. I suggest `print(object.size(geno),units="Mb")`.
+
+Vignette #2: Automating analysis of a large data set
+====================================================
+
+A common step in genetic analysis is to examine the distribution of
+minor allele frequencies. Since the RegMap genotypes are encoded as
+allele counts, the allele frequencies are simply the means of each
+table column:
+
+```{r compute-mafs}
+maf <- sapply(geno,mean)
+maf <- pmin(maf,1 - maf)
+```
+
+Let's now summarize the minor allele frequencies:
+
+```{r summarize-mafs}
+summary(maf)
+```
+
+Running the full analysis using Rscript
+=======================================
+
+Now let's quit R, and re-run all the steps we took by running the
+`summarize_regmap_mafs.R` script:
+
+```bash
+Rscript summarize_regmap_mafs.R
+```
+
+> Instructor notes: before running the script, inspect the code.
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
