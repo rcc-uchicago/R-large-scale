@@ -51,19 +51,6 @@ cat(sprintf("Computing association p-values for %d SNPs.\n",p))
 timing <- system.time(pvalues <- get.assoc.pvalues(geno,pheno))
 print(timing)
 
-## library(parallel)
-## nc <- 8
-## cl <- makeCluster(nc)
-## clusterExport(cl,c("get.assoc.pvalue","get.assoc.pvalues"))
-## cols <- clusterSplit(cl,1:p)
-## timing <- system.time(
-##   out <- parLapply(cl,cols,
-##     function (i, geno, pheno) get.assoc.pvalues(geno[,i],pheno),
-##     geno, pheno))
-## pvalues <- rep(0,p)
-## pvalues[unlist(cols)] <- unlist(out)
-## stopCluster(cl)
-
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------
 cat(sprintf("Distribution of association p-values across %d SNPs:\n",p))
