@@ -64,7 +64,7 @@ Software we will use today
 
 3. Slurm (job scheduler on RCC cluster).
 
-4. R packages **data.table**, **parallel** and **Rcpp**.
+4. R packages **data.table**, **matrixStats**, **parallel** and **Rcpp**.
 
 *These software and R packages are already installed on the RCC cluster.*
 
@@ -135,6 +135,9 @@ What's included in the workshop packet
 
 + **.sbatch** files: sbatch scripts we will run to allocate resources
   for our analyses on the cluster.
+
++ **scale.Rcpp**: Some C++ code we will use to speed up one of the
+  analyses.
 
 + **monitor_memory.py:** Python script to assess memory usage.
 
@@ -562,7 +565,7 @@ In this final example, we will show that even simple computations on
 large data sets in R can be very slow and use an excessive amount of
 memory.
 
-+ *Implementing these intensive computations in C can sometimes give
++ *Implementing the most intensive computations in C can sometimes give
 large (10--1000x) speedups.*
 
 Center & scale the genotype matrix
@@ -605,7 +608,7 @@ Center & scale the genotype matrix using Rcpp
 =============================================
 
 R duplicates objects aggressively ("copy on modify"). This can be an
-issue with objects are large.
+issue with large objects.
 
 + We can circumvent this by implementing a C++ function *that modifies
 the input matrix directly.*
@@ -620,6 +623,8 @@ implementation:
 python3 monitor_memory.py \
   Rscript scale_geno_rcpp.R
 ```
+
+*Does the C++ code improve the runtime and memory usage?*
 
 Recap
 =====
