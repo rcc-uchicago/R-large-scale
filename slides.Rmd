@@ -290,14 +290,14 @@ A common step in genetic analysis is to examine the distribution of
 minor allele frequencies. Since the RegMap genotypes are encoded as
 allele counts, allele frequencies are column means:
 
-```{r compute-mafs, eval=FALSE}
+```{r compute-mafs}
 maf <- sapply(geno,mean)
 maf <- pmin(maf,1 - maf)
 ```
 
 Now summarize the minor allele frequencies:
 
-```{r summarize-mafs, eval=FALSE}
+```{r summarize-mafs}
 summary(maf)
 ```
 
@@ -347,17 +347,18 @@ sacct --user=<cnetid>
 Automating the analysis for many data sets
 ==========================================
 
-Suppose now you want to repeat your analysis for several other
-(similar) genetic data sets. To reduce effort, you could re-write your
-R script to make it more *generic* by accepting the name of the data
-file to use as a command-line argument:
+Suppose you want to repeat your analysis for several other (similar)
+genetic data sets. To reduce effort, you could re-write your R script
+to make it more *generic*. See `summarize_mafs.R` for a similar script
+that takes the name of the genotype data file as a command-line
+argument:
 
 ```bash
 Rscript summarize_mafs.R geno.csv
 ```
 
-Likewise, we can also implement an sbatch script that will accept the
-data file name as a command-line argument:
+Likewise, we can implement an sbatch script that takes a command-line
+argument:
 
 ```bash
 sbatch summarize_mafs.sbatch geno.csv
