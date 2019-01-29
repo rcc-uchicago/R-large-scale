@@ -143,12 +143,19 @@ What's included in the workshop packet
 Retrieve the data
 =================
 
-Copy and uncompress the data to your home directory:
+Copy and decompress the data to your home directory:
 
 ```bash
 cd ~/R-large-scale
 cp ~pcarbo/share/regmap.tar.gz .
 tar zxvf regmap.tar.gz
+```
+
+After taking these steps, you should have two CSV files:
+
+```bash
+geno.csv
+pheno.csv
 ```
 
 Connect to a midway2 compute node

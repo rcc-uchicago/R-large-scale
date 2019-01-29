@@ -143,12 +143,19 @@ What's included in the workshop packet
 Retrieve the data
 =================
 
-Copy and uncompress the data to your home directory:
+Copy and decompress the data to your home directory:
 
 ```bash
 cd ~/R-large-scale
 cp ~pcarbo/share/regmap.tar.gz .
 tar zxvf regmap.tar.gz
+```
+
+After taking these steps, you should have two CSV files:
+
+```bash
+geno.csv
+pheno.csv
 ```
 
 Connect to a midway2 compute node
@@ -218,21 +225,20 @@ Outline of workshop
 Vignette #1: Importing a large data set
 =======================================
 
-Our first aim is to import the RegMap genotype data into R. Let's
-attempt this using `read.csv`:
+Our first aim is a simple one: read the RegMap genotype data into R. Let's
+try this using `read.csv`:
 
 ```{r import-data-readcsv, eval=FALSE}
 geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
-> Instructor notes: This is a very short vignette to demonstrate that
-> the base functions (e.g., read.csv) are not well-suited for large
-> data set.
+> Instructor notes: We will show that the base function (read.csv)
+> does not handle a large data set well.
 >
-> Before importing the data into R, inspect the CSV file, and run
-> simple shell commands (e.g., "wc -l") to understand the data. From
-> this initial inspection, we should see that it is a large binary
-> matrix.
+> Before importing the data into R, inspect the CSV file, and run a
+> few simple shell commands (e.g., "less -S", "wc -l") to get a feel
+> for the data data. From these commands, we should see that it is a
+> large, binary matrix.
 
 Import genotype data using `data.table`
 =======================================
