@@ -4,6 +4,7 @@
 # SET UP ENVIRONMENT
 # ------------------
 library(data.table)
+library(matrixStats)
 library(Rcpp)
 
 # IMPORT GENOTYPE DATA
@@ -16,10 +17,8 @@ storage.mode(geno) <- "double"
 
 # Remove all SNPs that do not vary.
 cat("Filtering SNPs.\n")
-s    <- apply(geno,2,sd)
-cols <- which(s > 0)
-geno <- geno[,cols]
-s    <- s[cols]
+s    <- colSds(geno)
+geno <- geno[,s > 0]
 
 # CENTER & SCALE GENOTYPE MATRIX
 # ------------------------------
@@ -30,6 +29,7 @@ sourceCpp("scale.cpp")
 timing <- system.time({
   geno.scaled <- geno
   mu <- colMeans(geno)
+  s  <- colSds(geno)
   scale_rcpp(geno.scaled,mu,s)
 })
 print(timing)
@@ -39,4 +39,5 @@ print(timing)
 cat("Get the largest & smallest column mean:\n")
 print(range(colMeans(geno.scaled)))
 cat("Get the largest & smallest column s.d.:\n")
-print(range(apply(geno.scaled,2,sd)))
+print(range(colSds(geno.scaled)))
+

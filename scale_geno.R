@@ -4,6 +4,7 @@
 # SET UP ENVIRONMENT
 # ------------------
 library(data.table)
+library(matrixStats)
 
 # IMPORT GENOTYPE DATA
 # --------------------
@@ -15,7 +16,7 @@ storage.mode(geno) <- "double"
 
 # Remove all SNPs that do not vary.
 cat("Filtering SNPs.\n")
-s    <- apply(geno,2,sd)
+s    <- colSds(geno)
 geno <- geno[,s > 0]
 
 # CENTER & SCALE GENOTYPE MATRIX
@@ -31,4 +32,4 @@ print(timing)
 cat("Get the largest & smallest column mean:\n")
 print(range(colMeans(geno.scaled)))
 cat("Get the largest & smallest column s.d.:\n")
-print(range(apply(geno.scaled,2,sd)))
+print(range(colSds(geno.scaled)))
