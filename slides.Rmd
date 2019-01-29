@@ -112,31 +112,41 @@ Download workshop packet
 ========================
 
 Once you have connected to a midway2 login node, download the workshop
-packet to your home directory on the cluster (**note:** no spaces in URL):
+packet (a git repository) to your home directory on the cluster
+(**note:** there are no spaces in the URL):
 
 ```bash
-cd $HOME
+cd ~
 git clone https://github.com/rcc-uchicago/
   R-large-scale.git
 ```
 
-*Optionally,* you may also download the repository to your laptop.
+*Optional:* Download the repository to your laptop.
 
 What's included in the workshop packet
 ======================================
 
 + **slides.pdf:** These slides.
 
-+ *Describe more of the files here.*
++ **slides.Rmd:** R Markdown source used to generate these
+  slides.
 
-Copy the data
-=============
++ **.R** files: R scripts we will run in the examples.
 
-Copy and uncompress the data in the same location as the other
-workshop files:
++ **.sbatch** files: sbatch scripts we will run to allocate resources
+  for our analyses on the cluster.
+
++ **monitor_memory.py:** Python script to assess memory usage.
+
++ **set_slurm_env.sh:** Shell commands to configure Slurm.
+
+Retrieve the data
+=================
+
+Copy and uncompress the data to your home directory:
 
 ```bash
-cd R-large-scale
+cd ~/R-large-scale
 cp ~pcarbo/share/regmap.tar.gz .
 tar zxvf regmap.tar.gz
 ```

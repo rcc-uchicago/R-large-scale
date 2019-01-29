@@ -17,6 +17,8 @@ to do
 
 + Run "make slides test".
 
++ Remove the files in the "old" folder.
+
 + Generate and print handout.
 
 + Change "workshoptest" to "workshop" in sbatch scripts.
