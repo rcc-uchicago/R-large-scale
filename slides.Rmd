@@ -165,15 +165,10 @@ sinteractive --partition=broadwl \
 echo $HOSTNAME
 ```
 
-Set up your shell environment
-=============================
-
-*Add instructions here.*
-
 Launch R
 ========
 
-Start up an R interactive environment:
+Start up the R interactive environment:
 
 ```bash
 module load R/3.5.1
@@ -203,7 +198,7 @@ Vignette #1: Importing a large data set
 Our first aim is to import the RegMap genotype data into R. Let's
 attempt this using `read.csv`:
 
-```{r import-data-readcsv}
+```{r import-data-readcsv, eval=FALSE}
 geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
@@ -213,7 +208,7 @@ Import genotype data using `data.table`
 
 Let's try again using the **data.table** package:
 
-```{r import-data-fread}
+```{r import-data-fread, eval=FALSE}
 # install.packages("data.table")
 library(data.table) 
 geno <- fread("geno.csv",sep = ",",header = TRUE)
@@ -226,7 +221,7 @@ Timing the data import step
 
 Let's document how long it took to import the data using "fread":
 
-```{r time-import-data-fread}
+```{r time-import-data-fread, eval=FALSE}
 timing <- system.time(
   geno <- fread("geno.csv",sep = ",",
                 header = TRUE))
@@ -242,14 +237,14 @@ minor allele frequencies. Since the RegMap genotypes are encoded as
 allele counts, the allele frequencies are simply the means of each
 table column:
 
-```{r compute-mafs}
+```{r compute-mafs, eval=FALSE}
 maf <- sapply(geno,mean)
 maf <- pmin(maf,1 - maf)
 ```
 
 Let's now summarize the minor allele frequencies:
 
-```{r summarize-mafs}
+```{r summarize-mafs, eval=FALSE}
 summary(maf)
 ```
 
@@ -309,7 +304,7 @@ Vignette #3: Speeding up large-scale matrix operations
 
 *Add text here.*
 
-```{r crossprod}
+```{r crossprod, eval=FALSE}
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
 K <- tcrossprod(geno)
@@ -317,7 +312,7 @@ K <- tcrossprod(geno)
 
 Let's determine how long it takes to compute this matrix:
 
-```{r crossprod-timing}
+```{r crossprod-timing, eval=FALSE}
 timing <- system.time(
   K <- tcrossprod(geno))
 ```
