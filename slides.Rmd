@@ -87,7 +87,7 @@ Outline of workshop
 
     + Vignette #1: Importing a large data set.
 
-    + Vignette #2: Automating analysis of a large data set.
+    + Vignette #2: Automating an analysis of a large data set.
 
     + Vignette #3: Speeding up operations on large matrices.
 
@@ -212,7 +212,7 @@ Outline of workshop
 
     + **Vignette #1: Importing a large data set.**
 
-    + Vignette #2: Automating analysis of a large data set.
+    + Vignette #2: Automating an analysis of a large data set.
 
     + Vignette #3: Speeding up operations on large matrices.
 
@@ -266,7 +266,7 @@ Outline of workshop
 
     + Vignette #1: Importing a large data set.
 
-    + **Vignette #2: Automating analysis of a large data set.**
+    + **Vignette #2: Automating an analysis of a large data set.**
 
     + Vignette #3: Speeding up operations on large matrices.
 
@@ -274,29 +274,38 @@ Outline of workshop
 
     + Vignette #5: Using Rcpp to improve performance.
 
-Vignette #2: Automating analysis of a large data set
-====================================================
+Vignette #2: Automating an analysis of a large data set
+=======================================================
+
+You should have a data frame with 948 rows and 214,051 columns
+containing the genotypes of the *A. thaliana* samples:
+
+```{r check-geno-data}
+class(geno)
+nrow(geno)
+ncol(geno)
+```
 
 A common step in genetic analysis is to examine the distribution of
 minor allele frequencies. Since the RegMap genotypes are encoded as
-allele counts, the allele frequencies are simply the means of each
-table column:
+allele counts, allele frequencies are column means:
 
 ```{r compute-mafs, eval=FALSE}
 maf <- sapply(geno,mean)
 maf <- pmin(maf,1 - maf)
 ```
 
-Let's now summarize the minor allele frequencies:
+Now summarize the minor allele frequencies:
 
 ```{r summarize-mafs, eval=FALSE}
 summary(maf)
 ```
 
+
 Automating the analysis using Rscript
 =====================================
 
-Now let's quit R, and re-run all the steps of the analysis:
+Quit R, and re-run the analysis using the provided script:
 
 ```bash
 Rscript summarize_regmap_mafs.R
@@ -306,20 +315,31 @@ Rscript summarize_regmap_mafs.R
 Automating environment setup and resource allocation
 ====================================================
 
-Rscript automates all the steps of the analysis *in the R
-environment*, but it does not automate the steps prior to running the
-R code. In a separate midway2 connection, run this command to re-run
-the environment setup and analysis:
+Rscript automates the steps *within the R environment*, but it does
+not automate the steps taken before running R code. Typically, before
+running the R code you will need to:
+
+1. Run bash commands to set up your (shell) environment.
+
+2. Run Slurm commands to allocate computing resources.
+
+This command will do 1 & 2, then run the analysis:
 
 ```bash
 sbatch summarize_regmap_mafs.sbatch
 ```
 
-Run these commands to check the status of your analysis:
+Run these commands to check the status of your analysis while it is
+running:
 
 ```bash
 source set_slurm_env.sh
 squeue --user=<cnetid>
+```
+
+Run this command to check the status upon termination:
+
+```
 sacct --user=<cnetid>
 ```
 
