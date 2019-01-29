@@ -11,14 +11,19 @@ using namespace Rcpp;
 //
 // [[Rcpp::export]]
 double scale_rcpp (NumericMatrix& X, NumericVector& a, NumericVector& b) {
+
+  // Get the number of rows and columns of the matrix.
   int    nr = X.nrow();
   int    nc = X.ncol();
   int    i, j;
   double aj, bj;
 
+  // Repeat for each column.
   for(j = 0; j < nc; j++) {
     aj = a(j);
     bj = b(j);
+
+    // Repeat for each row.
     for(i = 0; i < nr; i++)
       X(i,j) = (X(i,j) - aj) / bj;
   }

@@ -40,4 +40,3 @@ cat("Get the largest & smallest column mean:\n")
 print(range(colMeans(geno.scaled)))
 cat("Get the largest & smallest column s.d.:\n")
 print(range(colSds(geno.scaled)))
-
