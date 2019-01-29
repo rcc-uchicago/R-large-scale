@@ -200,8 +200,8 @@ Establish another connection to midway2
 This second connection will be used to monitor our computations on the
 cluster.
 
-+ At this point, we have completed the initial setup. We are
-  ready to begin the first example.
++ *At this point, we have completed the initial setup. We are now
+  ready to begin the first example.*
 
 Outline of workshop
 ===================
@@ -223,10 +223,10 @@ Outline of workshop
 Vignette #1: Importing a large data set
 =======================================
 
-Our first aim is to import the RegMap genotype data into R. Let's
-attempt this using `read.csv`:
+Our first aim is a simple one: read the RegMap genotype data into R. Let's
+try this using `read.csv`:
 
-```{r import-data-readcsv, eval=FALSE}
+```{r import-data-read-csv, eval=FALSE}
 geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
@@ -236,7 +236,7 @@ Import genotype data using `data.table`
 
 Let's try again using the **data.table** package:
 
-```{r import-data-fread, eval=FALSE}
+```{r import-data-fread}
 # install.packages("data.table")
 library(data.table) 
 geno <- fread("geno.csv",sep = ",",header = TRUE)
@@ -247,15 +247,32 @@ class(geno) <- "data.frame"
 Timing the data import step
 ===========================
 
-Let's document how long it took to import the data using "fread":
+How long did it take to run "fread" on the RegMap data?
 
-```{r time-import-data-fread, eval=FALSE}
+```{r time-fread}
 timing <- system.time(
   geno <- fread("geno.csv",sep = ",",
                 header = TRUE))
 class(geno) <- "data.frame"
 ```
 
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + Vignette #1: Importing a large data set.
+
+    + **Vignette #2: Automating analysis of a large data set.**
+
+    + Vignette #3: Speeding up operations on large matrices.
+
+    + Vignette #4: Multithreaded computing with "parLapply".
+
+    + Vignette #5: Using Rcpp to improve performance.
 
 Vignette #2: Automating analysis of a large data set
 ====================================================
