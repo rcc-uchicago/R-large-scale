@@ -189,10 +189,31 @@ getwd()
 > Instructor notes: If `ls()` does not return `character(0)`, clear
 > your environment by running `rm(list = ls())`.
 
-Launch a second console to monitor computations
-===============================================
+Establish another connection to midway2
+=======================================
 
-*Add instructions here.*
+This second connection will be used to monitor our computations on the
+cluster.
+
++ At this point, we have completed the initial setup. We are
+  ready to begin the first example.
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + **Vignette #1: Importing a large data set.**
+
+    + Vignette #2: Automating analysis of a large data set.
+
+    + Vignette #3: Speeding up operations on large matrices.
+
+    + Vignette #4: Multithreaded computing with "parLapply".
+
+    + Vignette #5: Using Rcpp to improve performance.
 
 Vignette #1: Importing a large data set
 =======================================
