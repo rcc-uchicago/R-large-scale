@@ -25,7 +25,18 @@ This git repository (the "workshop packet") includes:
 
 + [README.md](README.md): This file.
 
-+ *Add info about the most important files here.*
++ [conduct.md](conduct.md): Code of Conduct.
+
++ [LICENSE.md](license.md): License information for the materials in
+  this repository.
+
++ [slides.pdf](slides.pdf): The slides for the workshop.
+
++ [slides.Rmd](slides.Rmd): R Markdown source used to generate these
+  slides.
+
++ [Makefile](Makefile): GNU Makefile containing commands to
+  generate the slides from the R Markdown source.
 
 ## Other information
 

@@ -193,8 +193,6 @@ ls()
 getwd()
 ```
 
-> Instructor notes: If `ls()` does not return `character(0)`, clear
-> your environment by running `rm(list = ls())`.
 
 Establish another connection to midway2
 =======================================
@@ -232,13 +230,6 @@ try this using `read.csv`:
 geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
-> Instructor notes: We will show that the base function (read.csv)
-> does not handle a large data set well.
->
-> Before importing the data into R, inspect the CSV file, and run a
-> few simple shell commands (e.g., "less -S", "wc -l") to get a feel
-> for the data data. From these commands, we should see that it is a
-> large, binary matrix.
 
 Import genotype data using `data.table`
 =======================================
@@ -252,9 +243,6 @@ geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
 ```
 
-> Instructor notes: The "fread" function returns an object of class
-> "data.table". I prefer working with the (much more standard) data
-> frame, so I convert it.
 
 Timing the data import step
 ===========================
@@ -268,12 +256,6 @@ timing <- system.time(
 class(geno) <- "data.frame"
 ```
 
-> Instructor notes: This illustrates the importance of finding the
-> right R package for the task at hand.
->
-> Before moving on to the next vignette, ask participants to determine
-> how much memory is required to store the genotype data in R. I
-> suggest `print(object.size(geno),units="Mb")`.
 
 Outline of workshop
 ===================
@@ -319,8 +301,6 @@ Now summarize the minor allele frequencies:
 summary(maf)
 ```
 
-> Instructor notes: This is a good point to briefly discuss the
-> benefits of *automating* an analysis.
 
 Automating the analysis using Rscript
 =====================================
@@ -331,9 +311,6 @@ Quit R, and re-run the analysis using the provided script:
 Rscript summarize_regmap_mafs.R
 ```
 
-> Instructor notes: Before running the script, inspect the code, and
-> point out some of the features of the script (e.g., the "cat"
-> statements to log progress).
 
 Automating environment setup and resource allocation
 ====================================================
@@ -366,13 +343,6 @@ Run this command to check the status upon termination:
 sacct --user=<cnetid>
 ```
 
-> Instructor notes: Before running the sbatch script, inspect the
-> code.
->
-> The students should find that the sbatch script does not request
-> sufficient memory to run the analysis. (Somewhere between 2 and 4 GB
-> should be sufficient.) This provides motivation for one of the
-> vignettes below.
 
 Automating the analysis for many data sets
 ==========================================
@@ -393,10 +363,6 @@ data file name as a command-line argument:
 sbatch summarize_mafs.sbatch geno.csv
 ```
 
-> Instructor notes: Ask the students how the sbatch script could be
-> improved. In particular, how to handle (1) data sets of different
-> sizes (requiring different amounts of memory), and (2) saving the
-> results of the anlayses to different files?
 
 Vignette #3: Speeding up large-scale matrix operations
 ======================================================
@@ -416,7 +382,6 @@ timing <- system.time(
   K <- tcrossprod(geno))
 ```
 
-> Instructor notes:
 
 Exploiting multithreaded OpenBLAS
 =================================
@@ -437,8 +402,6 @@ Rscript compute_regmap_kinship.R
 
 Now try using 4 and 8 threads. *Do you obtain additional speedups?*
 
-> Instructor notes: You can also demonstrate how to use "htop" in
-> separate console to monitor CPU usage.
 
 Vignette #4: Multithreaded computations with parLapply
 ======================================================
