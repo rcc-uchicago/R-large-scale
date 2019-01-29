@@ -161,8 +161,8 @@ pheno.csv
 Connect to a midway2 compute node
 =================================
 
-Request access to a midway2 ("Broadwell") compute node with 8 CPUs and
-18 GB of memory:
+Set up an interactive session on a midway2 ("Broadwell") compute
+node with 8 CPUs and 18 GB of memory:
 
 ```bash
 screen -S workshop
@@ -379,7 +379,7 @@ Automating the analysis for many data sets
 
 Suppose you want to repeat your analysis for several other (similar)
 genetic data sets. To reduce effort, you could re-write your R script
-to make it more *generic*. See `summarize_mafs.R` for a similar script
+to make it more *generic*. See "summarize_mafs.R" for a similar script
 that takes the name of the genotype data file as a command-line
 argument:
 
@@ -504,8 +504,82 @@ Outline of workshop
 Vignette #4: Multithreaded computing with "parLapply"
 =====================================================
 
-*Implement this vignette, in which we use parLapply to parallize
-computation of the association statistics.*
+Often in genetic studies, we seek to identify associations between
+genetic variants and measured traits. Although there are very good
+software for running an association analysis (e.g., PLINK), here we
+will implement this analysis in R to illustrate some simple
+multithreading (parallel computing) techniques.
+
+> Instructor notes: Before, we saw that we could get very good (near
+> optimal) speedups *for free* because multithreaded matrix operations
+> are already implemented in OpenBLAS.
+>
+> Here, we will implement our own multithreading.
+
+Run the association analysis
+============================
+
+Begin by starting the R environment in your interactive session. An
+association analysis for one climate variable---"maximum temperature
+of warmest month"---is implemented in the "map_temp_assoc.R" script.
+
+```{r map-maxtemp-associations}
+source("map_temp_assoc.R")
+```
+
+Although we have data on over 200,000 genetic variants (SNPs), we
+limited the association analysis to only 10,000 SNPs because computing
+all 200,000+ p-values will take too long (several minutes). Let's use
+"parLapply" to speed up this computation.
+
+Set up your R environment for multithreading
+============================================
+
+Set up R to use all 8 CPUs you requested, and distribute the
+computation (the columns of the genotype matrix) across the 8
+"threads":
+
+```{r init-cluster}
+library(parallel)
+cl   <- makeCluster(8)
+cols <- clusterSplit(cl,1:p)
+```
+
+Next, we need to tell R which functions we will use in the
+mulithreaded computation:
+
+```{r cluster-register-functions}
+clusterExport(cl,c("get.assoc.pvalue",
+                   "get.assoc.pvalues"))
+```
+
+Compute p-values inside "parLapply"
+===================================
+
+Now we are ready to run the multithreaded computation of association
+p-values using "parLapply":
+
+```{r run-parlapply}
+f <- function (i, geno, pheno)
+  get.assoc.pvalues(geno[,i],pheno)
+timing <- system.time(
+  out <- parLapply(cl,cols,f,geno,pheno))
+```
+
+We aren't quite done---the output is a list object, and we need to
+combine the individual list elements into a single vector of p-values.
+
+```{r process-parlapply-output}
+pvalues <- rep(0,p)
+pvalues[unlist(cols)] <- unlist(out)
+```
+
+> Instructor notes: Check that the result is the same as what we got
+> before by running...
+
+```{r stop-cluster}
+stopCluster(cl)
+```
 
 Vignette #5: Using Rcpp to reduce memory & effort
 =================================================
