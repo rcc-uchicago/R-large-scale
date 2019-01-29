@@ -388,7 +388,7 @@ Vignette #3: Speeding up operations on large matrices
 At this point, you have quit R, so re-launch R, and load the RegMap
 genotype data again:
 
-```{r import-data-fread-2}
+```{r import-data-2}
 library(data.table) 
 geno <- fread("geno.csv",sep = ",",header = TRUE)
 ```
@@ -396,7 +396,7 @@ geno <- fread("geno.csv",sep = ",",header = TRUE)
 This time, we convert the genotypes to a matrix of floating-point
 numbers:
 
-```{r import-data-fread-3}
+```{r import-data-3}
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
 ```
@@ -532,7 +532,7 @@ pvalues[unlist(cols)] <- unlist(out)
 Halt the multithreaded computation
 ==================================
 
-When you are finished with parLapply, run "stopCluster":
+When you are done using parLapply, run "stopCluster":
 
 ```{r stop-cluster}
 stopCluster(cl)
@@ -541,15 +541,46 @@ stopCluster(cl)
 Vignette #5: Using Rcpp to reduce memory & effort
 =================================================
 
-*Implement this vignette.*
+In this final example, we will show that even simple computations on
+large data sets in R can be very slow and use an excessive amount of
+memory.
 
-Another very common step in analysis of genetic data is to center and
-scale ("normalize") the columns of the genotype matrix. (This is often
-done before running PCA.) In R, the "scale" function accomplishes
-this.
++ *Implementing these intensive computations in C can sometimes give
+large (10--1000x) speedups.*
 
-```R
-geno <- scale(geno)
+Center & scale the genotype matrix
+==================================
+
+For many analyses of genotype data (e.g., PCA), it is important to
+"center" and "scale" the columns of the genotype matrix so that each
+column has zero mean and standard deviation of 1. This computation is
+implemented in the "scale_geno.R" script:
+
+```bash
+Rscript scale_geno.R
 ```
+
+
+Assessing memory usage of "scale"
+=================================
+
+To get a feel for the memory usage of "scale", let's compare against
+our earlier analysis of the minor allele frequencies. To measure
+memory usage accurately, let's use the "monitor_memory" Python script:
+
+```bash
+module load python/3.5.2
+export MEM_CHECK_INTERVAL=0.01
+python3 monitor_memory.py \
+  Rscript summarize_regmap_mafs.R
+```
+
+Now compare to the centering & scaling analysis:
+
+```bash
+python3 monitor_memory.py Rscript scale_geno.R
+```
+
+*Does centering & scaling require more memory than computing MAFs?*
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
