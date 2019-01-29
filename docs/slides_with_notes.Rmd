@@ -95,20 +95,18 @@ Outline of workshop
 
     + Vignette #5: Using Rcpp to improve performance.
 
-Initial setup
+Preliminaries
 =============
 
 + WiFi.
 
 + Power outlets.
 
-+ Workshop packet.
-
 + Reading what I type.
 
 + Pace & questions (e.g., keyboard shortcuts).
 
-+ Help.
++ Getting stuck.
 
 Download workshop packet
 ========================
