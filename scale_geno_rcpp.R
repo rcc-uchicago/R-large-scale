@@ -4,6 +4,7 @@
 # SET UP ENVIRONMENT
 # ------------------
 library(data.table)
+library(Rcpp)
 
 # IMPORT GENOTYPE DATA
 # --------------------
@@ -16,14 +17,21 @@ storage.mode(geno) <- "double"
 # Remove all SNPs that do not vary.
 cat("Filtering SNPs.\n")
 s    <- apply(geno,2,sd)
-geno <- geno[,s > 0]
+cols <- which(s > 0)
+geno <- geno[,cols]
+s    <- s[cols]
 
 # CENTER & SCALE GENOTYPE MATRIX
 # ------------------------------
 # After this step, each column of the genotype matrix should have a
 # mean of zero and a standard deviation of 1.
 cat("Centering and scaling genotype matrix.\n")
-timing <- system.time(geno.scaled <- scale(geno))
+sourceCpp("scale.cpp")
+timing <- system.time({
+  geno.scaled <- geno
+  mu <- colMeans(geno)
+  scale_rcpp(geno.scaled,mu,s)
+})
 print(timing)
 
 # VERIFY CENTERING & SCALING
