@@ -14,4 +14,3 @@ module load R/3.5.1
 # Run the R script.
 echo "Running summarize_mafs.R ${INPUT}"
 Rscript summarize_mafs.R ${INPUT} > summarize_mafs.out
-
