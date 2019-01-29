@@ -538,8 +538,25 @@ When you are done using parLapply, run "stopCluster":
 stopCluster(cl)
 ```
 
-Vignette #5: Using Rcpp to reduce memory & effort
-=================================================
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + Vignette #1: Importing a large data set.
+
+    + Vignette #2: Automating an analysis of a large data set.
+
+    + Vignette #3: Speeding up operations on large matrices.
+
+    + Vignette #4: Multithreaded computing with "parLapply".
+
+    + **Vignette #5: Using Rcpp to improve performance.**
+
+Vignette #5: Using Rcpp to improve performance
+==============================================
 
 In this final example, we will show that even simple computations on
 large data sets in R can be very slow and use an excessive amount of
@@ -582,5 +599,41 @@ python3 monitor_memory.py Rscript scale_geno.R
 ```
 
 *Does centering & scaling require more memory than computing MAFs?*
+
+
+Center & scale the genotype matrix using Rcpp
+=============================================
+
+R duplicates objects aggressively ("copy on modify"). This can be an
+issue with objects are large.
+
++ We can circumvent this by implementing a C++ function *that modifies
+the input matrix directly.*
+
++ See files **scale.cpp** and **scale.geno.rcpp.R** for how this is
+implemented using the **Rcpp** package.
+
+Now try monitoring memory usage in the script that uses the Rcpp
+implementation:
+
+```bash
+python3 monitor_memory.py \
+  Rscript scale_geno_rcpp.R
+```
+
+Recap
+=====
+
+Some techniques we used today:
+
+1. Automating analyses using R and sbatch scripts.
+
+2. The **data.table** package for reading large data sets.
+
+3. The **parallel** package for parallelizing computations.
+
+4. Speeding up matrix operations using multithreading.
+
+5. Interfacing to C code using the **Rcpp** package.
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
