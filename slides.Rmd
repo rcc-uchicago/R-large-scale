@@ -441,8 +441,25 @@ Rscript compute_regmap_kinship.R
 threads?*
 
 
-Vignette #4: Multithreaded computations with parLapply
-======================================================
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + Vignette #1: Importing a large data set.
+
+    + Vignette #2: Automating an analysis of a large data set.
+
+    + Vignette #3: Speeding up operations on large matrices.
+
+    + **Vignette #4: Multithreaded computing with "parLapply".**
+
+    + Vignette #5: Using Rcpp to improve performance.
+
+Vignette #4: Multithreaded computing with "parLapply"
+=====================================================
 
 *Implement this vignette, in which we use parLapply to parallize
 computation of the association statistics.*
