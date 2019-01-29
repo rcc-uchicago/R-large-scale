@@ -1,22 +1,9 @@
 to do
 =====
 
-+ Get list of people who registered for workshop.
-
-+ Send email with instructions to prepare for workshop.
-
-+ Fill out "What's included" section in README.
-
-+ Replace R CMD BATCH with Rscript.
-
-+ Create bash script to set up environment on midway2.
-  (Make sure it is executable.)
-
-+ Fix up Makefile.
++ Add more files to the "What's included" section in README.
 
 + Add slides.pdf to repository.
-
-+ Add title slide with alpine skier.
 
 + Add outline slides.
 
@@ -29,3 +16,6 @@ to do
 + Generate and print handout.
 
 + Change "workshoptest" to "workshop" in sbatch scripts.
+
++ Get Yubikeys.
+

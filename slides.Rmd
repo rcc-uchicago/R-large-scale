@@ -1,0 +1,346 @@
+---
+title: "Large-scale data analysis in R"
+author: Peter Carbonetto
+output:
+  beamer_presentation:
+    template: docs/beamer.tex
+    keep_tex: false
+    fig_caption: false
+    pandoc_args: "--highlight-style=pygments"
+---
+
+```{r knitr-options, echo=FALSE}
+knitr::opts_chunk$set(results = "hide",fig.show = "hide",
+                      message = FALSE,warning = FALSE)
+```
+
+Workshop aims
+=============
+
+1. Develop skills for large-scale data analyis in R, and apply these
+skills to a large-ish data set.
+
+2. Learn how to use R **non-interactively** within a high-performance
+computing (HPC) environment.
+
+3. Assess memory needs, and make efficient use of memory.
+
+4. Speeding up your R analyses by...
+
+    + Using simple parallelization techniques.
+
+    + Interfacing to C code.
+
+5. Learn through **live coding**---this includes learning from our
+mistakes!
+
+It's your choice
+================
+
+You may choose to...
+
++ Use R on the RCC cluster.
+
++ Use R on your laptop.
+
++ Pair up with your neighbour.
+
++ Follow what I do on the projector.
+
+Please note:
+
++ You should use R, not RStudio.
+ 
++ Some of the examples will not work on your laptop.
+
+Software we will use today
+==========================
+
+1. R
+
+2. Python 3.x (used to measure memory usage).
+
+3. Slurm (job scheduler on RCC cluster).
+
+4. R packages **data.table**, ...
+
+*These programs and R packages are already installed on the cluster.*
+
+The large data set
+==================
+
++ **RegMap data:** genetic and ecological data on *Arabidopsis thaliana*
+in a range of climates.
+
++ From Joy Bergelson's lab at the University of Chicago.
+
++ See [Hancock et al (2011) *Science* 334, 83--86][hancock-2011].
+
+Outline of workshop
+===================
+
+1. Initial setup.
+
+2. Vignettes:
+
+    + *Add vignettes here.*
+
+Initial setup
+=============
+
++ WiFi.
+
++ Power outlets.
+
++ Workshop packet.
+
++ Reading what I type.
+
++ Pace & questions (e.g., keyboard shortcuts).
+
++ Help.
+
+Download workshop packet
+========================
+
+Once you have connected to a midway2 login node, download the workshop
+packet to your home directory on the cluster (**note:** no spaces in URL):
+
+```bash
+cd $HOME
+git clone https://github.com/rcc-uchicago/
+  R-large-scale.git
+```
+
+*Optionally,* you may also download the repository to your laptop.
+
+What's included in the workshop packet
+======================================
+
++ **slides.pdf:** These slides.
+
++ *Describe more of the files here.*
+
+Copy the data
+=============
+
+Copy and uncompress the data in the same location as the other
+workshop files:
+
+```bash
+cd R-large-scale
+cp ~pcarbo/share/regmap.tar.gz .
+tar zxvf regmap.tar.gz
+```
+
+Connect to a midway2 compute node
+=================================
+
+Request access to a midway2 ("Broadwell") compute node with 8 CPUs and
+18 GB of memory:
+
+```bash
+screen -S workshop
+sinteractive --partition=broadwl \
+  --reservation=workshop --cpus-per-task=8 \
+  --mem=18G --time=3:00:00 
+echo $HOSTNAME
+```
+
+Set up your shell environment
+=============================
+
+*Add instructions here.*
+
+Launch R
+========
+
+Start up an R interactive environment:
+
+```bash
+module load R/3.5.1
+R
+```
+
+Check your R environment
+========================
+
+Check that your R environment is set up correctly:
+
+```{r check-environment}
+sessionInfo()
+ls()
+getwd()
+```
+
+
+Launch a second console to monitor computations
+===============================================
+
+*Add instructions here.*
+
+Vignette #1: Importing a large data set
+=======================================
+
+Our first aim is to import the RegMap genotype data into R. Let's
+attempt this using `read.csv`:
+
+```{r import-data-readcsv}
+geno <- read.csv("geno.csv",check.names = FALSE)
+```
+
+
+Import genotype data using `data.table`
+=======================================
+
+Let's try again using the **data.table** package:
+
+```{r import-data-fread}
+# install.packages("data.table")
+library(data.table) 
+geno <- fread("geno.csv",sep = ",",header = TRUE)
+class(geno) <- "data.frame"
+```
+
+
+Timing the data import step
+===========================
+
+Let's document how long it took to import the data using "fread":
+
+```{r time-import-data-fread}
+timing <- system.time(
+  geno <- fread("geno.csv",sep = ",",
+                header = TRUE))
+class(geno) <- "data.frame"
+```
+
+
+Vignette #2: Automating analysis of a large data set
+====================================================
+
+A common step in genetic analysis is to examine the distribution of
+minor allele frequencies. Since the RegMap genotypes are encoded as
+allele counts, the allele frequencies are simply the means of each
+table column:
+
+```{r compute-mafs}
+maf <- sapply(geno,mean)
+maf <- pmin(maf,1 - maf)
+```
+
+Let's now summarize the minor allele frequencies:
+
+```{r summarize-mafs}
+summary(maf)
+```
+
+Automating the analysis using Rscript
+=====================================
+
+Now let's quit R, and re-run all the steps of the analysis:
+
+```bash
+Rscript summarize_regmap_mafs.R
+```
+
+
+Automating environment setup and resource allocation
+====================================================
+
+Rscript automates all the steps of the analysis *in the R
+environment*, but it does not automate the steps prior to running the
+R code. In a separate midway2 connection, run this command to re-run
+the environment setup and analysis:
+
+```bash
+sbatch summarize_regmap_mafs.sbatch
+```
+
+Run these commands to check the status of your analysis:
+
+```bash
+source set_slurm_env.sh
+squeue --user=<cnetid>
+sacct --user=<cnetid>
+```
+
+
+Automating the analysis for many data sets
+==========================================
+
+Suppose now you want to repeat your analysis for several other
+(similar) genetic data sets. To reduce effort, you could re-write your
+R script to make it more *generic* by accepting the name of the data
+file to use as a command-line argument:
+
+```bash
+Rscript summarize_mafs.R geno.csv
+```
+
+Likewise, we can also implement an sbatch script that will accept the
+data file name as a command-line argument:
+
+```bash
+sbatch summarize_mafs.sbatch geno.csv
+```
+
+
+Vignette #3: Speeding up large-scale matrix operations
+======================================================
+
+*Add text here.*
+
+```{r crossprod}
+geno <- as.matrix(geno)
+storage.mode(geno) <- "double"
+K <- tcrossprod(geno)
+```
+
+Let's determine how long it takes to compute this matrix:
+
+```{r crossprod-timing}
+timing <- system.time(
+  K <- tcrossprod(geno))
+```
+
+
+Exploiting multithreaded OpenBLAS
+=================================
+
+Re-run the computation of the kinship matrix.
+
+```bash
+Rscript compute_regmap_kinship.R
+```
+
+Next, run this command to tell OpenBLAS to use 8 threads, and run
+the computation again:
+
+```bash
+export OPENBLAS_NUM_THREADS=2
+Rscript compute_regmap_kinship.R
+```
+
+
+Vignette #4: Multithreaded computations with parLapply
+======================================================
+
+*Implement this vignette, in which we use parLapply to parallize
+computation of the association statistics.*
+
+Vignette #5: Using Rcpp to reduce memory & effort
+=================================================
+
+*Implement this vignette.*
+
+Another very common step in analysis of genetic data is to center and
+scale ("normalize") the columns of the genotype matrix. (This is often
+done before running PCA.) In R, the "scale" function accomplishes
+this.
+
+```R
+geno <- scale(geno)
+```
+
+[hancock-2011]: http://dx.doi.org/10.1126/science.1209244 
