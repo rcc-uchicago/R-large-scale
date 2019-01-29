@@ -1,4 +1,5 @@
-# A short script to compute
+# A short script to run a genome-wide association analysis for the
+# "maximum temperature of warmest month" climate variable.
 
 # SET UP ENVIRONMENT
 # ------------------
