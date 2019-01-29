@@ -5,6 +5,7 @@
 # ------------------
 library(data.table)
 library(matrixStats)
+library(Rcpp)
 
 # IMPORT GENOTYPE DATA
 # --------------------
@@ -24,7 +25,13 @@ geno <- geno[,s > 0]
 # After this step, each column of the genotype matrix should have a
 # mean of zero and a standard deviation of 1.
 cat("Centering and scaling genotype matrix.\n")
-timing <- system.time(geno.scaled <- scale(geno))
+sourceCpp("scale.cpp")
+timing <- system.time({
+  geno.scaled <- geno
+  mu <- colMeans(geno)
+  s  <- colSds(geno)
+  scale_rcpp(geno.scaled,mu,s)
+})
 print(timing)
 
 # VERIFY CENTERING & SCALING
@@ -33,3 +40,4 @@ cat("Get the largest & smallest column mean:\n")
 print(range(colMeans(geno.scaled)))
 cat("Get the largest & smallest column s.d.:\n")
 print(range(colSds(geno.scaled)))
+
