@@ -17,21 +17,23 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
 Workshop aims
 =============
 
-1. Develop skills for large-scale data analyis in R, and apply these
-skills to a large-ish data set.
+1. Develop essential skills for large-scale data analyis in R, and
+apply these skills to a large-ish data set.
 
 2. Learn how to use R **non-interactively** within a high-performance
 computing (HPC) environment.
 
-3. Assess memory needs, and make efficient use of memory.
+3. Assess memory needs.
 
-4. Speeding up your R analyses by...
+4. Make efficient use of memory.
 
-    + Using simple parallelization techniques.
+5. Speed up your R analyses by...
 
-    + Interfacing to C code.
+    + using simple parallelization techniques.
 
-5. Learn through **live coding**---this includes learning from our
+    + interfacing to C code (Rcpp).
+
+6. Learn through **live coding**---this includes learning from our
 mistakes!
 
 It's your choice
@@ -49,27 +51,27 @@ You may choose to...
 
 Please note:
 
-+ You should use R, not RStudio.
++ Please use R, not RStudio.
  
-+ Some of the examples will not work on your laptop.
++ Some examples will only work on the RCC cluster.
 
 Software we will use today
 ==========================
 
 1. R
 
-2. Python 3.x (used to measure memory usage).
+2. Python 3.x (for assessing memory usage).
 
 3. Slurm (job scheduler on RCC cluster).
 
-4. R packages **data.table**, ...
+4. R packages **data.table**, **parallel** and **Rcpp**.
 
-*These programs and R packages are already installed on the cluster.*
+*These software and R packages are already installed on the RCC cluster.*
 
-The large data set
-==================
+The "large-ish" data set
+========================
 
-+ **RegMap data:** genetic and ecological data on *Arabidopsis thaliana*
++ RegMap data: genetic and ecological data on *Arabidopsis thaliana*
 in a range of climates.
 
 + From Joy Bergelson's lab at the University of Chicago.
@@ -83,7 +85,15 @@ Outline of workshop
 
 2. Vignettes:
 
-    + *Add vignettes here.*
+    + Vignette #1: Importing a large data set.
+
+    + Vignette #2: Automating analysis of a large data set.
+
+    + Vignette #3: Speeding up operations on large matrices.
+
+    + Vignette #4: Multithreaded computing with "parLapply".
+
+    + Vignette #5: Using Rcpp to improve performance.
 
 Initial setup
 =============
@@ -314,13 +324,15 @@ Re-run the computation of the kinship matrix.
 Rscript compute_regmap_kinship.R
 ```
 
-Next, run this command to tell OpenBLAS to use 8 threads, and run
+Next, run this command to tell OpenBLAS to use 2 CPUs, and run
 the computation again:
 
 ```bash
 export OPENBLAS_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
+
+Now try using 4 and 8 threads. *Do you obtain additional speedups?*
 
 
 Vignette #4: Multithreaded computations with parLapply
