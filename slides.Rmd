@@ -464,7 +464,7 @@ Vignette #4: Multithreaded computing with "parLapply"
 Often in genetic studies, we seek to identify associations between
 genetic variants and measured traits. Although there are very good
 software for running an association analysis (e.g., PLINK), here we
-will implement this analysis in R to illustrate some simple
+will implement this analysis in R to illustrate simple
 multithreading (parallel computing) techniques.
 
 
@@ -526,6 +526,13 @@ pvalues <- rep(0,p)
 pvalues[unlist(cols)] <- unlist(out)
 ```
 
+*Did parLapply speed up the p-value computation?*
+
+
+Halt the multithreaded computation
+==================================
+
+When you are finished with parLapply, run "stopCluster":
 
 ```{r stop-cluster}
 stopCluster(cl)
