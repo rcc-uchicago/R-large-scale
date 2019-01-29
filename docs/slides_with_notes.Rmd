@@ -259,7 +259,7 @@ class(geno) <- "data.frame"
 Timing the data import step
 ===========================
 
-How long did it take to run "fread" on the RegMap data?
+How long does it take to run "fread" on the RegMap data?
 
 ```{r time-fread}
 timing <- system.time(
@@ -308,14 +308,14 @@ A common step in genetic analysis is to examine the distribution of
 minor allele frequencies. Since the RegMap genotypes are encoded as
 allele counts, allele frequencies are column means:
 
-```{r compute-mafs, eval=FALSE}
+```{r compute-mafs}
 maf <- sapply(geno,mean)
 maf <- pmin(maf,1 - maf)
 ```
 
 Now summarize the minor allele frequencies:
 
-```{r summarize-mafs, eval=FALSE}
+```{r summarize-mafs}
 summary(maf)
 ```
 
@@ -377,68 +377,112 @@ sacct --user=<cnetid>
 Automating the analysis for many data sets
 ==========================================
 
-Suppose now you want to repeat your analysis for several other
-(similar) genetic data sets. To reduce effort, you could re-write your
-R script to make it more *generic* by accepting the name of the data
-file to use as a command-line argument:
+Suppose you want to repeat your analysis for several other (similar)
+genetic data sets. To reduce effort, you could re-write your R script
+to make it more *generic*. See `summarize_mafs.R` for a similar script
+that takes the name of the genotype data file as a command-line
+argument:
 
 ```bash
 Rscript summarize_mafs.R geno.csv
 ```
 
-Likewise, we can also implement an sbatch script that will accept the
-data file name as a command-line argument:
+Likewise, we can implement an sbatch script that takes a command-line
+argument:
 
 ```bash
 sbatch summarize_mafs.sbatch geno.csv
 ```
 
-> Instructor notes: Ask the students how the sbatch script could be
-> improved. In particular, how to handle (1) data sets of different
-> sizes (requiring different amounts of memory), and (2) saving the
-> results of the anlayses to different files?
+> Instructor notes: Before running the R script and the sbatch script,
+> inspect the code.
+> 
+> Ask the students how the sbatch script could be improvesd. In
+> particular, how to handle (1) data sets of different sizes
+> (requiring different amounts of memory), and (2) saving the results
+> of the anlayses to different files?
 
-Vignette #3: Speeding up large-scale matrix operations
-======================================================
+Outline of workshop
+===================
 
-*Add text here.*
+1. Initial setup.
 
-```{r crossprod, eval=FALSE}
+2. Vignettes:
+
+    + Vignette #1: Importing a large data set.
+
+    + Vignette #2: Automating an analysis of a large data set.
+
+    + **Vignette #3: Speeding up operations on large matrices.**
+
+    + Vignette #4: Multithreaded computing with "parLapply".
+
+    + Vignette #5: Using Rcpp to improve performance.
+
+Vignette #3: Speeding up operations on large matrices
+=====================================================
+
+At this point, you have quit R, so re-launch R, and load the RegMap
+genotype data again:
+
+```{r import-data-fread-2}
+library(data.table) 
+geno <- fread("geno.csv",sep = ",",header = TRUE)
+```
+
+This time, we convert the genotypes to a matrix of floating-point
+numbers:
+
+```{r import-data-fread-3}
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
+```
+
+Computing the genotype matrix cross-product
+===========================================
+
+Another common task in genetic analysis is to compute the "kinship"
+matrix from the genotypes. This can be done by computing the matrix
+cross-product:
+
+```{r cross-product}
 K <- tcrossprod(geno)
 ```
 
-Let's determine how long it takes to compute this matrix:
+How long does it take to compute this matrix?
 
-```{r crossprod-timing, eval=FALSE}
-timing <- system.time(
-  K <- tcrossprod(geno))
+```{r time-cross-product}
+timing <- system.time(K <- tcrossprod(geno))
 ```
-
-> Instructor notes:
 
 Exploiting multithreaded OpenBLAS
 =================================
 
-Re-run the computation of the kinship matrix.
+Most matrix operations in R 3.5.1 on midway2 use the OpenBLAS
+library. This is a *multithreaded* library, meaning that it can take
+advantage of multiple CPUs to accelerate the computations. First,
+re-run the kinship computations as before using Rscript:
 
 ```bash
 Rscript compute_regmap_kinship.R
 ```
 
-Next, run this command to tell OpenBLAS to use 2 CPUs, and run
-the computation again:
+Now tell OpenBLAS to use 2 CPUs, and run the computations again:
 
 ```bash
 export OPENBLAS_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
 
-Now try using 4 and 8 threads. *Do you obtain additional speedups?*
+*Do you get additional performance improvements with 4 threads and 8
+threads?*
 
-> Instructor notes: You can also demonstrate how to use "htop" in
-> separate console to monitor CPU usage.
+> Instructor notes: This is a good opportunity to demonstrate how to
+> use "htop" in the separate connection to monitor CPU usage.
+>
+> To answer the above question, it is helpful to visualize the
+> speedups by plotting the runtimes against the number of CPUs on the
+> log-scale: `plot(ncpus,runtimes,pch = 20,log = "xy")`
 
 Vignette #4: Multithreaded computations with parLapply
 ======================================================
