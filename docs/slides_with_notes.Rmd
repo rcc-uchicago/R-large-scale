@@ -371,10 +371,6 @@ class(geno) <- "data.frame"
 > Before moving on to the next vignette, ask participants to determine
 > how much memory is required to store the genotype data in R. I
 > suggest `print(object.size(geno),units="Mb")`.
-
-```{r, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
 					  
 Outline of workshop
 ===================
