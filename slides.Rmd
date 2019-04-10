@@ -350,10 +350,6 @@ timing <- system.time(
 class(geno) <- "data.frame"
 ```
 
-
-```{r, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
 					  
 Outline of workshop
 ===================

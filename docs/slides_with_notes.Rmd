@@ -368,9 +368,10 @@ class(geno) <- "data.frame"
 > Another good option is "read_csv" from the readr package (which
 > should also be already installed on midway2).
 >
-> Before moving on to the next vignette, ask participants to determine
-> how much memory is required to store the genotype data in R. I
-> suggest `print(object.size(geno),units="Mb")`.
+> Before moving on to the next vignette, ask participants to: (1)
+> quickly inspect the data, (2) determine the size of the table, and
+> (3) determine how much memory is required to store the genotype data
+> in R. I suggest `print(object.size(geno),units="Mb")`.
 					  
 Outline of workshop
 ===================
