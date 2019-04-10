@@ -12,12 +12,11 @@
 
 + Arrange chairs and tables, if necessary.
 + Clean up Desktop and quit applications (particularly Slack).
-+ Download fresh copy of git repository to Desktop.
-+ Download fresh copy of data files to Desktop.
++ Download fresh copy of git repository.
++ Download fresh copy of data files.
 + Test reservation.
 + Use Terminal, not iTerm.
 + Use Basic Terminal theme (with Consolas font).
 + Fix midway2 prompt.
 + Arrange PDF of slides and R on screen.
 + Distribute Yubikeys.
-
