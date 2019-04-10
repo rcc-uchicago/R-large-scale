@@ -141,68 +141,94 @@ Outline of workshop
 
 6. Using Rcpp to improve performance.
 
-Set up your HPC environment
-===========================
+Challenge #1: Setting up your HPC environment
+=============================================
 
-+ *Aim:* Configure your HPC environment for the next programming
++ Aim: Configure your HPC environment for the next programming
   challenges.
 
 + Steps:
 
     1. Connect to midway2.
 
-2. 
+    2. Download workshop packet.
 
+    3. Retrieve data set.
+
+    4. Allocate a midway2 compute node.
+
+    5. Launch R.
+
+    6. Set up your R environment.
+
+    7. Open another midway2 connection.
 
 Connect to midway2
 ==================
 
-+ *If you have an RCC account:* I assume you already know how to
-  connect. Please use any way you prefer. See:
++ **If you have an RCC account:** I'm assuming you already know how to
+  connect to midway2. Use your preferred method. See:
   https://rcc.uchicago.edu/docs/connecting
 
-+ *If you do not have an RCC account:* I will provide you with a
-  Yubikey, which will give you guest access (see the next slide).
++ **If you do not have an RCC account:** I will provide you with a
+  Yubikey. This will give you guest access (see the next slide).
 
-Connecting using the Yubikeys
-=============================
+Using the Yubikeys
+==================
 
-Download workshop packet to home directory on midway2
-=====================================================
++ Prerequisites:
+
+    1. SSH client
+
+    2. USB-A port
+
++ Steps:
+
+    1. Insert Yubikey into USB port.
+
+    2. Note your userid: `rccguestXXXX`, where `XXXX` is the
+       last four digits shown on Yubikey.
+
+    3. Follow instructions to connect to midway2 via SSH:
+       https://rcc.uchicago.edu/docs/connecting
+
+    4. When prompted for password, press lightly on metal disc.
+
+Download workshop packet
+========================
 
 Once you have connected to a midway2 login node, download the workshop
-packet (this is a *git repository*) to your home directory on the
-cluster (**note:** there are no spaces in the URL):
+packet to your home directory on the cluster (**note:** there are no
+spaces in the URL below):
 
 ```bash
-cd ~
+cd $HOME
 git clone https://github.com/rcc-uchicago/
   R-large-scale.git
 ```
 
-Retrieve the data
-=================
+Retrieve the data set
+=====================
 
 Copy and decompress the data to your home directory:
 
 ```bash
-cd ~/R-large-scale
+cd $HOME/R-large-scale
 cp ~pcarbo/share/regmap.tar.gz .
 tar zxvf regmap.tar.gz
 ```
 
-After taking these steps, you should have two CSV files:
+After taking these steps, this command should list two CSV files:
 
 ```bash
-geno.csv
-pheno.csv
+ls *.csv
 ```
 
 Connect to a midway2 compute node
 =================================
 
-Set up an interactive session on a midway2 ("Broadwell") compute
-node with 8 CPUs and 18 GB of memory:
+Set up an interactive session on a midway2 compute node with 8 CPUs
+and 18 GB of memory:
 
 ```bash
 screen -S workshop
@@ -215,53 +241,72 @@ echo $HOSTNAME
 Launch R
 ========
 
-Start up the R interactive environment:
+Start up an interactive R session:
 
 ```bash
 module load R/3.5.1
-R
+which R
+R --no-save
 ```
 
 Check your R environment
 ========================
 
-Check that your R environment is set up correctly:
+Check that you are running R 3.5.1:
+
+```{r check-version}
+sessionInfo()
+```
+
+Check that you are starting with an empty environment:
 
 ```{r check-environment}
-sessionInfo()
 ls()
+```
+
+Check that you have the correct working directory---it should be set
+to the "R-large-scale" repository:
+
+```{r check-wd}
 getwd()
 ```
 
 
-Establish another connection to midway2
-=======================================
+Open another connection to midway2
+==================================
 
-This second connection will be used to monitor our computations on the
-cluster.
++ Follow the same steps as before to connect to a midway2 login node.
 
-+ *At this point, we have completed the initial setup. We are now
-  ready to begin the first example.*
++ This second connection will be used to monitor your computations on the
+  cluster.
+
++ *At this point, you have completed the initial setup. You are now
+  ready to move on to the next programming challenge.*
 
 Outline of workshop
 ===================
 
-1. Initial setup.
+1. Setting up your environment for large-scale data analysis.
 
-2. Vignettes:
+2. **Importing a large data set.**
 
-    + **Vignette #1: Importing a large data set.**
+3. Automating an analysis of a large data set.
 
-    + Vignette #2: Automating an analysis of a large data set.
+4. Speeding up operations on large matrices.
 
-    + Vignette #3: Speeding up operations on large matrices.
+5. Multithreaded computing with "parLapply".
 
-    + Vignette #4: Multithreaded computing with "parLapply".
+6. Using Rcpp to improve performance.
 
-    + Vignette #5: Using Rcpp to improve performance.
+Challenge #2: Importing a large data set
+========================================
 
-Vignette #1: Importing a large data set
-=======================================
++ Aim:
+
++ Steps:
+
+Import genotype data using `read.csv`
+=====================================
 
 Our first aim is a simple one: read the RegMap genotype data into R. Let's
 try this using `read.csv`:
