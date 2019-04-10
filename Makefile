@@ -40,24 +40,19 @@ slides.Rmd : slides_with_notes.Rmd
 
 # Create the slides.
 slides.pdf : slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); \
-rmarkdown::render("slides.Rmd")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides.Rmd")'
 
 # Create the slides with the instructor's notes.
 slides_with_notes.pdf : slides_with_notes.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); \
-rmarkdown::render("slides_with_notes.Rmd",output_format = "pdf_document")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides_with_notes.Rmd",output_format = "pdf_document")'
 
 # Generate the slides while also testing the R code.
 slides_test.pdf : slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); \
-rmarkdown::render("slides.Rmd",output_file = "slides_test.pdf")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = TRUE); rmarkdown::render("slides.Rmd",output_file = "slides_test.pdf")'
 
 # Create the handout.
 handout.pdf : slides.Rmd
-	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); \
-rmarkdown::render("slides.Rmd",output_format = "pdf_document", \
-output_file = "handout.pdf")'
+	Rscript -e 'knitr::opts_chunk$$set(eval = FALSE); rmarkdown::render("slides.Rmd",output_format = "pdf_document",output_file = "handout.pdf")'
 
 clean:
 	rm -f slides.pdf slides_test.pdf handout.pdf
