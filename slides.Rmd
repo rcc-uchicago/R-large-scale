@@ -17,83 +17,71 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
 Workshop aims
 =============
 
-1. Develop essential skills for large-scale data analyis in R, and
-apply these skills to a large-ish data set.
+Develop **essential skills** for large-scale data analyis in R, and
+apply these skills to a large(ish) data set. In particular:
 
-2. Learn how to use R **non-interactively** within a high-performance
-computing (HPC) environment.
+1. Running R analyses *non-interactively* within a high-performance
+   computing (HPC) environment.
 
-3. Assess memory needs.
+2. Quantifying memory needs.
 
-4. Make efficient use of memory.
+3. Making efficient use of memory.
 
-5. Speed up your R analyses by...
+4. Speeding up your analyses using...
 
-    + using simple parallelization techniques.
+    + Simple parallelization techniques.
 
-    + interfacing to C code (Rcpp).
+    + Interfacing to C code (Rcpp).
 
-6. Learn through **live coding**---this includes learning from our
-mistakes!
+Workshop aims
+=============
 
-It's your choice
-================
++ This is a *hands-on workshop*---you will get the most out of this
+  workshop if you work through the exercises on your computer.
 
-You may choose to...
-
-+ Use R on the RCC cluster.
-
-+ Use R on your laptop.
-
-+ Pair up with your neighbour.
-
-+ Follow what I do on the projector.
-
-Please note:
-
-+ Please use R, not RStudio.
- 
-+ Some examples will only work on the RCC cluster.
++ All the examples are intended to run on the RCC cluster.
 
 Software we will use today
 ==========================
 
 1. R
 
-2. Python 3.x (for assessing memory usage).
+2. Python3
 
-3. Slurm (job scheduler on RCC cluster).
+3. Slurm
 
-4. R packages **data.table**, **matrixStats**, **parallel** and **Rcpp**.
+4. R packages: data.table, matrixStats, parallel and Rcpp
 
-*These software and R packages are already installed on the RCC cluster.*
+*These are already installed on the RCC cluster.*
 
-The "large-ish" data set
-========================
+The "large" data set
+====================
 
 + RegMap data: genetic and ecological data on *Arabidopsis thaliana*
-in a range of climates.
+  in a range of climates.
 
-+ From Joy Bergelson's lab at the University of Chicago.
++ Developed by Joy Bergelson's lab at the University of Chicago.
 
 + See [Hancock et al (2011) *Science* 334, 83--86][hancock-2011].
 
 Outline of workshop
 ===================
 
-1. Initial setup.
++ Preliminaries
 
-2. Vignettes:
++ Programming challenges:
 
-    + Vignette #1: Importing a large data set.
+    1. Setting up your environment for large-scale data analysis.
 
-    + Vignette #2: Automating an analysis of a large data set.
+    2. Importing a large data set.
 
-    + Vignette #3: Speeding up operations on large matrices.
+    3. Automating an analysis of a large data set.
 
-    + Vignette #4: Multithreaded computing with "parLapply".
+    4. Speeding up operations on large matrices.
 
-    + Vignette #5: Using Rcpp to improve performance.
+    5. Multithreaded computing with "parLapply".
+
+    6. Using Rcpp to improve performance.
 
 Preliminaries
 =============
@@ -106,42 +94,91 @@ Preliminaries
 
 + Pace & questions (e.g., keyboard shortcuts).
 
-+ Getting stuck.
++ Yubikeys.
 
-Download workshop packet
-========================
++ What to do if you get stuck.
 
-Once you have connected to a midway2 login node, download the workshop
-packet (a git repository) to your home directory on the cluster
-(**note:** there are no spaces in the URL):
+Preliminaries
+=============
 
-```bash
-cd ~
-git clone https://github.com/rcc-uchicago/
-  R-large-scale.git
-```
++ The workshop packet is a repository on GitHub. Go to:
 
-*Optional:* Download the repository to your laptop.
+    - github.com/rcc-uchicago/R-large-scale
+
++ Download the workshop packet to your computer.
 
 What's included in the workshop packet
 ======================================
 
 + **slides.pdf:** These slides.
 
-+ **slides.Rmd:** R Markdown source used to generate these
-  slides.
++ **slides.Rmd:** R Markdown source used to create these slides.
 
 + **.R** files: R scripts we will run in the examples.
 
-+ **.sbatch** files: sbatch scripts we will run to allocate resources
++ **.sbatch** files: Slurm scripts we will run to allocate resources
   for our analyses on the cluster.
 
-+ **scale.Rcpp**: Some C++ code we will use to speed up one of the
++ **scale.cpp**: Some C++ code we will use to speed up one of the
   analyses.
 
-+ **monitor_memory.py:** Python script to assess memory usage.
++ **monitor_memory.py:** Python script used to assess memory usage.
 
 + **set_slurm_env.sh:** Shell commands to configure Slurm.
+
+Outline of workshop
+===================
+
+1. **Setting up your environment for large-scale data analysis.**
+
+2. Importing a large data set.
+
+3. Automating an analysis of a large data set.
+
+4. Speeding up operations on large matrices.
+
+5. Multithreaded computing with "parLapply".
+
+6. Using Rcpp to improve performance.
+
+Set up your HPC environment
+===========================
+
++ *Aim:* Configure your HPC environment for the next programming
+  challenges.
+
++ Steps:
+
+    1. Connect to midway2.
+
+2. 
+
+
+Connect to midway2
+==================
+
++ *If you have an RCC account:* I assume you already know how to
+  connect. Please use any way you prefer. See:
+  https://rcc.uchicago.edu/docs/connecting
+
++ *If you do not have an RCC account:* I will provide you with a
+  Yubikey, which will give you guest access (see the next slide).
+
+Connecting using the Yubikeys
+=============================
+
+Download workshop packet to home directory on midway2
+=====================================================
+
+Once you have connected to a midway2 login node, download the workshop
+packet (this is a *git repository*) to your home directory on the
+cluster (**note:** there are no spaces in the URL):
+
+```bash
+cd ~
+git clone https://github.com/rcc-uchicago/
+  R-large-scale.git
+```
 
 Retrieve the data
 =================
