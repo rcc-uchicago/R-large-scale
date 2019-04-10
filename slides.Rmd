@@ -301,28 +301,37 @@ Outline of workshop
 Challenge #2: Importing a large data set
 ========================================
 
-+ Aim:
++ Aim: Use an R package specifically designed for reading data from
+  large text files.
 
 + Steps:
 
-Import genotype data using `read.csv`
-=====================================
+    1. Try importing data using "read.csv".
+ 
+    2. Import data using "fread" from the data.table package.
 
-Our first aim is a simple one: read the RegMap genotype data into R. Let's
-try this using `read.csv`:
+    3. Time how long it takes to import using fread.
+
+Import data using `read.csv`
+============================
+
+Our first aim is a simple one: read the RegMap genotype data into
+R. First, try this using the "read.csv" function:
 
 ```{r import-data-read-csv, eval=FALSE}
 geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
+**Note:** You can tell R to stop running the code at any time by
+typing "Control-C".
 
-Import genotype data using `data.table`
-=======================================
+
+Import data using data.table package
+====================================
 
 Let's try again using the **data.table** package:
 
 ```{r import-data-fread}
-# install.packages("data.table")
 library(data.table) 
 geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
@@ -342,22 +351,24 @@ class(geno) <- "data.frame"
 ```
 
 
+```{r, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+					  
 Outline of workshop
 ===================
 
-1. Initial setup.
+1. Setting up your environment for large-scale data analysis.
 
-2. Vignettes:
+2. Importing a large data set.
 
-    + Vignette #1: Importing a large data set.
+3. **Automating an analysis of a large data set.**
 
-    + **Vignette #2: Automating an analysis of a large data set.**
+4. Speeding up operations on large matrices.
 
-    + Vignette #3: Speeding up operations on large matrices.
+5. Multithreaded computing with "parLapply".
 
-    + Vignette #4: Multithreaded computing with "parLapply".
-
-    + Vignette #5: Using Rcpp to improve performance.
+6. Using Rcpp to improve performance.
 
 Vignette #2: Automating an analysis of a large data set
 =======================================================
