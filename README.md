@@ -1,23 +1,30 @@
 # Large-scale data analysis in R
 
-The [R computing environment][R] computing environment has become an
-important tool for quantitative research, from computational biology
-to financial modeling. In this hands-on workshop, we will explore
-commonly used strategies to efficiently analyze large-scale data sets
-in R. Participants will learn to automate their R analyses on a
-compute cluster, profile memory usage, call fast C++ routines in R,
-and implement simple parallelization strategies, including
-multithreaded and distributed computing. The aim is to learn these
-techniques through hands-on “live coding”; we will analyze several
-medium to large-scale data sets.
+The [R computing environment][R] has become an important tool for
+quantitative research, from computational biology to financial
+modeling. In this hands-on workshop, we will explore commonly used
+strategies to efficiently analyze large-scale data sets in
+R. Participants will learn to automate their R analyses on a compute
+cluster, profile memory usage, call fast C++ routines in R, and
+implement simple parallelization strategies, including multithreaded
+and distributed computing. The aim is to learn these techniques
+through hands-on "live coding"; we will analyze several medium to
+large-scale data sets. Objectives: Attendees will (1) learn how to
+automate R analyses on a compute cluster; (2) use simple techniques to
+profile memory usage in R; (3) learn how to make more effective use of
+memory in R; (4) use multithreading to speed up R computations; (5)
+learn how to call C++ code from R using [Rcpp][Rcpp]; (6) write scripts to
+distribute "embarrassingly parallel" R computations using the Slurm
+job scheduler on the RCC Midway compute cluster; (7) learn through
+"live coding."
 
 ## Prerequistes
 
 All participants are expected to bring a laptop with a Mac, Linux or
 Windows operating system. Further, participants should be comfortable
 interacting with the UNIX shell and programming in a non-graphical R
-environment (*i.e.*, not RStudio). An RCC user account is recommended,
-but not required.
+environment (not RStudio). An RCC user account is recommended, but not
+required.
 
 ## What's included
 
@@ -63,6 +70,7 @@ you to [Gao Wang][gao] for sharing the Python script for profiling memory
 usage.
 
 [R]: http://cran.r-project.org
+[Rcpp]: https://cran.r-project.org/package=Rcpp
 [uchicago]: https://www.uchicago.edu
 [gao]: https://github.com/gaow
 [peter]: http://pcarbo.github.io
