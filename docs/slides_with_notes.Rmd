@@ -337,7 +337,7 @@ typing "Control-C".
 
 Import data using data.table package
 ====================================
-
+c
 Try again using the **data.table** package:
 
 ```{r import-data-fread}
@@ -391,8 +391,25 @@ Outline of workshop
 Challenge #3: Automating analysis of a large data set
 =====================================================
 
++ Aim: Develop scripts to automate the analysis and configuration
+  of the environment.
+
++ Steps:
+
+    1. Run data analysis interactively.
+
+    2. Automate the data analysis using Rscript.
+
+    3. Automate the environment setup using sbatch.
+
+    4. Make the analysis scripts more flexible using command-line
+       arguments.
+
+Run the analysis interactively
+==============================
+
 At this point, you should have a data frame with 948 rows and 214,051
-columns containing the genotypes of the *A. thaliana* samples.
+columns containing the *A. thaliana* genotypes.
 
 ```{r check-geno-data}
 nrow(geno)
@@ -401,7 +418,8 @@ ncol(geno)
 
 A common step in genetic analysis is to examine the distribution of
 minor allele frequencies. Since the RegMap genotypes are encoded as
-allele counts, allele frequencies are column means:
+allele counts, the allele frequencies are easily computed by taking
+the mean ofeach column:
 
 ```{r compute-mafs}
 maf <- sapply(geno,mean)
@@ -417,8 +435,8 @@ summary(maf)
 > Instructor notes: This is a good point to briefly discuss the
 > benefits of *automating* an analysis.
 
-Automating the analysis using Rscript
-=====================================
+Automate the data analysis using Rscript
+========================================
 
 Quit R, and re-run the analysis using the provided script:
 
@@ -426,12 +444,12 @@ Quit R, and re-run the analysis using the provided script:
 Rscript summarize_regmap_mafs.R
 ```
 
-> Instructor notes: Before running the script, inspect the code, and
+> Instructor notes: Before running the script, review the code, and
 > point out some of the features of the script (e.g., the "cat"
-> statements to log progress).
+> statements for logging progress).
 
-Automating environment setup and resource allocation
-====================================================
+Automate environment setup and resource allocation
+==================================================
 
 Rscript automates the steps *within the R environment*, but it does
 not automate the steps taken before running R code. Typically, before
@@ -447,8 +465,7 @@ This command will do 1 & 2, then run the analysis:
 sbatch summarize_regmap_mafs.sbatch
 ```
 
-Run these commands to check the status of your analysis while it is
-running:
+Check the status of your analysis while it is running:
 
 ```bash
 source set_slurm_env.sh
@@ -472,11 +489,11 @@ sacct --user=<cnetid>
 Automating the analysis for many data sets
 ==========================================
 
-Suppose you want to repeat your analysis for several other (similar)
-genetic data sets. To reduce effort, you could re-write your R script
-to make it more *generic*. See "summarize_mafs.R" for a similar script
-that takes the name of the genotype data file as a command-line
-argument:
+Suppose you want to repeat your analysis several data sets. One
+disadvantage of this script is that it will only work for one data
+set. See "summarize_mafs.R" for a similar script that is more
+*flexible*: it takes the name of the genotype data file as a
+command-line argument:
 
 ```bash
 Rscript summarize_mafs.R geno.csv
@@ -490,43 +507,46 @@ sbatch summarize_mafs.sbatch geno.csv
 ```
 
 > Instructor notes: Before running the R script and the sbatch script,
-> inspect the code.
+> review the code.
 > 
 > Ask the students how the sbatch script could be improved. In
 > particular, how to handle (1) data sets of different sizes
 > (requiring different amounts of memory), and (2) saving the results
-> of the anlayses to different files?
+> of the analyses to different files?
 
 Outline of workshop
 ===================
 
-1. Initial setup.
+1. Setting up your environment for large-scale data analysis.
 
-2. Vignettes:
+2. Importing a large data set.
 
-    + Vignette #1: Importing a large data set.
+3. Automating an analysis of a large data set.
 
-    + Vignette #2: Automating an analysis of a large data set.
+4. **Speeding up operations on large matrices.**
 
-    + **Vignette #3: Speeding up operations on large matrices.**
+5. Multithreaded computing with "parLapply".
 
-    + Vignette #4: Multithreaded computing with "parLapply".
+6. Using Rcpp to improve performance.
 
-    + Vignette #5: Using Rcpp to improve performance.
+Challenge #4: Speeding up operations on large matrices
+======================================================
 
-Vignette #3: Speeding up operations on large matrices
-=====================================================
++ Aim:
 
-At this point, you have quit R, so re-launch R, and load the RegMap
-genotype data again:
++ Steps:
+
+Import genotype data as a matrix
+================================
+
+Re-enter R, and load the RegMap genotype data again:
 
 ```{r import-data-2}
 library(data.table) 
 geno <- fread("geno.csv",sep = ",",header = TRUE)
 ```
 
-This time, we convert the genotypes to a matrix of floating-point
-numbers:
+Convert the genotypes to a matrix:
 
 ```{r import-data-3}
 geno <- as.matrix(geno)
