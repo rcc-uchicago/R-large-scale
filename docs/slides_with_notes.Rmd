@@ -486,8 +486,8 @@ sacct --user=<cnetid>
 > should be sufficient.) This provides motivation for one of the
 > vignettes below.
 
-Automating the analysis for many data sets
-==========================================
+Automate the analysis for many data sets
+========================================
 
 Suppose you want to repeat your analysis several data sets. One
 disadvantage of this script is that it will only work for one data
@@ -532,14 +532,21 @@ Outline of workshop
 Challenge #4: Speeding up operations on large matrices
 ======================================================
 
-+ Aim:
++ Aim: Take advantage of multithreaded routines in the OpenBLAS
+  library to speed up your matrix computations.
 
 + Steps:
+
+    1. Import data into R.
+    
+    2. Compute "kinship" matrix.
+
+    3. Compute "kinship" matrix again using multithreading.
 
 Import genotype data as a matrix
 ================================
 
-Re-enter R, and load the RegMap genotype data again:
+Re-launch R, and load the RegMap genotype data again:
 
 ```{r import-data-2}
 library(data.table) 
@@ -553,12 +560,12 @@ geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
 ```
 
-Computing the genotype matrix cross-product
-===========================================
+Compute kinship matrix
+======================
 
 Another common task in genetic analysis is to compute the "kinship"
-matrix from the genotypes. This can be done by computing the matrix
-cross-product:
+matrix from the genotypes. This can be done by computing the "matrix
+cross-product":
 
 ```{r cross-product}
 K <- tcrossprod(geno)
@@ -570,13 +577,13 @@ How long does it take to compute this matrix?
 timing <- system.time(K <- tcrossprod(geno))
 ```
 
-Exploiting multithreaded OpenBLAS
-=================================
+Exploit multithreaded OpenBLAS
+==============================
 
 Most matrix operations in R 3.5.1 on midway2 use the OpenBLAS
 library. This is a *multithreaded* library, meaning that it can take
-advantage of multiple CPUs to accelerate the computations. First,
-re-run the kinship computations as before using Rscript:
+advantage of multiple CPUs to accelerate the computations. Re-run the
+kinship computations as before, but using Rscript this time:
 
 ```bash
 Rscript compute_regmap_kinship.R
@@ -602,22 +609,9 @@ threads?*
 Outline of workshop
 ===================
 
-1. Initial setup.
 
-2. Vignettes:
-
-    + Vignette #1: Importing a large data set.
-
-    + Vignette #2: Automating an analysis of a large data set.
-
-    + Vignette #3: Speeding up operations on large matrices.
-
-    + **Vignette #4: Multithreaded computing with "parLapply".**
-
-    + Vignette #5: Using Rcpp to improve performance.
-
-Vignette #4: Multithreaded computing with "parLapply"
-=====================================================
+Challenge #5: Multithreaded computing with "parLapply"
+======================================================
 
 Often in genetic studies, we seek to identify associations between
 genetic variants and measured traits. Although there are very good
