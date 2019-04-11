@@ -28,7 +28,8 @@ access. However, to use the guest account you will need an SSH
 client. So please make sure you have an SSH client installed on your
 computer before coming to the workshop. (If you have macOS or Linux,
 you most likely have SSH.) For further explanation, go the above User
-Guide page.
+Guide page. You will also need a USB-A port, or an adapter for USB-A.
+(The newer USB ports are smaller than USB-A, so require an adapter.)
 
 At the beginning of the workshop, I will provide you with additional
 setup instructions.
