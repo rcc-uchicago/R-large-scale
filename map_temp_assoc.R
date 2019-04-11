@@ -29,9 +29,8 @@ geno <- geno[s > 0]
 
 # COMPUTE ASSOCIATIONS
 # --------------------
-# For now, compute associations for the first 10,000 SNPs
-# only. Comment out this two lines to compute associations for all
-# available SNPs.
+# Select the first 10,000 SNPs. Comment out this two lines to compute
+# associations for all available SNPs.
 p    <- 10000
 geno <- geno[1:p]
 

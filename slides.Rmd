@@ -562,28 +562,32 @@ threads?*
 Outline of workshop
 ===================
 
-1. Initial setup.
+1. Setting up your environment for large-scale data analysis.
 
-2. Vignettes:
+2. Importing a large data set.
 
-    + Vignette #1: Importing a large data set.
+3. Automating an analysis of a large data set.
 
-    + Vignette #2: Automating an analysis of a large data set.
+4. Speeding up operations on large matrices.
 
-    + Vignette #3: Speeding up operations on large matrices.
+5. **Multithreaded computing with "parLapply".**
 
-    + **Vignette #4: Multithreaded computing with "parLapply".**
+6. Using Rcpp to improve performance.
 
-    + Vignette #5: Using Rcpp to improve performance.
+Challenge #5: Multithreaded computing with "parLapply"
+======================================================
 
-Vignette #4: Multithreaded computing with "parLapply"
-=====================================================
++ Aim: Speed up association analysis (associations between genetic
+variants and measured traits) using simple multithreading (parallel
+computing) techniques.
 
-Often in genetic studies, we seek to identify associations between
-genetic variants and measured traits. Although there are very good
-software for running an association analysis (e.g., PLINK), here we
-will implement this analysis in R to illustrate simple
-multithreading (parallel computing) techniques.
++ Steps: 
+
+    1. Run association analysis without multithreading.
+
+    2. Set up R for multithreading.
+
+    3. Run association analysis with parLapply.
 
 
 Run the association analysis
@@ -599,15 +603,14 @@ source("map_temp_assoc.R")
 
 Although we have data on over 200,000 genetic variants (SNPs), we
 limited the association analysis to only 10,000 SNPs because computing
-all 200,000+ p-values will take too long (several minutes). Let's use
+all 200,000+ *p*-values will take too long (several minutes). Let's use
 "parLapply" to speed up this computation.
 
-Set up your R environment for multithreading
-============================================
+Set up R for multithreading
+===========================
 
 Set up R to use all 8 CPUs you requested, and distribute the
-computation (the columns of the genotype matrix) across the 8
-"threads":
+computation (columns of the matrix) across the 8 "threads":
 
 ```{r init-cluster}
 library(parallel)
@@ -615,19 +618,19 @@ cl   <- makeCluster(8)
 cols <- clusterSplit(cl,1:p)
 ```
 
-Next, we need to tell R which functions we will use in the
-mulithreaded computation:
+Next, tell R which functions we will use in the mulithreaded
+computation:
 
 ```{r cluster-register-functions}
 clusterExport(cl,c("get.assoc.pvalue",
                    "get.assoc.pvalues"))
 ```
 
-Compute p-values inside "parLapply"
-===================================
+Compute *p*-values inside "parLapply"
+=====================================
 
-Now we are ready to run the multithreaded computation of association
-p-values using "parLapply":
+Now you are ready to run the multithreaded computation of association
+*p*-values using "parLapply":
 
 ```{r run-parlapply}
 f <- function (i, geno, pheno)
@@ -636,12 +639,18 @@ timing <- system.time(
   out <- parLapply(cl,cols,f,geno,pheno))
 ```
 
-We aren't quite done---the output is a list object, and we need to
-combine the individual list elements into a single vector of p-values.
+Not done yet---you need to combine the individual outputs into a
+single vector of *p*-values.
 
 ```{r process-parlapply-output}
 pvalues <- rep(0,p)
 pvalues[unlist(cols)] <- unlist(out)
+```
+
+Check that the results is the same as before:
+
+```{r check-parlapply-output}
+quantile(pvalues,c(0,0.001,0.01,0.1,0.25,0.5,1))
 ```
 
 *Did parLapply speed up the p-value computation?*
@@ -659,29 +668,29 @@ stopCluster(cl)
 Outline of workshop
 ===================
 
-1. Initial setup.
+1. Setting up your environment for large-scale data analysis.
 
-2. Vignettes:
+2. Importing a large data set.
 
-    + Vignette #1: Importing a large data set.
+3. Automating an analysis of a large data set.
 
-    + Vignette #2: Automating an analysis of a large data set.
+4. Speeding up operations on large matrices.
 
-    + Vignette #3: Speeding up operations on large matrices.
+5. Multithreaded computing with "parLapply".
 
-    + Vignette #4: Multithreaded computing with "parLapply".
+6. **Using Rcpp to improve performance.**
 
-    + **Vignette #5: Using Rcpp to improve performance.**
+Challenge #6: Using Rcpp to improve performance
+===============================================
 
-Vignette #5: Using Rcpp to improve performance
-==============================================
-
-In this final example, we will show that even simple computations on
++ Aim: In this final example, we will show that even simple computations on
 large data sets in R can be very slow and use an excessive amount of
 memory.
 
 + *Implementing the most intensive computations in C can sometimes give
 large (10--1000x) speedups.*
+
++ Steps:
 
 Center & scale the genotype matrix
 ==================================
