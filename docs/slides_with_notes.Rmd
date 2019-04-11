@@ -194,6 +194,8 @@ Using the Yubikeys
 
     4. When prompted for password, press lightly on metal disc.
 
+*Please return the Yubikey at the end of the workshop.*
+
 Download workshop packet
 ========================
 
