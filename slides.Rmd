@@ -17,7 +17,7 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
 Workshop aims
 =============
 
-Develop **essential skills** for large-scale data analyis in R, and
+Develop **essential skills** for large-scale data analysis in R, and
 apply these skills to a large(ish) data set. In particular:
 
 1. Running R analyses *non-interactively* within a high-performance
@@ -328,7 +328,7 @@ typing "Control-C".
 
 Import data using data.table package
 ====================================
-c
+
 Try again using the **data.table** package:
 
 ```{r import-data-fread}
@@ -397,7 +397,7 @@ ncol(geno)
 A common step in genetic analysis is to examine the distribution of
 minor allele frequencies. Since the RegMap genotypes are encoded as
 allele counts, the allele frequencies are easily computed by taking
-the mean ofeach column:
+the mean of each column:
 
 ```{r compute-mafs}
 maf <- sapply(geno,mean)
@@ -618,7 +618,7 @@ cl   <- makeCluster(8)
 cols <- clusterSplit(cl,1:p)
 ```
 
-Next, tell R which functions we will use in the mulithreaded
+Next, tell R which functions we will use in the multithreaded
 computation:
 
 ```{r cluster-register-functions}
@@ -704,7 +704,7 @@ Center & scale the matrix
 
 For some analyses, is important to first "center" and "scale" the
 columns of the matrix so that each column has zero mean and standard
-devatition 1. This is implemented in "scale_geno.R":
+deviation 1. This is implemented in "scale_geno.R":
 
 ```bash
 Rscript scale_geno.R
