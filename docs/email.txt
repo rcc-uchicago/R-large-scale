@@ -1,57 +1,39 @@
-Subject: Steps to prepare for tomorrow's R workshop
+Subject: Please read for tomorrow's R workshop
 
-Hi,
+Thank you for registering for the RCC workshop, "Large-Scale Data
+Analysis in R". It is taking place tomorrow (Thursday, April 11), 2–5p
+in the Zar Room, which is in the John Crerar Library.
 
-You are receiving this email because you have registered for the RCC
-Workshop, "Large-scale data analysis in R", happening Monday, November
-13, The main aim of this workshop is give you a solid footing for
-transitioning from INTERACTIVE (exploratory) data analysis in R to
-NON-INTERACTIVE (automated) large-scale data analysis. This will
-involve: (1) making most effective use of computational resources on
-the RCC cluster (managing memory, parallel/multithreaded computing),
-and (2) using R in combination with the SLURM job engine to run
-hundreds of data analyses simultaneously.
+This workshop is not an introduction to R—it is intended for students
+and researchers who already have experience using R. You will get the
+most out of this workshop if you have an RCC account, you have used
+midway2, and you are familiar with basic UNIX shell commands. (If you
+do not have an RCC account, please see below.)
 
-NOTE: If you have little or no experience with R, or if you are
-unfamiliar with basic shell commands for navigating the file system
-(e.g., ls, cd, cp, cat), you will most likely have difficulty
-following the examples in class and completing the exercises.
+If you cannot attend, please cancel your registration on the
+Eventbrite website. This will help me get a better sense of workshop
+size.
 
-I'd like to make good use of the very short time we have together, so
-please complete the following steps BEFORE coming to the workshop
-tomorrow afternoon.
+This is a hands-on tutorial, so you will get the most benefit from the
+tutorial if you bring your laptop and work through the examples
+in-class. We will be using the RCC cluster for all the examples.
 
-1. You will use the RCC cluster throughout the tutorial. Please make
-sure you can connect to midway2.rcc.uchicago.edu with your RCC
-account. If you are not sure how to do this, please see:
-https://rcc.uchicago.edu/docs/connecting. If you do not have an RCC
-account, please email me so that I can give you access to the RCC
-cluster for the workshop.
+If you have an RCC account, please make sure you are able to log in to
+midway2. See the instructions in the User Guide:
 
-2. You will transfer files from the RCC cluster to your laptop. Please
-make sure you know how to use either scp or SAMBA for transfering
-files. See: https://rcc.uchicago.edu/docs/data-transfer
+https://rcc.uchicago.edu/docs/connecting
 
-3. You will need to use a text-based editor (e.g., emacs, vim,
-nano). If you are not well acquainted with one, I suggest you try out
-nano.
+If you do not have an RCC account, I will provide you with guest
+access. However, to use the guest account you will need an SSH
+client. So please make sure you have an SSH client installed on your
+computer before coming to the workshop. (If you have macOS or Linux,
+you most likely have SSH.) For further explanation, go the above User
+Guide page.
 
-4. There will be several mini-exercises during the workshop. We will
-use Etherpad to share results and questions during the exercises.
-Please access this link below and add your name, department and laptop
-OS under "Introductions":
-https://etherpad.wikimedia.org/p/rcc-13-nov-2017
+At the beginning of the workshop, I will provide you with additional
+setup instructions.
 
-A couple final notes:
-
-1. You may use RStudio, but I strongly advise you to use R instead.
-
-2. At the beginning of the workshop, I will provide you with a link to
-download a packet containing all the materials needed to follow the
-demonstrations and complete the exercises.
-
-Thank you,
-
-Peter Carbonetto, Ph.D.
-Research Computing Center
+Peter Carbonetto
+Computational Scientist, Statistics & Genetics,
+Research Computing Center & Dept. of Human Genetics
 University of Chicago

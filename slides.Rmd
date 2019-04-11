@@ -329,7 +329,7 @@ typing "Control-C".
 Import data using data.table package
 ====================================
 
-Let's try again using the **data.table** package:
+Try again using the **data.table** package:
 
 ```{r import-data-fread}
 library(data.table) 
@@ -366,14 +366,13 @@ Outline of workshop
 
 6. Using Rcpp to improve performance.
 
-Vignette #2: Automating an analysis of a large data set
-=======================================================
+Challenge #3: Automating analysis of a large data set
+=====================================================
 
-You should have a data frame with 948 rows and 214,051 columns
-containing the genotypes of the *A. thaliana* samples:
+At this point, you should have a data frame with 948 rows and 214,051
+columns containing the genotypes of the *A. thaliana* samples.
 
 ```{r check-geno-data}
-class(geno)
 nrow(geno)
 ncol(geno)
 ```
