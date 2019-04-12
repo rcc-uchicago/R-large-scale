@@ -124,8 +124,6 @@ What's included in the workshop packet
 
 + **monitor_memory.py:** Python script used to assess memory usage.
 
-+ **set_slurm_env.sh:** Shell commands to configure Slurm.
-
 Outline of workshop
 ===================
 
@@ -189,7 +187,8 @@ Using the Yubikeys
     2. Note your userid: `rccguestXXXX`, where `XXXX` is the
        last four digits shown on Yubikey.
 
-    3. Follow instructions to connect to midway2 via SSH:
+    3. Follow instructions to connect to midway2 via SSH, replacing
+       the cnetid with your `rccguestXXXX` user name:
        https://rcc.uchicago.edu/docs/connecting
 
     4. When prompted for password, press lightly on metal disc.
@@ -277,10 +276,11 @@ getwd()
 Open another connection to midway2
 ==================================
 
-+ Follow the same steps as before to connect to a midway2 login node.
++ Open a new SSH connection, following the same steps as before (see
+  the "Connect to midway2" slide).
 
-+ This second connection will be used to monitor your computations on the
-  cluster.
++ This second connection will be used to monitor your computations on
+  the cluster (time permitting).
 
 + *At this point, you have completed the initial setup. You are now
   ready to move on to the next programming challenge.*
@@ -380,10 +380,11 @@ Challenge #3: Automating analysis of a large data set
 
     2. Automate the data analysis using Rscript.
 
-    3. Automate the environment setup using sbatch.
-
-    4. Make the analysis scripts more flexible using command-line
+    3. Make the analysis scripts more flexible using command-line
        arguments.
+
+    4. Automate the environment setup using sbatch. (**Note:** we will
+       work through this last step together---it is more challenging.)
 
 Run the analysis interactively
 ==============================
@@ -416,10 +417,30 @@ summary(maf)
 Automate the data analysis using Rscript
 ========================================
 
-Quit R, and re-run the analysis using the provided script:
+Quit R:
+
+```{r quit, eval=FALSE}
+quit()
+```
+
+Now re-run the analysis using the provided script:
 
 ```bash
 Rscript summarize_regmap_mafs.R
+```
+
+
+Automate the analysis for many data sets
+========================================
+
+Suppose you want to repeat your analysis several data sets. One
+disadvantage of this script is that it will only work for one data
+set. See "summarize_mafs.R" for a similar script that is more
+*flexible*: it takes the name of the genotype data file as a
+command-line argument:
+
+```bash
+Rscript summarize_mafs.R geno.csv
 ```
 
 
@@ -454,20 +475,10 @@ sacct --user=<cnetid>
 ```
 
 
-Automate the analysis for many data sets
-========================================
+Automate environment setup and resource allocation
+==================================================
 
-Suppose you want to repeat your analysis several data sets. One
-disadvantage of this script is that it will only work for one data
-set. See "summarize_mafs.R" for a similar script that is more
-*flexible*: it takes the name of the genotype data file as a
-command-line argument:
-
-```bash
-Rscript summarize_mafs.R geno.csv
-```
-
-Likewise, we can implement an sbatch script that takes a command-line
+We can also implement an sbatch script that takes a command-line
 argument:
 
 ```bash
@@ -598,15 +609,19 @@ Run the association analysis
 Begin by starting the R environment in your interactive session. An
 association analysis for one climate variable---"maximum temperature
 of warmest month"---is implemented in the "map_temp_assoc.R" script.
+Run this line of code in R:
 
 ```{r map-maxtemp-associations}
 source("map_temp_assoc.R")
 ```
 
-Although we have data on over 200,000 genetic variants (SNPs), we
-limited the association analysis to only 10,000 SNPs because computing
-all 200,000+ *p*-values will take too long (several minutes). Let's use
-"parLapply" to speed up this computation.
+This line will run the code in `map_temp_assoc.R`, and will keep the
+results of this code in your environment.
+
++ **Note:** Although we have data on over 200,000 genetic variants
+(SNPs), here we will limit the association analysis to only 10,000
+SNPs because computing all 200,000+ *p*-values will take too long for
+the workshop.
 
 Set up R for multithreading
 ===========================
@@ -617,7 +632,7 @@ computation (columns of the matrix) across the 8 "threads":
 ```{r init-cluster}
 library(parallel)
 cl   <- makeCluster(8)
-cols <- clusterSplit(cl,1:p)
+cols <- clusterSplit(cl,1:10000)
 ```
 
 Next, tell R which functions we will use in the multithreaded
@@ -645,7 +660,7 @@ Not done yet---you need to combine the individual outputs into a
 single vector of *p*-values.
 
 ```{r process-parlapply-output}
-pvalues <- rep(0,p)
+pvalues <- rep(0,10000)
 pvalues[unlist(cols)] <- unlist(out)
 ```
 
