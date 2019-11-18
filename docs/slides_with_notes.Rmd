@@ -536,7 +536,7 @@ Followup challenge
 ==================
 
 *Suppose you had to re-run this allele frequency analysis for 1,000
-large data sets. How would you write your R and sbatch scripts to
+large data sets. How would you design your R and sbatch scripts to
 implement this analysis efficiently?*
 
 Outline of workshop
@@ -589,8 +589,9 @@ Compute kinship matrix
 ======================
 
 Another common task in genetic analysis is to compute the "kinship"
-matrix from the genotypes. This can be done by computing the "matrix
-cross-product":
+matrix from the genotypes. (For non-quantitative geneticists, this is
+effectively the covariance matrix.) This can be done by computing the
+matrix cross-product:
 
 ```{r cross-product}
 K <- tcrossprod(geno)
@@ -605,10 +606,10 @@ timing <- system.time(K <- tcrossprod(geno))
 Exploit multithreaded OpenBLAS
 ==============================
 
-Most matrix operations in R 3.5.1 on midway2 use the OpenBLAS
-library. This is a *multithreaded* library, meaning that it can take
-advantage of multiple CPUs to accelerate the computations. Re-run the
-kinship computations as before, but using Rscript this time:
+Most matrix operations in R on midway2 use OpenBLAS. This is a
+*multithreaded* library, meaning that it can take advantage of
+multiple CPUs to accelerate the computations. Re-run the kinship
+computations using the script:
 
 ```bash
 Rscript compute_regmap_kinship.R
@@ -626,10 +627,6 @@ threads?*
 
 > Instructor notes: This is a good opportunity to demonstrate how to
 > use "htop" in the separate connection to monitor CPU usage.
->
-> To answer the above question, it is helpful to visualize the
-> speedups by plotting the runtimes against the number of CPUs on the
-> log-scale: `plot(ncpus,runtimes,pch = 20,log = "xy")`
 
 Outline of workshop
 ===================
@@ -778,9 +775,10 @@ Challenge #6: Using Rcpp to improve performance
 
     1. Run centering & scaling without Rcpp.
 
-    2. Assess memory usage.
+    2. Assess runtime and memory usage.
 
-    3. Re-run centering & scaling with Rcpp, and assess memory usage.
+    3. Re-run centering & scaling with Rcpp, and assess runtime and
+       memory usage.
 
 Center & scale the matrix
 =========================
