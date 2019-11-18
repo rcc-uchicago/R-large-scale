@@ -151,4 +151,3 @@ if __name__ == '__main__':
   sys.stderr.write('max rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
   sys.stderr.write('memory check interval: %ss\n' % ptimer.interval)
   sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
-  sys.exit(ptimer.p.returncode)
