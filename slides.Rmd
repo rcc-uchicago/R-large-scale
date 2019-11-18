@@ -14,11 +14,11 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
                       message = FALSE,warning = FALSE)
 ```
 
-Workshop aims
+A brief intro
 =============
 
-**Aim:** We will develop essential skills for large-scale data
-analysis in R. In particular, we will learn how to:
+*We will develop essential skills for large-scale data analysis in R.*
+In particular, we will learn how to:
 
 1. Run R analyses *non-interactively*.
 
@@ -32,7 +32,7 @@ analysis in R. In particular, we will learn how to:
 
     + Interfacing to C code (Rcpp).
 
-Workshop aims
+A brief intro
 =============
 
 + This is a *hands-on workshop*---you will get the most out of this
@@ -74,7 +74,7 @@ Outline of workshop
 
     2. Importing a large data set into R.
 
-    3. Automating an analysis of a large data set.
+    3. Automating analysis of a large data set.
 
     4. Speeding up operations on large matrices.
 
@@ -134,7 +134,7 @@ Outline of workshop
 
 2. Importing a large data set into R.
 
-3. Automating an analysis of a large data set.
+3. Automating analysis of a large data set.
 
 4. Speeding up operations on large matrices.
 
@@ -294,7 +294,7 @@ Outline of workshop
 
 2. **Importing a large data set into R.**
 
-3. Automating an analysis of a large data set.
+3. Automating analysis of a large data set.
 
 4. Speeding up operations on large matrices.
 
@@ -363,7 +363,7 @@ Outline of workshop
 
 2. Importing a large data set into R.
 
-3. **Automating an analysis of a large data set.**
+3. **Automating analysis of a large data set.**
 
 4. Speeding up operations on large matrices.
 
@@ -374,20 +374,19 @@ Outline of workshop
 Challenge #3: Automating analysis of a large data set
 =====================================================
 
-+ Aim: Develop scripts to automate the analysis and configuration
-  of the environment.
++ Aim: Develop scripts to automate (1) the data analysis in R and (2)
+  configuration of the environment.
 
 + Steps:
 
     1. Run data analysis interactively.
 
-    2. Automate the data analysis using Rscript.
+    2. Automate the data analysis using a script.
 
-    3. Make the analysis scripts more flexible using command-line
-       arguments.
+    3. Make the script more flexible using command-line arguments.
 
-    4. Automate the environment setup using sbatch. (**Note:** we will
-       work through this last step together---it is more challenging.)
+    4. Automate environment setup and resource allocation using
+       sbatch.
 
 Run the analysis interactively
 ==============================
@@ -401,9 +400,8 @@ ncol(geno)
 ```
 
 A common step in genetic analysis is to examine the distribution of
-minor allele frequencies. Since the RegMap genotypes are encoded as
-allele counts, the allele frequencies are easily computed by taking
-the mean of each column:
+minor allele frequencies. This involves taking the mean of each
+column:
 
 ```{r compute-mafs}
 maf <- sapply(geno,mean)
@@ -420,26 +418,27 @@ summary(maf)
 Automate the data analysis using Rscript
 ========================================
 
-Quit R:
+Let's quit R:
 
 ```{r quit, eval=FALSE}
 quit()
 ```
 
-Now re-run the analysis using the provided script:
+Now re-run the RegMap allele frequency analysis using the script
+provided in the repository:
 
 ```bash
 Rscript summarize_regmap_mafs.R
 ```
 
 
-Automate the analysis for many data sets
-========================================
+Automate the analysis for several data sets
+===========================================
 
-Suppose you want to repeat your analysis several data sets. One
-disadvantage of this script is that it will only work for one data
-set. See "summarize_mafs.R" for a similar script that is more
-*flexible*: it takes the name of the genotype data file as a
+Suppose you need to repeat your allele frequency analysis several data
+sets. The `summarize_regmap_mafs.R` script only works for one data
+set.  So we create a new script "summarize_mafs.R" that is more
+flexible; it takes the name of the genotype data file as a
 command-line argument:
 
 ```bash
@@ -458,7 +457,7 @@ running the R code you will need to:
 
 2. Run Slurm commands to allocate computing resources.
 
-This command will do 1 & 2, then run the analysis:
+This will do 1 & 2, then run the analysis in R:
 
 ```bash
 sbatch summarize_regmap_mafs.sbatch
@@ -468,13 +467,13 @@ Check the status of your analysis while it is running:
 
 ```bash
 source set_slurm_env.sh
-squeue --user=<cnetid>
+squeue -u cnetid
 ```
 
-Run this command to check the status upon termination:
+Run this command to check jobs after they are completed:
 
 ```
-sacct --user=<cnetid>
+sacct -u cnetid
 ```
 
 
@@ -489,6 +488,13 @@ sbatch summarize_mafs.sbatch geno.csv
 ```
 
 
+Followup challenge
+==================
+
+*Suppose you had to re-run this allele frequency analysis for 1,000
+large data sets. How would you write your R and sbatch scripts to
+implement this analysis efficiently?*
+
 Outline of workshop
 ===================
 
@@ -496,7 +502,7 @@ Outline of workshop
 
 2. Importing a large data set into R.
 
-3. Automating an analysis of a large data set.
+3. Automating analysis of a large data set.
 
 4. **Speeding up operations on large matrices.**
 
@@ -582,7 +588,7 @@ Outline of workshop
 
 2. Importing a large data set into R.
 
-3. Automating an analysis of a large data set.
+3. Automating analysis of a large data set.
 
 4. Speeding up operations on large matrices.
 
@@ -692,7 +698,7 @@ Outline of workshop
 
 2. Importing a large data set into R.
 
-3. Automating an analysis of a large data set.
+3. Automating analysis of a large data set.
 
 4. Speeding up operations on large matrices.
 
