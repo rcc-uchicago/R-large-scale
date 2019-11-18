@@ -6,7 +6,7 @@
 #SBATCH --mem=1G
 
 # For reproducibility, add version numbers to the "module load" calls.
-module load R/3.5.1
+module load R/3.6.1
 
 # Run the R script.
 echo "Running summarize_regmap_mafs.R"
