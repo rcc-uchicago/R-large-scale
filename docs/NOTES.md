@@ -20,3 +20,7 @@
 + Fix midway2 prompt.
 + Arrange PDF of slides and R on screen.
 + Distribute Yubikeys.
+
+  scontrol create reservation=workshop_test users=-runesha \
+    starttime=2019-11-18T17:00:00 duration=30:00:00 \
+    partitionname=broadwl nodecnt=1

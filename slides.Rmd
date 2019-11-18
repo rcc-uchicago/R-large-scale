@@ -17,17 +17,16 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
 Workshop aims
 =============
 
-Develop **essential skills** for large-scale data analysis in R, and
-apply these skills to a large(ish) data set. In particular:
+**Aim:** We will develop essential skills for large-scale data
+analysis in R. In particular, we will learn how to:
 
-1. Running R analyses *non-interactively* within a high-performance
-   computing (HPC) environment.
+1. Run R analyses *non-interactively*.
 
-2. Quantifying memory needs.
+2. Determine memory needs.
 
-3. Making efficient use of memory.
+3. Make efficient use of memory.
 
-4. Speeding up your analyses using...
+4. Speed up our analyses using...
 
     + Simple parallelization techniques.
 
@@ -50,9 +49,9 @@ Software we will use today
 
 3. Slurm
 
-4. R packages: data.table, matrixStats, parallel and Rcpp
+4. A few R packages: data.table, matrixStats, parallel, Rcpp
 
-*These are already installed on the RCC cluster.*
+*These are already installed on midway2.*
 
 The "large" data set
 ====================
@@ -60,7 +59,7 @@ The "large" data set
 + RegMap data: genetic and ecological data on *Arabidopsis thaliana*
   in a range of climates.
 
-+ Developed by Joy Bergelson's lab at the University of Chicago.
++ From Joy Bergelson's lab at U. Chicago.
 
 + See [Hancock et al (2011) *Science* 334, 83--86][hancock-2011].
 
@@ -73,7 +72,7 @@ Outline of workshop
 
     1. Setting up your environment for large-scale data analysis.
 
-    2. Importing a large data set.
+    2. Importing a large data set into R.
 
     3. Automating an analysis of a large data set.
 
@@ -90,6 +89,8 @@ Preliminaries
 
 + Power outlets.
 
++ Computer clutter.
+
 + Reading what I type.
 
 + Pace & questions (e.g., keyboard shortcuts).
@@ -105,10 +106,12 @@ Preliminaries
 
     - github.com/rcc-uchicago/R-large-scale
 
-+ Download the workshop packet to your computer.
++ Download the workshop packet onto your computer.
 
-What's included in the workshop packet
-======================================
++ Open the slides PDF.
+
+What's in the workshop packet
+=============================
 
 + **slides.pdf:** These slides.
 
@@ -129,7 +132,7 @@ Outline of workshop
 
 1. **Setting up your environment for large-scale data analysis.**
 
-2. Importing a large data set.
+2. Importing a large data set into R.
 
 3. Automating an analysis of a large data set.
 
@@ -149,7 +152,7 @@ Challenge #1: Setting up your HPC environment
 
     1. Connect to midway2.
 
-    2. Download workshop packet.
+    2. Download workshop packet onto midway2.
 
     3. Retrieve data set.
 
@@ -195,8 +198,8 @@ Using the Yubikeys
 
 *Please return the Yubikey at the end of the workshop.*
 
-Download workshop packet
-========================
+Download workshop packet onto midway2
+=====================================
 
 Once you have connected to a midway2 login node, download the workshop
 packet to your home directory on the cluster (**note:** there are no
@@ -225,8 +228,8 @@ After taking these steps, this command should list two CSV files:
 ls *.csv
 ```
 
-Connect to a midway2 compute node
-=================================
+Connect to a compute node
+=========================
 
 Set up an interactive session on a midway2 compute node with 8 CPUs
 and 18 GB of memory:
@@ -245,7 +248,7 @@ Launch R
 Start up an interactive R session:
 
 ```bash
-module load R/3.5.1
+module load R/3.6.1
 which R
 R --no-save
 ```
@@ -253,7 +256,7 @@ R --no-save
 Check your R environment
 ========================
 
-Check that you are running R 3.5.1:
+Check that you are running R 3.6.1:
 
 ```{r check-version}
 sessionInfo()
@@ -276,11 +279,10 @@ getwd()
 Open another connection to midway2
 ==================================
 
-+ Open a new SSH connection, following the same steps as before (see
-  the "Connect to midway2" slide).
++ Open a *second* SSH connection, following the same steps as before.
 
 + This second connection will be used to monitor your computations on
-  the cluster (time permitting).
+  the cluster.
 
 + *At this point, you have completed the initial setup. You are now
   ready to move on to the next programming challenge.*
@@ -290,7 +292,7 @@ Outline of workshop
 
 1. Setting up your environment for large-scale data analysis.
 
-2. **Importing a large data set.**
+2. **Importing a large data set into R.**
 
 3. Automating an analysis of a large data set.
 
@@ -300,15 +302,15 @@ Outline of workshop
 
 6. Using Rcpp to improve performance.
 
-Challenge #2: Importing a large data set
-========================================
+Challenge #2: Importing a large data set into R
+===============================================
 
-+ Aim: Use an R package specifically designed for reading data from
-  large text files.
++ Aim: Use the "data.table" R package to quickly read a large data set
+  into R.
 
 + Steps:
 
-    1. Try importing data using "read.csv".
+    1. Try importing the data using "read.csv".
  
     2. Import data using "fread" from the data.table package.
 
@@ -325,7 +327,8 @@ geno <- read.csv("geno.csv",check.names = FALSE)
 ```
 
 **Note:** You can tell R to stop running the code at any time by
-typing "Control-C".
+typing "Control-C". (If "Control-C" doesn't work, I will give you an
+alternative.)
 
 
 Import data using data.table package
@@ -358,7 +361,7 @@ Outline of workshop
 
 1. Setting up your environment for large-scale data analysis.
 
-2. Importing a large data set.
+2. Importing a large data set into R.
 
 3. **Automating an analysis of a large data set.**
 
@@ -491,7 +494,7 @@ Outline of workshop
 
 1. Setting up your environment for large-scale data analysis.
 
-2. Importing a large data set.
+2. Importing a large data set into R.
 
 3. Automating an analysis of a large data set.
 
@@ -577,7 +580,7 @@ Outline of workshop
 
 1. Setting up your environment for large-scale data analysis.
 
-2. Importing a large data set.
+2. Importing a large data set into R.
 
 3. Automating an analysis of a large data set.
 
@@ -687,7 +690,7 @@ Outline of workshop
 
 1. Setting up your environment for large-scale data analysis.
 
-2. Importing a large data set.
+2. Importing a large data set into R.
 
 3. Automating an analysis of a large data set.
 
