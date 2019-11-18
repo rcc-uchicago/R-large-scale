@@ -33,8 +33,3 @@ maf <- pmin(maf,1 - maf)
 # -----------------
 cat(sprintf("Distribution of MAFs across %d SNPs:\n",p))
 print(summary(maf))
-
-# SESSION INFO
-# ------------
-cat("Session info:\n")
-print(sessionInfo())
