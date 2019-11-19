@@ -646,17 +646,17 @@ Outline of workshop
 Challenge #5: Multithreaded computing with "parLapply"
 ======================================================
 
-+ Aim: Speed up association analysis (associations between genetic
-variants and measured traits) using simple multithreading (parallel
-computing) techniques.
++ Aim: Speed up computation of association *p*-values (associations
+between genetic variants and measured traits) using simple
+multithreading techniques.
 
 + Steps: 
 
-    1. Run association analysis without multithreading.
+    1. Compute *p*-values without multithreading.
 
     2. Set up R for multithreading.
 
-    3. Run association analysis with parLapply.
+    3. Compute *p*-values with parLapply.
 
 > Instructor notes: Before, we saw that we could get very good (near
 > optimal) speedups *for free* because multithreaded matrix operations
@@ -669,20 +669,27 @@ Run the association analysis
 
 Begin by starting the R environment in your interactive session. An
 association analysis for one climate variable---"maximum temperature
-of warmest month"---is implemented in the "map_temp_assoc.R" script.
-Run this line of code in R:
+of warmest month"---is implemented in `map_temp_assoc.R`. Run this
+in R:
 
 ```{r map-maxtemp-associations}
 source("map_temp_assoc.R")
 ```
 
-This line will run the code in `map_temp_assoc.R`, and will keep the
-results of this code in your environment.
+This runs the code in `map_temp_assoc.R`, and keeps the results in
+your environment. This is the most expensive step:
 
-+ **Note:** Although we have data on over 200,000 genetic variants
-(SNPs), here we will limit the association analysis to only 10,000
-SNPs because computing all 200,000+ *p*-values will take too long for
-the workshop.
+```{r get-assoc-pvalues}
+pvalues <- get.assoc.pvalues(geno,pheno)
+```
+
+It applies `get.assoc.pvalue` to each column of `geno`.
+
++ **Note:** Since it will take too long to compute all 200,000+
+  *p*-values, here <we only compute 10,000 of them.
+
+> Instructor notes: This is another good opportunity to demonstrate
+> use of `htop` to monitor CPU usage.
 
 Set up R for multithreading
 ===========================
@@ -725,7 +732,7 @@ pvalues <- rep(0,10000)
 pvalues[unlist(cols)] <- unlist(out)
 ```
 
-Check that the results is the same as before:
+Check that the result is the same as before:
 
 ```{r check-parlapply-output}
 quantile(pvalues,c(0,0.001,0.01,0.1,0.25,0.5,1))
@@ -763,29 +770,23 @@ Outline of workshop
 Challenge #6: Using Rcpp to improve performance
 ===============================================
 
-+ Aims:
-
-    1. Observe that simple computations on large data sets in R can be
-       very slow, and memory-intensive.
-
-    2. Implement the key computations in C for better performance and
-       less memory usage.
++ Aim: Implement slow R computations in C for better performance and
+  less memory usage.
 
 + Steps:
 
-    1. Run centering & scaling without Rcpp.
+    1. Run centering & scaling without Rcpp, assessing runtime and
+       memory usage.
 
-    2. Assess runtime and memory usage.
-
-    3. Re-run centering & scaling with Rcpp, and assess runtime and
+    3. Re-run centering & scaling with Rcpp, assessing runtime and
        memory usage.
 
 Center & scale the matrix
 =========================
 
-For some analyses, is important to first "center" and "scale" the
+For some data analyses, is important to first "center" and "scale" the
 columns of the matrix so that each column has zero mean and standard
-deviation 1. This is implemented in "scale_geno.R":
+deviation 1. This is implemented in `scale_geno.R`:
 
 ```bash
 Rscript scale_geno.R
@@ -813,8 +814,7 @@ Center & scale the genotype matrix using Rcpp
 R duplicates objects aggressively ("copy on modify"). This can be an
 issue with large objects.
 
-+ We can circumvent this by implementing a C++ function *that modifies
-the input matrix directly.*
++ We can circumvent this by implementing the computations in C++.
 
 + See files **scale.cpp** and **scale_geno_rcpp.R** for how this is
 implemented using **Rcpp**.
@@ -826,21 +826,21 @@ python3 monitor_memory.py \
   Rscript scale_geno_rcpp.R
 ```
 
-*Does the C++ code improve the runtime and memory usage?*
+*Is the C++ implementation faster? Does it reduce memory usage?*
 
 Recap
 =====
 
 Some basic techniques we used today:
 
-1. Automating analyses using **Rscript** and **sbatch**.
+1. We automated analyses using **Rscript** and **sbatch**.
 
-2. The **data.table** package for reading large data sets.
+2. We used the **data.table** package for reading large data sets.
 
-3. The **parallel** package for parallelizing computations.
+3. We used the **parallel** package for parallelizing computations.
 
-4. Speeding up matrix operations using **OpenBLAS multithreading**.
+4. We sped up matrix operations using **OpenBLAS multithreading**.
 
-5. Interfacing to C code using the **Rcpp** package.
+5. We interfaced to C++ code using the **Rcpp** package.
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244

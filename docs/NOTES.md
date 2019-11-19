@@ -21,6 +21,9 @@
 + Arrange PDF of slides and R on screen.
 + Distribute Yubikeys.
 
-  scontrol create reservation=workshop_test users=-runesha \
-    starttime=2019-11-18T17:00:00 duration=30:00:00 \
-    partitionname=broadwl nodecnt=1
+```bash
+scontrol create reservation=workshop users=-runesha \
+  starttime=2019-11-19T13:00:00 duration=5:00:00 \
+  partitionname=broadwl nodecnt=10
+sinteractive -p broadwl --reservation=workshop
+```
