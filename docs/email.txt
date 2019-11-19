@@ -1,8 +1,8 @@
 Subject: Please read for tomorrow's R workshop
 
 Thank you for registering for the RCC workshop, "Large-Scale Data
-Analysis in R". It is taking place tomorrow (Thursday, April 11), 2–5p
-in the Zar Room, which is in the John Crerar Library.
+Analysis in R". It is taking place tomorrow (Tuesday, November 18),
+2–5p in the Zar Room, which is in the John Crerar Library.
 
 This workshop is not an introduction to R—it is intended for students
 and researchers who already have experience using R. You will get the
@@ -12,14 +12,14 @@ do not have an RCC account, please see below.)
 
 If you cannot attend, please cancel your registration on the
 Eventbrite website. This will help me get a better sense of workshop
-size.
+attendance.
 
-This is a hands-on tutorial, so you will get the most benefit from the
+This is a hands-on tutorial: you will get the most benefit from the
 tutorial if you bring your laptop and work through the examples
 in-class. We will be using the RCC cluster for all the examples.
 
 If you have an RCC account, please make sure you are able to log in to
-midway2. See the instructions in the User Guide:
+midway2. See the instructions in the RCC User Guide:
 
 https://rcc.uchicago.edu/docs/connecting
 
@@ -27,9 +27,10 @@ If you do not have an RCC account, I will provide you with guest
 access. However, to use the guest account you will need an SSH
 client. So please make sure you have an SSH client installed on your
 computer before coming to the workshop. (If you have macOS or Linux,
-you most likely have SSH.) For further explanation, go the above User
-Guide page. You will also need a USB-A port, or an adapter for USB-A.
-(The newer USB ports are smaller than USB-A, so require an adapter.)
+you most likely have SSH.) For further explanation, go the above RCC
+User Guide page. You will also need a USB-A port, or an adapter for
+USB-A. (The newer USB ports are smaller than USB-A, so require an
+adapter.)
 
 At the beginning of the workshop, I will provide you with additional
 setup instructions.
