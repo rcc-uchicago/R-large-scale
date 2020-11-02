@@ -486,7 +486,7 @@ running the R code you will need to:
 
 1. Run Slurm commands to allocate computing resources.
 
-2. Run bash commands to set up your (shell) environment.
+2. Run shell commands to set up your shell environment.
 
 This script will do 1 & 2, then run the analysis in R:
 
@@ -536,9 +536,9 @@ sbatch summarize_mafs.sbatch geno.csv
 Followup challenge
 ==================
 
-*Suppose you had to re-run this allele frequency analysis for 1,000
+*Suppose you had to re-run this allele frequency analysis for 100
 large data sets. How would you design your R and sbatch scripts to
-implement this analysis efficiently?*
+implement this?*
 
 Outline of workshop
 ===================
@@ -558,16 +558,16 @@ Outline of workshop
 Challenge #4: Speeding up operations on large matrices
 ======================================================
 
-+ Aim: Take advantage of multithreaded routines in the OpenBLAS
-  library to speed up your matrix computations.
++ Aim: Leverage multithreaded OpenBLAS routines speed up your matrix
+  computations.
 
 + Steps:
 
     1. Import data into R.
     
-    2. Compute "kinship" matrix.
+    2. Compute kinship matrix without multithreading.
 
-    3. Compute "kinship" matrix again using multithreading.
+    3. Compute kinship matrix using multithreading.
 
 Import genotype data as a matrix
 ================================
@@ -590,18 +590,18 @@ Compute kinship matrix
 ======================
 
 Another common task in genetic analysis is to compute the "kinship"
-matrix from the genotypes. (For non-quantitative geneticists, this is
-effectively the covariance matrix.) This can be done by computing the
-matrix cross-product:
+matrix from the genotypes. (This is effectively the covariance
+matrix.) This can be done by computing the matrix cross-product:
 
 ```{r cross-product}
 K <- tcrossprod(geno)
 ```
 
-How long does it take to compute this matrix?
+How long does it take to compute the kinship matrix?
 
 ```{r time-cross-product}
 timing <- system.time(K <- tcrossprod(geno))
+print(timing)
 ```
 
 Exploit multithreaded OpenBLAS
@@ -609,7 +609,7 @@ Exploit multithreaded OpenBLAS
 
 Most matrix operations in R on midway2 use OpenBLAS. This is a
 *multithreaded* library, meaning that it can take advantage of
-multiple CPUs to accelerate the computations. Re-run the kinship
+multiple processors to accelerate the computations. Re-run the kinship
 computations using the script:
 
 ```bash
@@ -623,8 +623,7 @@ export OPENBLAS_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
 
-*Do you get additional performance improvements with 4 threads and 8
-threads?*
+*Do you get additional performance improvements with 4 or 8 threads?*
 
 > Instructor notes: This is a good opportunity to demonstrate how to
 > use "htop" in the separate connection to monitor CPU usage.

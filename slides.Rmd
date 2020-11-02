@@ -237,7 +237,7 @@ and 18 GB of memory:
 ```bash
 screen -S workshop
 sinteractive --partition=broadwl \
-  --reservation=workshop --cpus-per-task=8 \
+  --reservation=rworkshop --cpus-per-task=8 \
   --mem=18G --time=3:00:00 
 echo $HOSTNAME
 ```
@@ -376,7 +376,7 @@ Challenge #3: Automating analysis of a large data set
 =====================================================
 
 + Aim: Develop scripts to automate (1) the data analysis in R and (2)
-  configuration of the environment.
+  configuring the computing environment.
 
 + Steps:
 
@@ -436,9 +436,9 @@ Rscript summarize_regmap_mafs.R
 Automate the analysis for several data sets
 ===========================================
 
-Suppose you need to repeat your allele frequency analysis several data
-sets. The `summarize_regmap_mafs.R` script only works for one data
-set.  So we create a new script "summarize_mafs.R" that is more
+Now suppose you need to repeat your allele frequency analysis several
+data sets. The `summarize_regmap_mafs.R` script only works for one
+data set. So we create a new script `summarize_mafs.R` that is more
 flexible; it takes the name of the genotype data file as a
 command-line argument:
 
@@ -454,11 +454,11 @@ Rscript automates the steps *within the R environment*, but it does
 not automate the steps taken before running R code. Typically, before
 running the R code you will need to:
 
-1. Run bash commands to set up your (shell) environment.
+1. Run Slurm commands to allocate computing resources.
 
-2. Run Slurm commands to allocate computing resources.
+2. Run shell commands to set up your shell environment.
 
-This will do 1 & 2, then run the analysis in R:
+This script will do 1 & 2, then run the analysis in R:
 
 ```bash
 sbatch summarize_regmap_mafs.sbatch
@@ -492,9 +492,9 @@ sbatch summarize_mafs.sbatch geno.csv
 Followup challenge
 ==================
 
-*Suppose you had to re-run this allele frequency analysis for 1,000
+*Suppose you had to re-run this allele frequency analysis for 100
 large data sets. How would you design your R and sbatch scripts to
-implement this analysis efficiently?*
+implement this?*
 
 Outline of workshop
 ===================
@@ -514,16 +514,16 @@ Outline of workshop
 Challenge #4: Speeding up operations on large matrices
 ======================================================
 
-+ Aim: Take advantage of multithreaded routines in the OpenBLAS
-  library to speed up your matrix computations.
++ Aim: Leverage multithreaded OpenBLAS routines speed up your matrix
+  computations.
 
 + Steps:
 
     1. Import data into R.
     
-    2. Compute "kinship" matrix.
+    2. Compute kinship matrix without multithreading.
 
-    3. Compute "kinship" matrix again using multithreading.
+    3. Compute kinship matrix using multithreading.
 
 Import genotype data as a matrix
 ================================
@@ -546,18 +546,18 @@ Compute kinship matrix
 ======================
 
 Another common task in genetic analysis is to compute the "kinship"
-matrix from the genotypes. (For non-quantitative geneticists, this is
-effectively the covariance matrix.) This can be done by computing the
-matrix cross-product:
+matrix from the genotypes. (This is effectively the covariance
+matrix.) This can be done by computing the matrix cross-product:
 
 ```{r cross-product}
 K <- tcrossprod(geno)
 ```
 
-How long does it take to compute this matrix?
+How long does it take to compute the kinship matrix?
 
 ```{r time-cross-product}
 timing <- system.time(K <- tcrossprod(geno))
+print(timing)
 ```
 
 Exploit multithreaded OpenBLAS
@@ -565,7 +565,7 @@ Exploit multithreaded OpenBLAS
 
 Most matrix operations in R on midway2 use OpenBLAS. This is a
 *multithreaded* library, meaning that it can take advantage of
-multiple CPUs to accelerate the computations. Re-run the kinship
+multiple processors to accelerate the computations. Re-run the kinship
 computations using the script:
 
 ```bash
@@ -579,8 +579,7 @@ export OPENBLAS_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
 
-*Do you get additional performance improvements with 4 threads and 8
-threads?*
+*Do you get additional performance improvements with 4 or 8 threads?*
 
 
 Outline of workshop
