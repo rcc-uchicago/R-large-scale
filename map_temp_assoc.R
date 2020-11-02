@@ -53,5 +53,5 @@ print(timing)
 
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------
-cat(sprintf("Distribution of association p-values across %d SNPs:\n",p))
-print(quantile(pvalues,c(0,0.001,0.01,0.1,0.25,0.5,1)))
+cat(sprintf("Smallest and largest association p-values across %d SNPs:\n",p))
+print(range(pvalues))

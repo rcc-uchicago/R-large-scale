@@ -45,7 +45,7 @@ Software we will use today
 
 1. R
 
-2. Python3
+2. Python3 (optional)
 
 3. Slurm
 
@@ -635,7 +635,7 @@ pvalues <- get.assoc.pvalues(geno,pheno)
 It applies `get.assoc.pvalue` to each column of `geno`.
 
 + **Note:** Since it will take too long to compute all 200,000+
-  *p*-values, here <we only compute 10,000 of them.
+  *p*-values, here we will only compute 10,000 of them.
 
 
 Set up R for multithreading
@@ -669,6 +669,7 @@ f <- function (i, geno, pheno)
   get.assoc.pvalues(geno[,i],pheno)
 timing <- system.time(
   out <- parLapply(cl,cols,f,geno,pheno))
+print(timing)
 ```
 
 Not done yet---you need to combine the individual outputs into a
@@ -682,7 +683,7 @@ pvalues[unlist(cols)] <- unlist(out)
 Check that the result is the same as before:
 
 ```{r check-parlapply-output}
-quantile(pvalues,c(0,0.001,0.01,0.1,0.25,0.5,1))
+range(pvalues)
 ```
 
 *Did parLapply speed up the p-value computation?*
@@ -731,21 +732,21 @@ Center & scale the matrix
 
 For some data analyses, is important to first "center" and "scale" the
 columns of the matrix so that each column has zero mean and standard
-deviation 1. This is implemented in `scale_geno.R`:
+deviation 1. This is implemented in the `scale_geno.R` script:
 
 ```bash
 Rscript scale_geno.R
 ```
 
 
-Assessing memory usage of "scale"
-=================================
+Assessing memory usage of "scale" (optional)
+============================================
 
 To measure memory usage accurately, use the provided Python
 script:
 
 ```bash
-module load python/3.7.0
+module load python/anaconda-2020.02
 export MEM_CHECK_INTERVAL=0.01
 python3 monitor_memory.py Rscript scale_geno.R
 ```
@@ -764,6 +765,12 @@ implemented using **Rcpp**.
 Now re-run the centering & scaling with the Rcpp implementation:
 
 ```bash
+Rscript scale_geno_rcpp.R
+```
+
+Optionally, check memory usage of the Rcpp implementation:
+
+```bash
 python3 monitor_memory.py \
   Rscript scale_geno_rcpp.R
 ```
@@ -777,11 +784,11 @@ Some basic techniques we used today:
 
 1. We automated analyses using **Rscript** and **sbatch**.
 
-2. We used the **data.table** package for reading large data sets.
-
-3. We used the **parallel** package for parallelizing computations.
+2. We used **data.table** to quickly read large data sets.
 
 4. We sped up matrix operations using **OpenBLAS multithreading**.
+
+3. We used **parallel** to parallelize computations.
 
 5. We interfaced to C++ code using the **Rcpp** package.
 
