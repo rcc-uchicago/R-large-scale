@@ -17,16 +17,16 @@ knitr::opts_chunk$set(results = "hide",fig.show = "hide",
 A brief intro
 =============
 
-*We will develop essential skills for large-scale data analysis in R.*
+*We will develop practical skills for large-scale data analysis in R.*
 In particular, we will learn how to:
 
-1. Run R analyses *non-interactively*.
+1. Run R analyses *non-interactively* on the cluster.
 
 2. Determine memory needs.
 
 3. Make efficient use of memory.
 
-4. Speed up our analyses using...
+4. Speed up our analyses using:
 
     + Simple parallelization techniques.
 
@@ -38,7 +38,7 @@ A brief intro
 + This is a *hands-on workshop*---you will get the most out of this
   workshop if you work through the exercises on your computer.
 
-+ All the examples are intended to run on the RCC cluster.
++ All examples are intended to run on midway2.
 
 Software we will use today
 ==========================
@@ -49,12 +49,12 @@ Software we will use today
 
 3. Slurm
 
-4. A few R packages: data.table, matrixStats, parallel, Rcpp
+4. R packages: data.table, matrixStats, parallel, Rcpp
 
 *These are already installed on midway2.*
 
-The "large" data set
-====================
+The large data set
+==================
 
 + RegMap data: genetic and ecological data on *Arabidopsis thaliana*
   in a range of climates.
@@ -162,7 +162,7 @@ Challenge #1: Setting up your HPC environment
 
     6. Set up your R environment.
 
-    7. Open another midway2 connection.
+    7. Open a second midway2 connection.
 
 Connect to midway2
 ==================
@@ -337,7 +337,7 @@ Import data using data.table package
 Try again using the **data.table** package:
 
 ```{r import-data-fread}
-library(data.table) 
+library("data.table")
 geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
 ```
@@ -353,6 +353,7 @@ timing <- system.time(
   geno <- fread("geno.csv",sep = ",",
                 header = TRUE))
 class(geno) <- "data.frame"
+print(timing)
 ```
 
 					  
@@ -530,7 +531,7 @@ Import genotype data as a matrix
 Re-launch R, and load the RegMap genotype data again:
 
 ```{r import-data-2}
-library(data.table) 
+library("data.table")
 geno <- fread("geno.csv",sep = ",",header = TRUE)
 ```
 
@@ -645,7 +646,7 @@ Set up R to use all 8 CPUs you requested, and distribute the
 computation (columns of the matrix) across the 8 "threads":
 
 ```{r init-cluster}
-library(parallel)
+library("parallel")
 cl   <- makeCluster(8)
 cols <- clusterSplit(cl,1:10000)
 ```

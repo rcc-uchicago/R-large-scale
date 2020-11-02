@@ -3,8 +3,8 @@
 
 # SET UP ENVIRONMENT
 # ------------------
-library(data.table)
-library(matrixStats)
+library("data.table")
+library("matrixStats")
 
 # IMPORT GENOTYPE DATA
 # --------------------

@@ -12,7 +12,7 @@ geno.file <- args[1]
 
 # SET UP ENVIRONMENT
 # ------------------
-library(data.table)
+library("data.table")
 
 # IMPORT GENOTYPE DATA
 # --------------------

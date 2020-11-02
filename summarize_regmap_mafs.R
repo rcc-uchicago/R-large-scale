@@ -3,7 +3,7 @@
 
 # SET UP ENVIRONMENT
 # ------------------
-library(data.table)
+library("data.table")
 
 # IMPORT GENOTYPE DATA
 # --------------------

@@ -3,9 +3,9 @@
 
 # SET UP ENVIRONMENT
 # ------------------
-library(data.table)
-library(matrixStats)
-library(Rcpp)
+library("data.table")
+library("matrixStats")
+library("Rcpp")
 
 # IMPORT GENOTYPE DATA
 # --------------------
