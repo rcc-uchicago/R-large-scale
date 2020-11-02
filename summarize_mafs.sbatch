@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --partition=broadwl
-#SBATCH --reservation=workshop
+#SBATCH --reservation=rworkshop
 #SBATCH --time=00:10:00
 #SBATCH --mem=1G
 

@@ -237,7 +237,7 @@ and 18 GB of memory:
 ```bash
 screen -S workshop
 sinteractive --partition=broadwl \
-  --reservation=workshop --cpus-per-task=8 \
+  --reservation=rworkshop --cpus-per-task=8 \
   --mem=18G --time=3:00:00 
 echo $HOSTNAME
 ```
@@ -465,9 +465,9 @@ Rscript summarize_regmap_mafs.R
 Automate the analysis for several data sets
 ===========================================
 
-Suppose you need to repeat your allele frequency analysis several data
-sets. The `summarize_regmap_mafs.R` script only works for one data
-set.  So we create a new script "summarize_mafs.R" that is more
+Now suppose you need to repeat your allele frequency analysis several
+data sets. The `summarize_regmap_mafs.R` script only works for one
+data set. So we create a new script `summarize_mafs.R` that is more
 flexible; it takes the name of the genotype data file as a
 command-line argument:
 
@@ -484,11 +484,11 @@ Rscript automates the steps *within the R environment*, but it does
 not automate the steps taken before running R code. Typically, before
 running the R code you will need to:
 
-1. Run bash commands to set up your (shell) environment.
+1. Run Slurm commands to allocate computing resources.
 
-2. Run Slurm commands to allocate computing resources.
+2. Run bash commands to set up your (shell) environment.
 
-This will do 1 & 2, then run the analysis in R:
+This script will do 1 & 2, then run the analysis in R:
 
 ```bash
 sbatch summarize_regmap_mafs.sbatch
