@@ -7,7 +7,6 @@ library("data.table")
 
 # IMPORT PHENOTYPE DATA
 # ---------------------
-# Retrieve the  
 cat("Reading phenotype data.\n")
 pheno <- read.csv("pheno.csv")$bio5_maxT_wm
 n     <- length(pheno)
@@ -16,10 +15,10 @@ cat(sprintf("Loaded %d temperature measurements.\n",n))
 # IMPORT GENOTYPE DATA
 # --------------------
 cat("Reading genotype data.\n")
-geno        <- fread("geno.csv",sep = ",",header = TRUE)
+geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
-n           <- nrow(geno)
-p           <- ncol(geno)
+n <- nrow(geno)
+p <- ncol(geno)
 cat(sprintf("Loaded %d x %d genotype matrix.\n",n,p))
 
 # Remove all SNPs that do not vary.
@@ -55,5 +54,5 @@ print(t1 - t0)
 
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------
-cat(sprintf("Smallest and largest association p-values across %d SNPs:\n",p))
-print(range(pvalues))
+cat(sprintf("The smallest association p-value is %0.1e.\n",min(pvalues)))
+
