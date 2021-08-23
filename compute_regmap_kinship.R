@@ -9,7 +9,7 @@ library("data.table")
 # --------------------
 # Here the genotype data are loaded as a matrix of floating-point numbers.
 cat("Reading genotype data.\n")
-geno <- fread("geno.csv.gz",sep = ",",header = TRUE)
+geno <- fread("geno.csv",sep = ",",header = TRUE)
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
 
@@ -19,5 +19,7 @@ storage.mode(geno) <- "double"
 # genotype matrix.
 n <- nrow(geno)
 cat(sprintf("Computing %d x %d kinship matrix.\n",n,n))
-timing <- system.time(K <- tcrossprod(geno))
-print(timing)
+t0 <- proc.time()
+K  <- tcrossprod(geno)
+t1 <- proc.time()
+print(t1 - t0)
