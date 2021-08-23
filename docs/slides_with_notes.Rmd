@@ -788,7 +788,10 @@ stopCluster(cl)
 
 For some data analyses, is important to first "center" and "scale" the
 columns of the matrix so that each column has zero mean and standard
-deviation 1. This is implemented in the `scale_geno.R` script:
+deviation 1. Centering and scaling a matrix can be performed easily in
+R using the `scale` function. Unfortunately, it can be slow and
+memory-intensive. The `scale_geno.R` script illustrates this with the
+*A. thaliana* genotype data:
 
 ```bash
 Rscript scale_geno.R
@@ -805,7 +808,7 @@ To measure memory usage accurately, use the provided Python
 script:
 
 ```bash
-module load python/anaconda-2020.02
+module load python/anaconda-2021.05
 export MEM_CHECK_INTERVAL=0.01
 python3 monitor_memory.py Rscript scale_geno.R
 ```
@@ -818,8 +821,8 @@ issue with large objects.
 
 + We can circumvent this by implementing the computations in C++.
 
-+ See files **scale.cpp** and **scale_geno_rcpp.R** for how this is
-implemented using **Rcpp**.
++ See files **scale.cpp** and **scale_geno_rcpp.R** for how the
+scaling and centering iis implemented in C++ using **Rcpp**.
 
 Now re-run the centering & scaling with the Rcpp implementation:
 
@@ -845,10 +848,11 @@ Some basic techniques we used today:
 
 2. We used **data.table** to quickly read large data sets.
 
-4. We sped up matrix operations using **OpenBLAS multithreading**.
+4. We sped up matrix operations using multithreaded matrix operations
+   (**OpenBLAS**).
 
 3. We used **parallel** to parallelize computations.
 
-5. We interfaced to C++ code using the **Rcpp** package.
+5. We interfaced to faster C++ code using **Rcpp**.
 
 [hancock-2011]: http://dx.doi.org/10.1126/science.1209244
