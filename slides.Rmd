@@ -478,8 +478,8 @@ sacct -u cnetid
 31. Automate environment setup and resource allocation
 ======================================================
 
-We can also implement an sbatch script that takes a command-line
-argument:
+We can also develop an sbatch script that take command-line
+arguments:
 
 ```bash
 sbatch summarize_mafs.sbatch geno.csv
@@ -552,8 +552,10 @@ K <- tcrossprod(geno)
 How long does it take to compute the kinship matrix?
 
 ```{r time-cross-product}
-timing <- system.time(K <- tcrossprod(geno))
-print(timing)
+t0 <- proc.time()
+K <- tcrossprod(geno)
+t1 <- proc.time()
+print(t1 - t0)
 ```
 
 37. Exploit multithreaded OpenBLAS

@@ -26,13 +26,13 @@ geno <- geno[,s > 0]
 # mean of zero and a standard deviation of 1.
 cat("Centering and scaling genotype matrix.\n")
 sourceCpp("scale.cpp")
-timing <- system.time({
-  geno.scaled <- geno
-  mu <- colMeans(geno)
-  s  <- colSds(geno)
-  scale_rcpp(geno.scaled,mu,s)
-})
-print(timing)
+t0 <- proc.time()
+geno.scaled <- geno
+mu <- colMeans(geno)
+s <- colSds(geno)
+scale_rcpp(geno.scaled,mu,s)
+t1 <- proc.time()
+print(t1 - t0)
 
 # VERIFY CENTERING & SCALING
 # --------------------------

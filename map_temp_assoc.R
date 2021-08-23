@@ -48,8 +48,10 @@ get.assoc.pvalues <- function (dat, y)
 # Compute the association p-values for all SNPs (that is, columns of
 # the "geno" data frame).
 cat(sprintf("Computing association p-values for %d SNPs.\n",p))
-timing <- system.time(pvalues <- get.assoc.pvalues(geno,pheno))
-print(timing)
+t0 <- proc.time()
+pvalues <- get.assoc.pvalues(geno,pheno)
+t1 <- proc.time()
+print(t1 - t0)
 
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------

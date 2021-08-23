@@ -24,8 +24,10 @@ geno <- geno[,s > 0]
 # After this step, each column of the genotype matrix should have a
 # mean of zero and a standard deviation of 1.
 cat("Centering and scaling genotype matrix.\n")
-timing <- system.time(geno.scaled <- scale(geno))
-print(timing)
+t0 <- proc.time()
+geno.scaled <- scale(geno)
+t1 <- proc.time()
+print(t1 - t0)
 
 # VERIFY CENTERING & SCALING
 # --------------------------

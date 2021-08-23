@@ -596,8 +596,10 @@ K <- tcrossprod(geno)
 How long does it take to compute the kinship matrix?
 
 ```{r time-cross-product}
-timing <- system.time(K <- tcrossprod(geno))
-print(timing)
+t0 <- proc.time()
+K  <- tcrossprod(geno)
+t1 <- proc.time()
+print(t1 - t0)
 ```
 
 37. Exploit multithreaded OpenBLAS
@@ -615,7 +617,7 @@ Rscript compute_regmap_kinship.R
 Now tell OpenBLAS to use 2 CPUs, and run the computations again:
 
 ```bash
-export OPENBLAS_NUM_THREADS=2
+export OMP_NUM_THREADS=2
 Rscript compute_regmap_kinship.R
 ```
 
@@ -715,9 +717,10 @@ Now you are ready to run the multithreaded computation of association
 ```{r run-parlapply}
 f <- function (i, geno, pheno)
   get.assoc.pvalues(geno[,i],pheno)
-timing <- system.time(
-  out <- parLapply(cl,cols,f,geno,pheno))
-print(timing)
+t0  <- proc.time()
+out <- parLapply(cl,cols,f,geno,pheno)
+t1  <- proc.time()
+print(t1 - t0)
 ```
 
 Not done yet---you need to combine the individual outputs into a
