@@ -8,10 +8,10 @@ library("data.table")
 # IMPORT GENOTYPE DATA
 # --------------------
 cat("Reading genotype data.\n")
-geno        <- fread("geno.csv",sep = ",",header = TRUE)
+geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
-n           <- nrow(geno)
-p           <- ncol(geno)
+n <- nrow(geno)
+p <- ncol(geno)
 cat(sprintf("Loaded %d x %d genotype matrix.\n",n,p))
 
 # COMPUTE MAFs

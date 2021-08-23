@@ -1,5 +1,5 @@
-# Short script to compute the 948 x 948 kinship matrix from the RegMap
-# genotype data.
+# Short script to compute the 948 x 948 covariance ("kinship") matrix
+# from the RegMap genotype data.
 
 # SET UP ENVIRONMENT
 # ------------------
@@ -9,7 +9,7 @@ library("data.table")
 # --------------------
 # Here the genotype data are loaded as a matrix of floating-point numbers.
 cat("Reading genotype data.\n")
-geno <- fread("geno.csv",sep = ",",header = TRUE)
+geno <- fread("geno.csv.gz",sep = ",",header = TRUE)
 geno <- as.matrix(geno)
 storage.mode(geno) <- "double"
 

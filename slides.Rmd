@@ -234,9 +234,9 @@ and 18 GB of memory:
 
 ```bash
 screen -S workshop
-sinteractive --partition=broadwl \
-  --reservation=rworkshop --cpus-per-task=8 \
-  --mem=18G --time=3:00:00 
+sinteractive -p broadwl \
+  --reservation=rworkshop \
+  -c 8 --mem=18G -t 3:00:00
 echo $HOSTNAME
 ```
 
@@ -246,7 +246,7 @@ echo $HOSTNAME
 Start up an interactive R session:
 
 ```bash
-module load R/3.6.1
+module load R/4.1.0
 which R
 R --no-save
 ```
@@ -254,7 +254,7 @@ R --no-save
 18. Check your R environment
 ============================
 
-Check that you are running R 3.6.1:
+Check that you are running R 4.1.0:
 
 ```{r check-version}
 sessionInfo()
@@ -346,11 +346,11 @@ class(geno) <- "data.frame"
 How long does it take to run "fread" on the RegMap data?
 
 ```{r time-fread}
-timing <- system.time(
-  geno <- fread("geno.csv",sep = ",",
-                header = TRUE))
+t0 <- proc.time()
+geno <- fread("geno.csv",sep = ",",header = TRUE)
 class(geno) <- "data.frame"
-print(timing)
+t1 <- proc.time()
+print(t1 - t0)
 ```
 
 					  
@@ -415,31 +415,32 @@ summary(maf)
 28. Automate the data analysis using Rscript
 ============================================
 
-Let's quit R:
+Let's now attempt to automate this calculation. First, quit R:
 
 ```{r quit, eval=FALSE}
 quit()
 ```
 
-Now re-run the RegMap allele frequency analysis using the script
-provided in the repository:
+Next, re-run the RegMap allele frequency analysis using the script
+provided in the git repository:
 
 ```bash
-Rscript summarize_regmap_mafs.R
+Rscript summarize_regmap_mafs.R > regmap_mafs.Rout
 ```
 
 
 29. Automate the analysis for several data sets
 ===============================================
 
-Now suppose you need to repeat your allele frequency analysis several
-data sets. The `summarize_regmap_mafs.R` script only works for one
-data set. So we create a new script `summarize_mafs.R` that is more
-flexible; it takes the name of the genotype data file as a
-command-line argument:
+Now imagine you need to repeat your allele frequency analysis several
+data sets. As it is written, `summarize_regmap_mafs.R` script only
+works for one data set. So we use another script, `summarize_mafs.R`,
+that is more flexible; it takes the name of the genotype data file as
+a command-line argument:
 
 ```bash
-Rscript summarize_mafs.R geno.csv
+Rscript summarize_mafs.R geno.csv \
+  > regmap_mafs.Rout
 ```
 
 
@@ -454,7 +455,7 @@ running the R code you will need to:
 
 2. Run shell commands to set up your shell environment.
 
-This script will do 1 & 2, then run the analysis in R:
+This script will perform steps 1 and 2, then run the analysis in R:
 
 ```bash
 sbatch summarize_regmap_mafs.sbatch

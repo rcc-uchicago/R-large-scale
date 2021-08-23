@@ -17,10 +17,10 @@ library("data.table")
 # IMPORT GENOTYPE DATA
 # --------------------
 cat(sprintf("Reading genotype data from %s.\n",geno.file))
-geno        <- fread(geno.file,sep = ",",header = TRUE)
+geno <- fread(geno.file,sep = ",",header = TRUE)
 class(geno) <- "data.frame"
-n           <- nrow(geno)
-p           <- ncol(geno)
+n <- nrow(geno)
+p <- ncol(geno)
 cat(sprintf("Loaded %d x %d genotype matrix.\n",n,p))
 
 # COMPUTE MAFs
