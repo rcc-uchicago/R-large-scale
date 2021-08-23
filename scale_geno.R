@@ -16,7 +16,7 @@ storage.mode(geno) <- "double"
 
 # Remove all SNPs that do not vary.
 cat("Filtering SNPs.\n")
-s    <- colSds(geno)
+s <- colSds(geno)
 geno <- geno[,s > 0]
 
 # CENTER & SCALE GENOTYPE MATRIX
