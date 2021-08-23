@@ -425,7 +425,7 @@ Next, re-run the RegMap allele frequency analysis using the script
 provided in the git repository:
 
 ```bash
-Rscript summarize_regmap_mafs.R > regmap_mafs.Rout
+Rscript summarize_regmap_mafs.R
 ```
 
 
@@ -439,8 +439,7 @@ that is more flexible; it takes the name of the genotype data file as
 a command-line argument:
 
 ```bash
-Rscript summarize_mafs.R geno.csv \
-  > regmap_mafs.Rout
+Rscript summarize_mafs.R geno.csv
 ```
 
 
@@ -468,9 +467,10 @@ source set_slurm_env.sh
 squeue -u cnetid
 ```
 
-Run this command to check jobs after they are completed:
+Run one of these commands to the check job after it has completed:
 
 ```
+sacct -u cnetid -j jobid
 sacct -u cnetid
 ```
 

@@ -451,7 +451,7 @@ Next, re-run the RegMap allele frequency analysis using the script
 provided in the git repository:
 
 ```bash
-Rscript summarize_regmap_mafs.R > regmap_mafs.Rout
+Rscript summarize_regmap_mafs.R
 ```
 
 > Instructor notes: After running the script, review the code, and
@@ -468,8 +468,7 @@ that is more flexible; it takes the name of the genotype data file as
 a command-line argument:
 
 ```bash
-Rscript summarize_mafs.R geno.csv \
-  > regmap_mafs.Rout
+Rscript summarize_mafs.R geno.csv
 ```
 
 > Instructor notes: Before running the R script, review the code.
@@ -498,9 +497,10 @@ source set_slurm_env.sh
 squeue -u cnetid
 ```
 
-Run this command to check jobs after they are completed:
+Run one of these commands to the check job after it has completed:
 
 ```
+sacct -u cnetid -j jobid
 sacct -u cnetid
 ```
 
@@ -516,8 +516,8 @@ sacct -u cnetid
 31. Automate environment setup and resource allocation
 ======================================================
 
-We can also implement an sbatch script that takes a command-line
-argument:
+We can also develop an sbatch script that take command-line
+arguments:
 
 ```bash
 sbatch summarize_mafs.sbatch geno.csv
