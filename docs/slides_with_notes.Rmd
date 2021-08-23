@@ -248,7 +248,7 @@ Start up an interactive R session:
 ```bash
 module load R/4.1.0
 which R
-R --no-save
+R
 ```
 
 18. Check your R environment
@@ -614,7 +614,7 @@ computations using the script:
 Rscript compute_regmap_kinship.R
 ```
 
-Now tell OpenBLAS to use 2 CPUs, and run the computations again:
+Now tell OpenBLAS to use 2 CPUs, and run it again:
 
 ```bash
 export OMP_NUM_THREADS=2
@@ -622,6 +622,12 @@ Rscript compute_regmap_kinship.R
 ```
 
 *Do you get additional performance improvements with 4 or 8 threads?*
+
+Before continuing, let's revert to the original setting:
+
+```bash
+export OMP_NUM_THREADS=1
+```
 
 > Instructor notes: This is a good opportunity to demonstrate how to
 > use "htop" in the separate connection to monitor CPU usage.
@@ -661,13 +667,13 @@ multithreading techniques.
 >
 > Here, we will implement our own multithreading.
 
-40. Run the association analysis
-================================
+40. Run the analysis without multithreading
+===========================================
 
 Begin by starting the R environment in your interactive session. An
 association analysis for one climate variable---"maximum temperature
-of warmest month"---is implemented in `map_temp_assoc.R`. Run this
-in R:
+of warmest month"---is implemented in `map_temp_assoc.R`. Launch R
+again, and run this code in R:
 
 ```{r map-maxtemp-associations}
 source("map_temp_assoc.R")
@@ -680,10 +686,9 @@ your environment. This is the most expensive step:
 pvalues <- get.assoc.pvalues(geno,pheno)
 ```
 
-It applies `get.assoc.pvalue` to each column of `geno`.
-
-+ **Note:** Since it will take too long to compute all 200,000+
-  *p*-values, here we will only compute 10,000 of them.
+It applies `get.assoc.pvalue` to each column of the `geno` data frame.
+(To shorten the example, we are only computing 10,000 *p*-values
+instead of all 200,000 of them.)
 
 > Instructor notes: This is another good opportunity to demonstrate
 > use of `htop` to monitor CPU usage.
@@ -700,18 +705,17 @@ cl   <- makeCluster(8)
 cols <- clusterSplit(cl,1:10000)
 ```
 
-Next, tell R which functions we will use in the multithreaded
-computation:
+Next, tell R which functions we will need to use:
 
 ```{r cluster-register-functions}
 clusterExport(cl,c("get.assoc.pvalue",
                    "get.assoc.pvalues"))
 ```
 
-42. Compute *p*-values inside "parLapply"
-=========================================
+42. Compute the  *p*-values inside "parLapply"
+==============================================
 
-Now you are ready to run the multithreaded computation of association
+Now we are ready to run the multithreaded computation of association
 *p*-values using "parLapply":
 
 ```{r run-parlapply}
@@ -734,7 +738,7 @@ pvalues[unlist(cols)] <- unlist(out)
 Check that the result is the same as before:
 
 ```{r check-parlapply-output}
-range(pvalues)
+min(pvalues)
 ```
 
 *Did parLapply speed up the p-value computation?*
