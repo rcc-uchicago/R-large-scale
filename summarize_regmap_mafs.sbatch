@@ -10,4 +10,4 @@ module load R/4.1.0
 
 # Run the R script.
 echo "Running summarize_regmap_mafs.R"
-Rscript summarize_regmap_mafs.R > regmap_mafs.out
+Rscript summarize_regmap_mafs.R > regmap_mafs.Rout
