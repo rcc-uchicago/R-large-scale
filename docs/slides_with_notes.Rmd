@@ -696,67 +696,53 @@ instead of all 200,000 of them.)
 > Instructor notes: This is another good opportunity to demonstrate
 > use of `htop` to monitor CPU usage.
 
-41. Set up R for multithreading
-===============================
+41. Split computation
+=====================
 
-Set up R to use all 8 CPUs you requested, and distribute the
-computation (columns of the matrix) across the 8 "threads":
+First, split the columns of the data frame into smaller subsets:
 
 ```{r init-cluster}
 library("parallel")
-cl   <- makeCluster(8)
-cols <- clusterSplit(cl,1:10000)
+cols <- splitIndices(10000,8)
 ```
 
-Next, tell R which functions we will need to use:
-
-```{r cluster-register-functions}
-clusterExport(cl,c("get.assoc.pvalue",
-                   "get.assoc.pvalues"))
-```
-
-42. Compute the  *p*-values inside "parLapply"
-==============================================
+42. Compute the *p*-values inside "mclapply"
+============================================
 
 Now we are ready to run the multithreaded computation of association
-*p*-values using "parLapply":
+*p*-values using "mclapply". Let's try first with 2 CPUs:
 
-```{r run-parlapply}
-f <- function (i, geno, pheno)
+```{r run-mclapply}
+f <- function (i)
   get.assoc.pvalues(geno[,i],pheno)
 t0  <- proc.time()
-out <- parLapply(cl,cols,f,geno,pheno)
+out <- mclapply(cols,f,mc.cores = 2)
 t1  <- proc.time()
 print(t1 - t0)
 ```
 
+43. Combine mclapply outputs
+============================
+
 Not done yet---you need to combine the individual outputs into a
 single vector of *p*-values.
 
-```{r process-parlapply-output}
-pvalues <- rep(0,10000)
-pvalues[unlist(cols)] <- unlist(out)
+```{r process-mclapply-output}
+pvalues2 <- rep(0,10000)
+pvalues2[unlist(cols)] <- unlist(out)
 ```
 
 Check that the result is the same as before:
 
-```{r check-parlapply-output}
-min(pvalues)
+```{r check-mclapply-output}
+range(pvalues - pvalues2)
 ```
 
-*Did parLapply speed up the p-value computation?*
+*Did mclapply speed up the p-value computation? Do you get further
+speedups with 4 or 8 (or even 160) CPUs?*
 
 > Instructor notes: This is another good opportunity to demonstrate
 > use of `htop` to monitor CPU usage.
-
-43. Halt the multithreaded computation
-======================================
-
-When you are done using parLapply, run "stopCluster":
-
-```{r stop-cluster}
-stopCluster(cl)
-```
 
 44. Outline of workshop
 =======================

@@ -54,5 +54,5 @@ print(t1 - t0)
 
 # SUMMARIZE ASSOCIATION RESULTS
 # -----------------------------
-cat(sprintf("The smallest association p-value is %0.1e.\n",min(pvalues)))
+cat(sprintf("The smallest association p-value is %0.3e.\n",min(pvalues)))
 
