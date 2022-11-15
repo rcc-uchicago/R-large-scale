@@ -37,20 +37,20 @@ In particular, we will learn how to:
 + This is a *hands-on workshop*---you will get the most out of this
   workshop if you work through the exercises on your computer.
 
-+ All examples are intended to run on midway2.
++ All examples are intended to run on midway3.
 
 4. Software we will use today
 =============================
 
 1. R
 
-2. Python3 (optional)
+2. Python (optional)
 
 3. Slurm
 
 4. R packages: data.table, matrixStats, parallel, Rcpp
 
-*These are already installed on midway2.*
+*These are already installed on midway3.*
 
 5. The large (but not too large) data set
 =========================================
@@ -77,7 +77,7 @@ In particular, we will learn how to:
 
     4. Speeding up operations on large matrices.
 
-    5. Multithreaded computing with "parLapply".
+    5. Multithreaded computing with "mclapply".
 
     6. Using Rcpp to improve performance.
 
@@ -137,7 +137,7 @@ In particular, we will learn how to:
 
 4. Speeding up operations on large matrices.
 
-5. Multithreaded computing with "parLapply".
+5. Multithreaded computing with "mclapply".
 
 6. Using Rcpp to improve performance.
 
@@ -148,25 +148,25 @@ In particular, we will learn how to:
 
 + Steps:
 
-    1. Connect to midway2.
+    1. Connect to midway3.
 
-    2. Download workshop packet onto midway2.
+    2. Download workshop packet onto midway3.
 
     3. Retrieve data set.
 
-    4. Allocate a midway2 compute node.
+    4. Allocate a midway3 compute node.
 
     5. Launch R.
 
     6. Set up your R environment.
 
-    7. Open a second midway2 connection.
+    7. Open a second midway3 connection.
 
-12. Connect to midway2
+12. Connect to midway3
 ======================
 
 + **If you have an RCC account:** I'm assuming you already know how to
-  connect to midway2. Use your preferred method. See:
+  connect to midway3. Use your preferred method. See:
   https://rcc.uchicago.edu/docs/connecting
 
 + **If you do not have an RCC account:** I will provide you with a
@@ -188,7 +188,7 @@ In particular, we will learn how to:
     2. Note your userid: `rccguestXXXX`, where `XXXX` is the
        last four digits shown on Yubikey.
 
-    3. Follow instructions to connect to midway2 via SSH, replacing
+    3. Follow instructions to connect to midway3 via SSH, replacing
        the cnetid with your `rccguestXXXX` user name:
        https://rcc.uchicago.edu/docs/connecting
 
@@ -196,10 +196,10 @@ In particular, we will learn how to:
 
 *Please return the Yubikey at the end of the workshop.*
 
-14. Download workshop packet onto midway2
+14. Download workshop packet onto midway3
 =========================================
 
-Once you have connected to a midway2 login node, download the workshop
+Once you have connected to a midway3 login node, download the workshop
 packet to your home directory on the cluster (**note:** there are no
 spaces in the URL below):
 
@@ -229,14 +229,16 @@ ls *.csv
 16. Connect to a compute node
 =============================
 
-Set up an interactive session on a midway2 compute node with 8 CPUs
-and 18 GB of memory:
+Set up an interactive session on a midway3 compute node with 8 CPUs
+and 18 GB of memory (replace `pi-hsimpson` with the account you have
+access to):
 
 ```bash
-screen -S workshop
-sinteractive -p broadwl \
-  --reservation=rworkshop \
-  -c 8 --mem=18G -t 3:00:00
+screen -S r_workshop
+sinteractive -p caslake \
+  --reservation=r_workshop \
+  -c 8 --mem=18G -t 3:00:00 \
+  --account=pi-hsimpson
 echo $HOSTNAME
 ```
 
@@ -246,7 +248,7 @@ echo $HOSTNAME
 Start up an interactive R session:
 
 ```bash
-module load R/4.1.0
+module load R/4.2.0
 which R
 R
 ```
@@ -254,7 +256,7 @@ R
 18. Check your R environment
 ============================
 
-Check that you are running R 4.1.0:
+Check that you are running R 4.2.0:
 
 ```{r check-version}
 sessionInfo()
@@ -274,10 +276,11 @@ getwd()
 ```
 
 
-19. Open another connection to midway2
+19. Open another connection to midway3
 ======================================
 
-+ Open a *second* SSH connection, following the same steps as before.
++ Open a *second* SSH connection to midway3, following the same steps
+  as before.
 
 + This second connection will be used to monitor your computations on
   the cluster.
@@ -296,7 +299,7 @@ getwd()
 
 4. Speeding up operations on large matrices.
 
-5. Multithreaded computing with "parLapply".
+5. Multithreaded computing with "mclapply".
 
 6. Using Rcpp to improve performance.
 
@@ -365,7 +368,7 @@ print(t1 - t0)
 
 4. Speeding up operations on large matrices.
 
-5. Multithreaded computing with "parLapply".
+5. Multithreaded computing with "mclapply".
 
 6. Using Rcpp to improve performance.
 
@@ -504,7 +507,7 @@ implement this?*
 
 4. **Speeding up operations on large matrices.**
 
-5. Multithreaded computing with "parLapply".
+5. Multithreaded computing with "mclapply".
 
 6. Using Rcpp to improve performance.
 
@@ -561,7 +564,7 @@ print(t1 - t0)
 37. Exploit multithreaded OpenBLAS
 ==================================
 
-Most matrix operations in R on midway2 use OpenBLAS. This is a
+Most matrix operations in R on midway3 use OpenBLAS. This is a
 *multithreaded* library, meaning that it can take advantage of
 multiple processors to accelerate the computations. Re-run the kinship
 computations using the script:
@@ -597,11 +600,11 @@ export OMP_NUM_THREADS=1
 
 4. Speeding up operations on large matrices.
 
-5. **Multithreaded computing with "parLapply".**
+5. **Multithreaded computing with "mclapply".**
 
 6. Using Rcpp to improve performance.
 
-# 39. Challenge #5: Multithreaded computing with "parLapply"
+# 39. Challenge #5: Multithreaded computing with "mclapply"
 
 + Aim: Speed up computation of association *p*-values (associations
 between genetic variants and measured traits) using simple
@@ -613,7 +616,7 @@ multithreading techniques.
 
     2. Set up R for multithreading.
 
-    3. Compute *p*-values with parLapply.
+    3. Compute *p*-values with mclapply.
 
 
 40. Run the analysis without multithreading
