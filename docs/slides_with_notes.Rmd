@@ -230,7 +230,7 @@ ls *.csv
 =============================
 
 Set up an interactive session on a midway3 compute node with 8 CPUs
-and 18 GB of memory (replace `pi-hsimpson` with the account you have
+and 18 GB of memory (replace `pi-hsimpson` with an account you have
 access to):
 
 ```bash
