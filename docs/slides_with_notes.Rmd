@@ -519,7 +519,7 @@ sacct -u cnetid
 31. Automate environment setup and resource allocation
 ======================================================
 
-We can also develop an sbatch script that take command-line
+We can also develop an sbatch script that takes command-line
 arguments:
 
 ```bash

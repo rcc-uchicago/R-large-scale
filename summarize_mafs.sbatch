@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#SBATCH --partition=broadwl
-#SBATCH --reservation=rworkshop_test
+#SBATCH --account=pi-hsimpson
+#SBATCH --partition=caslake
+#SBATCH --reservation=r_workshop
 #SBATCH --time=00:10:00
 #SBATCH --mem=4G
 
@@ -9,7 +10,7 @@
 INPUT=${1}
 
 # For reproducibility, add version numbers to the "module load" calls.
-module load R/4.1.0
+module load R/4.2.0
 
 # Run the R script.
 echo "Running summarize_mafs.R ${INPUT}"
