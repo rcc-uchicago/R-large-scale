@@ -797,7 +797,8 @@ To measure memory usage accurately, use the provided Python
 script:
 
 ```bash
-module load python/anaconda-2021.05
+module load python/anaconda-2022.05
+source activate base
 export MEM_CHECK_INTERVAL=0.01
 python3 monitor_memory.py Rscript scale_geno.R
 ```
